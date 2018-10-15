@@ -132,7 +132,7 @@ void oled_write_string(char *str)
 	{
 		oled_write_char(*str++);
 	}
-	oled_write_char(pos_x);
+	//oled_write_char(pos_x);
 }
 
 void oled_write_int(unsigned char value)

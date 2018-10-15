@@ -151,17 +151,59 @@ int main(void)
 	bmpSet(0x64, CONFIG); //standby time = 250ms, IIR filter =
 	bmpSet(0xFF, CTRL_MEAS); //x16 temperature oversampling, x16 pressure measurement, normal mode
 	
-	
-    while (1) 
+	/*
+	oled_write_int(eeprom_read_byte(1));
+	oled_write_int(eeprom_read_byte(2));
+	oled_write_char(' ');
+	oled_write_int(eeprom_read_byte(3));
+	oled_write_int(eeprom_read_byte(4));
+	oled_write_char(' ');
+	oled_write_int(eeprom_read_byte(5));
+	oled_write_int(eeprom_read_byte(6));
+	oled_write_char(' ');
+	oled_write_int(eeprom_read_byte(7));
+	oled_write_int(eeprom_read_byte(8));
+	oled_write_char(' ');
+	oled_write_int(eeprom_read_byte(9));
+	oled_write_int(eeprom_read_byte(10));
+	oled_write_char(' ');
+	oled_write_int(eeprom_read_byte(11));
+	oled_write_int(eeprom_read_byte(12));
+	oled_write_char(' ');
+	oled_write_int(eeprom_read_byte(13));
+	oled_write_int(eeprom_read_byte(14));
+	oled_write_char(' ');
+	oled_write_int(eeprom_read_byte(15));
+	oled_write_int(eeprom_read_byte(16));
+	oled_write_char(' ');
+	oled_write_int(eeprom_read_byte(17));
+	oled_write_int(eeprom_read_byte(18));
+	oled_write_char(' ');
+	oled_write_int(eeprom_read_byte(19));
+	oled_write_int(eeprom_read_byte(20));
+	oled_write_char(' ');
+	oled_write_int(eeprom_read_byte(21));
+	oled_write_int(eeprom_read_byte(22));
+	oled_write_char(' ');
+	oled_write_int(eeprom_read_byte(23));
+	oled_write_int(eeprom_read_byte(24));
+	oled_write_char(' ');
+	*/
+    while (1)
     {
-	
+		//oled_write_int((sht20_temp() / 100);
+		//oled_write_int((sht20_temp() % 100));
+		/*
 		bmpPressure = bmp280GetPressure();
+		bmpTemp = bmp280GetTemp();
+		INTbmpTemp = bmpTemp / 100;
 		
 		oled_setpos(0, 0);
 		oled_write_string("Temperature: ");
-		oled_write_int(bmp280GetTemp() / 100);
+		oled_write_int(INTbmpTemp);
+		
 		oled_write_char('.');
-		oled_write_int(bmp280GetTemp() % 100);
+		oled_write_int(bmpTemp % 100);
 		
 		oled_setpos(0,2);
 		oled_write_string("Pressure: ");
@@ -169,6 +211,7 @@ int main(void)
 		oled_write_int((bmpPressure % 1000) / 100);
 		oled_write_char('.');
 		oled_write_int(bmpPressure % 100);	//add <10 check thing
+		*/
 		/*
 		bmpTemp = bmp280GetTemp();
 		INTbmpTemp = bmpTemp / 100;

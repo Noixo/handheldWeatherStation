@@ -12,7 +12,7 @@
 extern long t_fine;
 
 //calibration data
-
+/*
 #define dig_T1 27314
 #define dig_T2 26369
 #define dig_T3 -1000
@@ -26,9 +26,9 @@ extern long t_fine;
 #define dig_P7 15500
 #define dig_P8 -14600
 #define dig_P9 6000
+*/
 
 
-/*
 #define dig_T1 eeprom_read_word(1)//27314
 #define dig_T2 eeprom_read_word(3)//26369
 #define dig_T3 eeprom_read_word(5)//-1000
@@ -42,7 +42,7 @@ extern long t_fine;
 #define dig_P7 eeprom_read_word(19)//15500
 #define dig_P8 eeprom_read_word(21)//-14600
 #define dig_P9 eeprom_read_word(23)//6000
-*/
+
 extern void bmpReset();	//const
 extern void bmpCalibration();	//const
 extern unsigned long bmp280GetPressure();

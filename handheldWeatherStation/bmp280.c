@@ -20,17 +20,18 @@ void bmpCalibration()
 	i2c_start();
 	i2c_device_id(bmp280, 1);
 	
-	for(i = 0; i < sizeof(arr); i++)	//write calibration values to EEPROM or return pointer?
+	for(i = 0; i < sizeof(arr) -1; i++)	//write calibration values to EEPROM or return pointer?
 	{
 		arr[i] = i2c_read(0);
 	}
-	arr[25] = i2c_read(1);
+	arr[24] = i2c_read(1);
 	
 	i2c_stop();
 	
-	for(i = 1; i < sizeof(arr); i++)
+	for(i = 1; i < sizeof(arr) + 1; i++)
 	{
 		eeprom_write_byte((uint8_t*)i, arr[i]);
+		while(!eeprom_is_ready());	//wait for eeprom to write data
 	}
 }
 

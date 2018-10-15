@@ -10,5 +10,7 @@ main.c
 
 oled.c
 
+sht20.c
+
 subroutine.c
 

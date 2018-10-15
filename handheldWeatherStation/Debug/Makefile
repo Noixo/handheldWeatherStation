@@ -43,6 +43,7 @@ C_SRCS +=  \
 ../i2c.c \
 ../main.c \
 ../oled.c \
+../sht20.c \
 ../subroutine.c
 
 
@@ -57,6 +58,7 @@ bmp280.o \
 i2c.o \
 main.o \
 oled.o \
+sht20.o \
 subroutine.o
 
 OBJS_AS_ARGS +=  \
@@ -64,6 +66,7 @@ bmp280.o \
 i2c.o \
 main.o \
 oled.o \
+sht20.o \
 subroutine.o
 
 C_DEPS +=  \
@@ -71,6 +74,7 @@ bmp280.d \
 i2c.d \
 main.d \
 oled.d \
+sht20.d \
 subroutine.d
 
 C_DEPS_AS_ARGS +=  \
@@ -78,6 +82,7 @@ bmp280.d \
 i2c.d \
 main.d \
 oled.d \
+sht20.d \
 subroutine.d
 
 OUTPUT_FILE_PATH +=handheldWeatherStation.elf
@@ -116,6 +121,13 @@ LINKER_SCRIPT_DEP+=
 	
 
 ./oled.o: .././oled.c
+	@echo Building file: $<
+	@echo Invoking: AVR/GNU C Compiler : 4.3.3
+	$(QUOTE)C:\WinAVR-20100110\bin\avr-gcc.exe$(QUOTE)  -x c -funsigned-char -funsigned-bitfields -DDEBUG  -I"C:\Program Files (x86)\Atmel\Studio\7.0\Packs\atmel\ATtiny_DFP\1.2.118\include"  -O1 -ffunction-sections -fdata-sections -fpack-struct -fshort-enums -g2 -Wall  -mmcu=attiny85  -c -std=gnu99 -MD -MP -MF "$(@:%.o=%.d)" -MT"$(@:%.o=%.d)" -MT"$(@:%.o=%.o)"   -o "$@" "$<" 
+	@echo Finished building: $<
+	
+
+./sht20.o: .././sht20.c
 	@echo Building file: $<
 	@echo Invoking: AVR/GNU C Compiler : 4.3.3
 	$(QUOTE)C:\WinAVR-20100110\bin\avr-gcc.exe$(QUOTE)  -x c -funsigned-char -funsigned-bitfields -DDEBUG  -I"C:\Program Files (x86)\Atmel\Studio\7.0\Packs\atmel\ATtiny_DFP\1.2.118\include"  -O1 -ffunction-sections -fdata-sections -fpack-struct -fshort-enums -g2 -Wall  -mmcu=attiny85  -c -std=gnu99 -MD -MP -MF "$(@:%.o=%.d)" -MT"$(@:%.o=%.d)" -MT"$(@:%.o=%.o)"   -o "$@" "$<" 

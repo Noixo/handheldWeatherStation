@@ -3,48 +3,54 @@ handheldWeatherStation.elf:     file format elf32-avr
 
 Sections:
 Idx Name          Size      VMA       LMA       File off  Algn
-  0 .text         00000ecc  00000000  00000000  00000094  2**1
+  0 .text         0000077e  00000000  00000000  00000094  2**1
                   CONTENTS, ALLOC, LOAD, READONLY, CODE
-  1 .data         0000001c  00800060  00000ecc  00000f60  2**0
+  1 .data         00000002  00800060  0000077e  00000812  2**0
                   CONTENTS, ALLOC, LOAD, DATA
-  2 .bss          00000016  0080007c  0080007c  00000f7c  2**0
+  2 .bss          00000002  00800062  00800062  00000814  2**0
                   ALLOC
-  3 .debug_aranges 00000140  00000000  00000000  00000f7c  2**0
+  3 .debug_aranges 00000168  00000000  00000000  00000814  2**0
                   CONTENTS, READONLY, DEBUGGING
-  4 .debug_pubnames 00000224  00000000  00000000  000010bc  2**0
+  4 .debug_pubnames 00000258  00000000  00000000  0000097c  2**0
                   CONTENTS, READONLY, DEBUGGING
-  5 .debug_info   00000b54  00000000  00000000  000012e0  2**0
+  5 .debug_info   00000c27  00000000  00000000  00000bd4  2**0
                   CONTENTS, READONLY, DEBUGGING
-  6 .debug_abbrev 00000589  00000000  00000000  00001e34  2**0
+  6 .debug_abbrev 000005d9  00000000  00000000  000017fb  2**0
                   CONTENTS, READONLY, DEBUGGING
-  7 .debug_line   00000d3e  00000000  00000000  000023bd  2**0
+  7 .debug_line   00000de0  00000000  00000000  00001dd4  2**0
                   CONTENTS, READONLY, DEBUGGING
-  8 .debug_frame  000001e0  00000000  00000000  000030fc  2**2
+  8 .debug_frame  00000210  00000000  00000000  00002bb4  2**2
                   CONTENTS, READONLY, DEBUGGING
-  9 .debug_str    00000309  00000000  00000000  000032dc  2**0
+  9 .debug_str    00000354  00000000  00000000  00002dc4  2**0
                   CONTENTS, READONLY, DEBUGGING
- 10 .debug_loc    000005a2  00000000  00000000  000035e5  2**0
+ 10 .debug_loc    00000598  00000000  00000000  00003118  2**0
                   CONTENTS, READONLY, DEBUGGING
- 11 .debug_ranges 00000160  00000000  00000000  00003b87  2**0
+ 11 .debug_ranges 00000180  00000000  00000000  000036b0  2**0
                   CONTENTS, READONLY, DEBUGGING
 
 Disassembly of section .text:
 
 00000000 <__vectors>:
 
+  return (T);
+}
+
+unsigned long bmp280GetPressure()
+{
+   0:	30 c1       	rjmp	.+608    	; 0x262 <__ctors_end>
+
 }
 
 //scans the bus to find all i2c devices
 void i2c_read_id()
 {
-   0:	30 c1       	rjmp	.+608    	; 0x262 <__ctors_end>
+   2:	4a c1       	rjmp	.+660    	; 0x298 <__bad_interrupt>
 }
 
 /*fills the whole screen with white/black (depends on inverse or not)
 */
 void oled_fill()
 {
-   2:	4a c1       	rjmp	.+660    	; 0x298 <__bad_interrupt>
    4:	49 c1       	rjmp	.+658    	; 0x298 <__bad_interrupt>
    6:	48 c1       	rjmp	.+656    	; 0x298 <__bad_interrupt>
    8:	47 c1       	rjmp	.+654    	; 0x298 <__bad_interrupt>
@@ -112,8 +118,8 @@ void oled_fill()
  26e:	10 e0       	ldi	r17, 0x00	; 0
  270:	a0 e6       	ldi	r26, 0x60	; 96
  272:	b0 e0       	ldi	r27, 0x00	; 0
- 274:	ec ec       	ldi	r30, 0xCC	; 204
- 276:	fe e0       	ldi	r31, 0x0E	; 14
+ 274:	ee e7       	ldi	r30, 0x7E	; 126
+ 276:	f7 e0       	ldi	r31, 0x07	; 7
  278:	02 c0       	rjmp	.+4      	; 0x27e <.do_copy_data_start>
 
 0000027a <.do_copy_data_loop>:
@@ -121,13 +127,13 @@ void oled_fill()
  27c:	0d 92       	st	X+, r0
 
 0000027e <.do_copy_data_start>:
- 27e:	ac 37       	cpi	r26, 0x7C	; 124
+ 27e:	a2 36       	cpi	r26, 0x62	; 98
  280:	b1 07       	cpc	r27, r17
  282:	d9 f7       	brne	.-10     	; 0x27a <.do_copy_data_loop>
 
 00000284 <__do_clear_bss>:
  284:	10 e0       	ldi	r17, 0x00	; 0
- 286:	ac e7       	ldi	r26, 0x7C	; 124
+ 286:	a2 e6       	ldi	r26, 0x62	; 98
  288:	b0 e0       	ldi	r27, 0x00	; 0
  28a:	01 c0       	rjmp	.+2      	; 0x28e <.do_clear_bss_start>
 
@@ -135,2359 +141,1184 @@ void oled_fill()
  28c:	1d 92       	st	X+, r1
 
 0000028e <.do_clear_bss_start>:
- 28e:	a2 39       	cpi	r26, 0x92	; 146
+ 28e:	a4 36       	cpi	r26, 0x64	; 100
  290:	b1 07       	cpc	r27, r17
  292:	e1 f7       	brne	.-8      	; 0x28c <.do_clear_bss_loop>
- 294:	42 d4       	rcall	.+2180   	; 0xb1a <main>
- 296:	18 c6       	rjmp	.+3120   	; 0xec8 <_exit>
+ 294:	9f d1       	rcall	.+830    	; 0x5d4 <main>
+ 296:	71 c2       	rjmp	.+1250   	; 0x77a <_exit>
 
 00000298 <__bad_interrupt>:
  298:	b3 ce       	rjmp	.-666    	; 0x0 <__vectors>
 
-0000029a <bmp280GetPressure>:
-
-  return (T);
-}
-
-unsigned long bmp280GetPressure()
-{
- 29a:	2f 92       	push	r2
- 29c:	3f 92       	push	r3
- 29e:	4f 92       	push	r4
- 2a0:	5f 92       	push	r5
- 2a2:	6f 92       	push	r6
- 2a4:	7f 92       	push	r7
- 2a6:	8f 92       	push	r8
- 2a8:	9f 92       	push	r9
- 2aa:	af 92       	push	r10
- 2ac:	bf 92       	push	r11
- 2ae:	cf 92       	push	r12
- 2b0:	df 92       	push	r13
- 2b2:	ef 92       	push	r14
- 2b4:	ff 92       	push	r15
- 2b6:	0f 93       	push	r16
- 2b8:	1f 93       	push	r17
- 2ba:	df 93       	push	r29
- 2bc:	cf 93       	push	r28
- 2be:	00 d0       	rcall	.+0      	; 0x2c0 <bmp280GetPressure+0x26>
- 2c0:	0f 92       	push	r0
- 2c2:	cd b7       	in	r28, 0x3d	; 61
- 2c4:	de b7       	in	r29, 0x3e	; 62
-	long var1, var2, adc_P;
-	unsigned long p;
-
-	//t_fine = t_fine;
-	//begin multi-byte data transfer
-	i2c_start();
- 2c6:	20 d3       	rcall	.+1600   	; 0x908 <i2c_start>
-	(void) i2c_device_id(bmp280, 0);
- 2c8:	87 e7       	ldi	r24, 0x77	; 119
- 2ca:	60 e0       	ldi	r22, 0x00	; 0
- 2cc:	47 d3       	rcall	.+1678   	; 0x95c <i2c_device_id>
-	//start at 0xF7-0xF9
-	//point to pressure data location
-	i2c_write(0xF7);
- 2ce:	87 ef       	ldi	r24, 0xF7	; 247
- 2d0:	e9 d3       	rcall	.+2002   	; 0xaa4 <i2c_write>
-	
-	//repeated start
-	i2c_start();
- 2d2:	1a d3       	rcall	.+1588   	; 0x908 <i2c_start>
-	(void) i2c_device_id(bmp280, 1);
- 2d4:	87 e7       	ldi	r24, 0x77	; 119
- 2d6:	61 e0       	ldi	r22, 0x01	; 1
- 2d8:	41 d3       	rcall	.+1666   	; 0x95c <i2c_device_id>
-	
-	adc_P = i2c_read(0);
- 2da:	80 e0       	ldi	r24, 0x00	; 0
- 2dc:	9b d3       	rcall	.+1846   	; 0xa14 <i2c_read>
- 2de:	8b 83       	std	Y+3, r24	; 0x03
-	adc_P <<= 8;
-	adc_P |= i2c_read(0);
- 2e0:	80 e0       	ldi	r24, 0x00	; 0
- 2e2:	98 d3       	rcall	.+1840   	; 0xa14 <i2c_read>
- 2e4:	8a 83       	std	Y+2, r24	; 0x02
-	adc_P <<= 8;
-	adc_P |= i2c_read(1);
- 2e6:	81 e0       	ldi	r24, 0x01	; 1
- 2e8:	95 d3       	rcall	.+1834   	; 0xa14 <i2c_read>
- 2ea:	89 83       	std	Y+1, r24	; 0x01
-	
-	i2c_stop();
- 2ec:	22 d3       	rcall	.+1604   	; 0x932 <i2c_stop>
-	adc_P >>= 4;
-	
-	//pressure conversion formula from BMP280 documentation
-	//32bit-fixed point conversion -pg 46
-	
-	var1 = (((long)t_fine) >> 1) - (long)64000;
- 2ee:	80 91 7c 00 	lds	r24, 0x007C
- 2f2:	90 91 7d 00 	lds	r25, 0x007D
- 2f6:	a0 91 7e 00 	lds	r26, 0x007E
- 2fa:	b0 91 7f 00 	lds	r27, 0x007F
- 2fe:	b5 95       	asr	r27
- 300:	a7 95       	ror	r26
- 302:	97 95       	ror	r25
- 304:	87 95       	ror	r24
- 306:	0f 2e       	mov	r0, r31
- 308:	f0 e0       	ldi	r31, 0x00	; 0
- 30a:	6f 2e       	mov	r6, r31
- 30c:	f6 e0       	ldi	r31, 0x06	; 6
- 30e:	7f 2e       	mov	r7, r31
- 310:	ff ef       	ldi	r31, 0xFF	; 255
- 312:	8f 2e       	mov	r8, r31
- 314:	ff ef       	ldi	r31, 0xFF	; 255
- 316:	9f 2e       	mov	r9, r31
- 318:	f0 2d       	mov	r31, r0
- 31a:	68 0e       	add	r6, r24
- 31c:	79 1e       	adc	r7, r25
- 31e:	8a 1e       	adc	r8, r26
- 320:	9b 1e       	adc	r9, r27
-	var2 = (((var1 >> 2) * (var1 >> 2)) >> 11) * ((long)dig_P6);
- 322:	a4 01       	movw	r20, r8
- 324:	93 01       	movw	r18, r6
- 326:	55 95       	asr	r21
- 328:	47 95       	ror	r20
- 32a:	37 95       	ror	r19
- 32c:	27 95       	ror	r18
- 32e:	55 95       	asr	r21
- 330:	47 95       	ror	r20
- 332:	37 95       	ror	r19
- 334:	27 95       	ror	r18
- 336:	ca 01       	movw	r24, r20
- 338:	b9 01       	movw	r22, r18
- 33a:	4e d5       	rcall	.+2716   	; 0xdd8 <__mulsi3>
- 33c:	5b 01       	movw	r10, r22
- 33e:	6c 01       	movw	r12, r24
-
-	var2 = var2 + ((var1 * ((long)dig_P5)) << 1);
-	var2 = (var2 >> 2) + (((long)dig_P4) << 16);
-	
-	var1 = (((dig_P3 * (((var1 >> 2) * (var1 >> 2)) >> 13)) >> 3)
- 340:	05 2e       	mov	r0, r21
- 342:	5d e0       	ldi	r21, 0x0D	; 13
- 344:	95 95       	asr	r25
- 346:	87 95       	ror	r24
- 348:	77 95       	ror	r23
- 34a:	67 95       	ror	r22
- 34c:	5a 95       	dec	r21
- 34e:	d1 f7       	brne	.-12     	; 0x344 <bmp280GetPressure+0xaa>
- 350:	50 2d       	mov	r21, r0
- 352:	20 ed       	ldi	r18, 0xD0	; 208
- 354:	3b e0       	ldi	r19, 0x0B	; 11
- 356:	40 e0       	ldi	r20, 0x00	; 0
- 358:	50 e0       	ldi	r21, 0x00	; 0
- 35a:	3e d5       	rcall	.+2684   	; 0xdd8 <__mulsi3>
- 35c:	7b 01       	movw	r14, r22
- 35e:	8c 01       	movw	r16, r24
- 360:	68 94       	set
- 362:	12 f8       	bld	r1, 2
- 364:	15 95       	asr	r17
- 366:	07 95       	ror	r16
- 368:	f7 94       	ror	r15
- 36a:	e7 94       	ror	r14
- 36c:	16 94       	lsr	r1
- 36e:	d1 f7       	brne	.-12     	; 0x364 <bmp280GetPressure+0xca>
- 370:	c4 01       	movw	r24, r8
- 372:	b3 01       	movw	r22, r6
- 374:	27 e7       	ldi	r18, 0x77	; 119
- 376:	36 ed       	ldi	r19, 0xD6	; 214
- 378:	4f ef       	ldi	r20, 0xFF	; 255
- 37a:	5f ef       	ldi	r21, 0xFF	; 255
- 37c:	2d d5       	rcall	.+2650   	; 0xdd8 <__mulsi3>
- 37e:	95 95       	asr	r25
- 380:	87 95       	ror	r24
- 382:	77 95       	ror	r23
- 384:	67 95       	ror	r22
- 386:	e6 0e       	add	r14, r22
- 388:	f7 1e       	adc	r15, r23
- 38a:	08 1f       	adc	r16, r24
- 38c:	19 1f       	adc	r17, r25
-	+ ((((long)dig_P2) * var1) >> 1)) >> 18;
-	
-	var1 = ((((32768 + var1)) * ((long) dig_P1)) >> 15);
- 38e:	0d 2e       	mov	r0, r29
- 390:	d2 e1       	ldi	r29, 0x12	; 18
- 392:	15 95       	asr	r17
- 394:	07 95       	ror	r16
- 396:	f7 94       	ror	r15
- 398:	e7 94       	ror	r14
- 39a:	da 95       	dec	r29
- 39c:	d1 f7       	brne	.-12     	; 0x392 <bmp280GetPressure+0xf8>
- 39e:	d0 2d       	mov	r29, r0
- 3a0:	c8 01       	movw	r24, r16
- 3a2:	b7 01       	movw	r22, r14
- 3a4:	2b e2       	ldi	r18, 0x2B	; 43
- 3a6:	38 e9       	ldi	r19, 0x98	; 152
- 3a8:	40 e0       	ldi	r20, 0x00	; 0
- 3aa:	50 e0       	ldi	r21, 0x00	; 0
- 3ac:	15 d5       	rcall	.+2602   	; 0xdd8 <__mulsi3>
- 3ae:	60 50       	subi	r22, 0x00	; 0
- 3b0:	70 48       	sbci	r23, 0x80	; 128
- 3b2:	8a 4e       	sbci	r24, 0xEA	; 234
- 3b4:	93 4b       	sbci	r25, 0xB3	; 179
- 3b6:	1b 01       	movw	r2, r22
- 3b8:	2c 01       	movw	r4, r24
- 3ba:	01 2e       	mov	r0, r17
- 3bc:	1f e0       	ldi	r17, 0x0F	; 15
- 3be:	55 94       	asr	r5
- 3c0:	47 94       	ror	r4
- 3c2:	37 94       	ror	r3
- 3c4:	27 94       	ror	r2
- 3c6:	1a 95       	dec	r17
- 3c8:	d1 f7       	brne	.-12     	; 0x3be <bmp280GetPressure+0x124>
- 3ca:	10 2d       	mov	r17, r0
-
-	if(var1 == 0)
- 3cc:	21 14       	cp	r2, r1
- 3ce:	31 04       	cpc	r3, r1
- 3d0:	41 04       	cpc	r4, r1
- 3d2:	51 04       	cpc	r5, r1
- 3d4:	29 f4       	brne	.+10     	; 0x3e0 <bmp280GetPressure+0x146>
- 3d6:	20 e0       	ldi	r18, 0x00	; 0
- 3d8:	30 e0       	ldi	r19, 0x00	; 0
- 3da:	40 e0       	ldi	r20, 0x00	; 0
- 3dc:	50 e0       	ldi	r21, 0x00	; 0
- 3de:	ee c0       	rjmp	.+476    	; 0x5bc <bmp280GetPressure+0x322>
-	
-	//repeated start
-	i2c_start();
-	(void) i2c_device_id(bmp280, 1);
-	
-	adc_P = i2c_read(0);
- 3e0:	2b 81       	ldd	r18, Y+3	; 0x03
- 3e2:	e2 2e       	mov	r14, r18
- 3e4:	ff 24       	eor	r15, r15
- 3e6:	00 e0       	ldi	r16, 0x00	; 0
- 3e8:	10 e0       	ldi	r17, 0x00	; 0
-	adc_P <<= 8;
- 3ea:	10 2f       	mov	r17, r16
- 3ec:	0f 2d       	mov	r16, r15
- 3ee:	fe 2c       	mov	r15, r14
- 3f0:	ee 24       	eor	r14, r14
-	adc_P |= i2c_read(0);
- 3f2:	ea 81       	ldd	r30, Y+2	; 0x02
- 3f4:	8e 2f       	mov	r24, r30
- 3f6:	90 e0       	ldi	r25, 0x00	; 0
- 3f8:	a0 e0       	ldi	r26, 0x00	; 0
- 3fa:	b0 e0       	ldi	r27, 0x00	; 0
- 3fc:	e8 2a       	or	r14, r24
- 3fe:	f9 2a       	or	r15, r25
- 400:	0a 2b       	or	r16, r26
- 402:	1b 2b       	or	r17, r27
-	adc_P <<= 8;
- 404:	10 2f       	mov	r17, r16
- 406:	0f 2d       	mov	r16, r15
- 408:	fe 2c       	mov	r15, r14
- 40a:	ee 24       	eor	r14, r14
-	adc_P |= i2c_read(1);
- 40c:	f9 81       	ldd	r31, Y+1	; 0x01
- 40e:	8f 2f       	mov	r24, r31
- 410:	90 e0       	ldi	r25, 0x00	; 0
- 412:	a0 e0       	ldi	r26, 0x00	; 0
- 414:	b0 e0       	ldi	r27, 0x00	; 0
- 416:	e8 2a       	or	r14, r24
- 418:	f9 2a       	or	r15, r25
- 41a:	0a 2b       	or	r16, r26
- 41c:	1b 2b       	or	r17, r27
-	
-	//pressure conversion formula from BMP280 documentation
-	//32bit-fixed point conversion -pg 46
-	
-	var1 = (((long)t_fine) >> 1) - (long)64000;
-	var2 = (((var1 >> 2) * (var1 >> 2)) >> 11) * ((long)dig_P6);
- 41e:	c6 01       	movw	r24, r12
- 420:	b5 01       	movw	r22, r10
- 422:	05 2e       	mov	r0, r21
- 424:	5b e0       	ldi	r21, 0x0B	; 11
- 426:	95 95       	asr	r25
- 428:	87 95       	ror	r24
- 42a:	77 95       	ror	r23
- 42c:	67 95       	ror	r22
- 42e:	5a 95       	dec	r21
- 430:	d1 f7       	brne	.-12     	; 0x426 <bmp280GetPressure+0x18c>
- 432:	50 2d       	mov	r21, r0
- 434:	29 ef       	ldi	r18, 0xF9	; 249
- 436:	3f ef       	ldi	r19, 0xFF	; 255
- 438:	4f ef       	ldi	r20, 0xFF	; 255
- 43a:	5f ef       	ldi	r21, 0xFF	; 255
- 43c:	cd d4       	rcall	.+2458   	; 0xdd8 <__mulsi3>
- 43e:	5b 01       	movw	r10, r22
- 440:	6c 01       	movw	r12, r24
-
-	var2 = var2 + ((var1 * ((long)dig_P5)) << 1);
-	var2 = (var2 >> 2) + (((long)dig_P4) << 16);
- 442:	c4 01       	movw	r24, r8
- 444:	b3 01       	movw	r22, r6
- 446:	26 e7       	ldi	r18, 0x76	; 118
- 448:	30 e0       	ldi	r19, 0x00	; 0
- 44a:	40 e0       	ldi	r20, 0x00	; 0
- 44c:	50 e0       	ldi	r21, 0x00	; 0
- 44e:	c4 d4       	rcall	.+2440   	; 0xdd8 <__mulsi3>
- 450:	66 0f       	add	r22, r22
- 452:	77 1f       	adc	r23, r23
- 454:	88 1f       	adc	r24, r24
- 456:	99 1f       	adc	r25, r25
- 458:	a6 0e       	add	r10, r22
- 45a:	b7 1e       	adc	r11, r23
- 45c:	c8 1e       	adc	r12, r24
- 45e:	d9 1e       	adc	r13, r25
- 460:	d5 94       	asr	r13
- 462:	c7 94       	ror	r12
- 464:	b7 94       	ror	r11
- 466:	a7 94       	ror	r10
- 468:	d5 94       	asr	r13
- 46a:	c7 94       	ror	r12
- 46c:	b7 94       	ror	r11
- 46e:	a7 94       	ror	r10
-
-	if(var1 == 0)
-	{
-		return 0;
-	}
-	p = (((unsigned long) (((long)1048576) - adc_P) - (var2 >> 12))) * 3125;
- 470:	68 94       	set
- 472:	13 f8       	bld	r1, 3
- 474:	15 95       	asr	r17
- 476:	07 95       	ror	r16
- 478:	f7 94       	ror	r15
- 47a:	e7 94       	ror	r14
- 47c:	16 94       	lsr	r1
- 47e:	d1 f7       	brne	.-12     	; 0x474 <bmp280GetPressure+0x1da>
- 480:	10 95       	com	r17
- 482:	00 95       	com	r16
- 484:	f0 94       	com	r15
- 486:	e0 94       	com	r14
- 488:	e1 1c       	adc	r14, r1
- 48a:	f1 1c       	adc	r15, r1
- 48c:	01 1d       	adc	r16, r1
- 48e:	11 1d       	adc	r17, r1
- 490:	80 e0       	ldi	r24, 0x00	; 0
- 492:	90 e0       	ldi	r25, 0x00	; 0
- 494:	a4 eb       	ldi	r26, 0xB4	; 180
- 496:	b9 e0       	ldi	r27, 0x09	; 9
- 498:	a8 0e       	add	r10, r24
- 49a:	b9 1e       	adc	r11, r25
- 49c:	ca 1e       	adc	r12, r26
- 49e:	db 1e       	adc	r13, r27
- 4a0:	09 2e       	mov	r0, r25
- 4a2:	9c e0       	ldi	r25, 0x0C	; 12
- 4a4:	d5 94       	asr	r13
- 4a6:	c7 94       	ror	r12
- 4a8:	b7 94       	ror	r11
- 4aa:	a7 94       	ror	r10
- 4ac:	9a 95       	dec	r25
- 4ae:	d1 f7       	brne	.-12     	; 0x4a4 <bmp280GetPressure+0x20a>
- 4b0:	90 2d       	mov	r25, r0
- 4b2:	ea 18       	sub	r14, r10
- 4b4:	fb 08       	sbc	r15, r11
- 4b6:	0c 09       	sbc	r16, r12
- 4b8:	1d 09       	sbc	r17, r13
- 4ba:	c8 01       	movw	r24, r16
- 4bc:	b7 01       	movw	r22, r14
- 4be:	25 e3       	ldi	r18, 0x35	; 53
- 4c0:	3c e0       	ldi	r19, 0x0C	; 12
- 4c2:	40 e0       	ldi	r20, 0x00	; 0
- 4c4:	50 e0       	ldi	r21, 0x00	; 0
- 4c6:	88 d4       	rcall	.+2320   	; 0xdd8 <__mulsi3>
- 4c8:	60 50       	subi	r22, 0x00	; 0
- 4ca:	70 40       	sbci	r23, 0x00	; 0
- 4cc:	80 4b       	sbci	r24, 0xB0	; 176
- 4ce:	9c 43       	sbci	r25, 0x3C	; 60
-
-	if(p < 0x80000000)
- 4d0:	72 f0       	brmi	.+28     	; 0x4ee <bmp280GetPressure+0x254>
-	{
-		p = (p << 1) / ((unsigned long)var1);
- 4d2:	66 0f       	add	r22, r22
- 4d4:	77 1f       	adc	r23, r23
- 4d6:	88 1f       	adc	r24, r24
- 4d8:	99 1f       	adc	r25, r25
- 4da:	a2 01       	movw	r20, r4
- 4dc:	91 01       	movw	r18, r2
- 4de:	a1 d4       	rcall	.+2370   	; 0xe22 <__udivmodsi4>
- 4e0:	82 2f       	mov	r24, r18
- 4e2:	93 2f       	mov	r25, r19
- 4e4:	a4 2f       	mov	r26, r20
- 4e6:	b5 2f       	mov	r27, r21
- 4e8:	3c 01       	movw	r6, r24
- 4ea:	4d 01       	movw	r8, r26
- 4ec:	0d c0       	rjmp	.+26     	; 0x508 <bmp280GetPressure+0x26e>
-	}
-	else
-	{
-		p = (p / (unsigned long)var1) * 2;
- 4ee:	a2 01       	movw	r20, r4
- 4f0:	91 01       	movw	r18, r2
- 4f2:	97 d4       	rcall	.+2350   	; 0xe22 <__udivmodsi4>
- 4f4:	82 2f       	mov	r24, r18
- 4f6:	93 2f       	mov	r25, r19
- 4f8:	a4 2f       	mov	r26, r20
- 4fa:	b5 2f       	mov	r27, r21
- 4fc:	3c 01       	movw	r6, r24
- 4fe:	4d 01       	movw	r8, r26
- 500:	66 0c       	add	r6, r6
- 502:	77 1c       	adc	r7, r7
- 504:	88 1c       	adc	r8, r8
- 506:	99 1c       	adc	r9, r9
-	}
-	
-	var1 = (((long) dig_P9) * ((long) (((p >> 3) * (p >> 3)) >> 13))) >> 12;
- 508:	64 01       	movw	r12, r8
- 50a:	53 01       	movw	r10, r6
- 50c:	68 94       	set
- 50e:	12 f8       	bld	r1, 2
- 510:	d6 94       	lsr	r13
- 512:	c7 94       	ror	r12
- 514:	b7 94       	ror	r11
- 516:	a7 94       	ror	r10
- 518:	16 94       	lsr	r1
- 51a:	d1 f7       	brne	.-12     	; 0x510 <bmp280GetPressure+0x276>
-	var2 = (((long)(p >> 2)) * ((long) dig_P8)) >> 13;
-
-	
-	p = (unsigned long)((long)p + ((var1 + var2 + dig_P7) >> 4));
- 51c:	c4 01       	movw	r24, r8
- 51e:	b3 01       	movw	r22, r6
- 520:	96 95       	lsr	r25
- 522:	87 95       	ror	r24
- 524:	77 95       	ror	r23
- 526:	67 95       	ror	r22
- 528:	96 95       	lsr	r25
- 52a:	87 95       	ror	r24
- 52c:	77 95       	ror	r23
- 52e:	67 95       	ror	r22
- 530:	28 ef       	ldi	r18, 0xF8	; 248
- 532:	36 ec       	ldi	r19, 0xC6	; 198
- 534:	4f ef       	ldi	r20, 0xFF	; 255
- 536:	5f ef       	ldi	r21, 0xFF	; 255
- 538:	4f d4       	rcall	.+2206   	; 0xdd8 <__mulsi3>
- 53a:	7b 01       	movw	r14, r22
- 53c:	8c 01       	movw	r16, r24
- 53e:	0d 2e       	mov	r0, r29
- 540:	dd e0       	ldi	r29, 0x0D	; 13
- 542:	15 95       	asr	r17
- 544:	07 95       	ror	r16
- 546:	f7 94       	ror	r15
- 548:	e7 94       	ror	r14
- 54a:	da 95       	dec	r29
- 54c:	d1 f7       	brne	.-12     	; 0x542 <bmp280GetPressure+0x2a8>
- 54e:	d0 2d       	mov	r29, r0
- 550:	8c e8       	ldi	r24, 0x8C	; 140
- 552:	9c e3       	ldi	r25, 0x3C	; 60
- 554:	a0 e0       	ldi	r26, 0x00	; 0
- 556:	b0 e0       	ldi	r27, 0x00	; 0
- 558:	e8 0e       	add	r14, r24
- 55a:	f9 1e       	adc	r15, r25
- 55c:	0a 1f       	adc	r16, r26
- 55e:	1b 1f       	adc	r17, r27
- 560:	c6 01       	movw	r24, r12
- 562:	b5 01       	movw	r22, r10
- 564:	a6 01       	movw	r20, r12
- 566:	95 01       	movw	r18, r10
- 568:	37 d4       	rcall	.+2158   	; 0xdd8 <__mulsi3>
- 56a:	05 2e       	mov	r0, r21
- 56c:	5d e0       	ldi	r21, 0x0D	; 13
- 56e:	96 95       	lsr	r25
- 570:	87 95       	ror	r24
- 572:	77 95       	ror	r23
- 574:	67 95       	ror	r22
- 576:	5a 95       	dec	r21
- 578:	d1 f7       	brne	.-12     	; 0x56e <bmp280GetPressure+0x2d4>
- 57a:	50 2d       	mov	r21, r0
- 57c:	20 e7       	ldi	r18, 0x70	; 112
- 57e:	37 e1       	ldi	r19, 0x17	; 23
- 580:	40 e0       	ldi	r20, 0x00	; 0
- 582:	50 e0       	ldi	r21, 0x00	; 0
- 584:	29 d4       	rcall	.+2130   	; 0xdd8 <__mulsi3>
- 586:	05 2e       	mov	r0, r21
- 588:	5c e0       	ldi	r21, 0x0C	; 12
- 58a:	95 95       	asr	r25
- 58c:	87 95       	ror	r24
- 58e:	77 95       	ror	r23
- 590:	67 95       	ror	r22
- 592:	5a 95       	dec	r21
- 594:	d1 f7       	brne	.-12     	; 0x58a <bmp280GetPressure+0x2f0>
- 596:	50 2d       	mov	r21, r0
- 598:	e6 0e       	add	r14, r22
- 59a:	f7 1e       	adc	r15, r23
- 59c:	08 1f       	adc	r16, r24
- 59e:	19 1f       	adc	r17, r25
- 5a0:	68 94       	set
- 5a2:	13 f8       	bld	r1, 3
- 5a4:	15 95       	asr	r17
- 5a6:	07 95       	ror	r16
- 5a8:	f7 94       	ror	r15
- 5aa:	e7 94       	ror	r14
- 5ac:	16 94       	lsr	r1
- 5ae:	d1 f7       	brne	.-12     	; 0x5a4 <bmp280GetPressure+0x30a>
- 5b0:	a8 01       	movw	r20, r16
- 5b2:	97 01       	movw	r18, r14
- 5b4:	26 0d       	add	r18, r6
- 5b6:	37 1d       	adc	r19, r7
- 5b8:	48 1d       	adc	r20, r8
- 5ba:	59 1d       	adc	r21, r9
-	
-	return p;
-}
- 5bc:	62 2f       	mov	r22, r18
- 5be:	73 2f       	mov	r23, r19
- 5c0:	84 2f       	mov	r24, r20
- 5c2:	95 2f       	mov	r25, r21
- 5c4:	0f 90       	pop	r0
- 5c6:	0f 90       	pop	r0
- 5c8:	0f 90       	pop	r0
- 5ca:	cf 91       	pop	r28
- 5cc:	df 91       	pop	r29
- 5ce:	1f 91       	pop	r17
- 5d0:	0f 91       	pop	r16
- 5d2:	ff 90       	pop	r15
- 5d4:	ef 90       	pop	r14
- 5d6:	df 90       	pop	r13
- 5d8:	cf 90       	pop	r12
- 5da:	bf 90       	pop	r11
- 5dc:	af 90       	pop	r10
- 5de:	9f 90       	pop	r9
- 5e0:	8f 90       	pop	r8
- 5e2:	7f 90       	pop	r7
- 5e4:	6f 90       	pop	r6
- 5e6:	5f 90       	pop	r5
- 5e8:	4f 90       	pop	r4
- 5ea:	3f 90       	pop	r3
- 5ec:	2f 90       	pop	r2
- 5ee:	08 95       	ret
-
-000005f0 <bmp280GetTemp>:
-}
-
-//must read temp before reading pressure
-//temp is stored as 3 bytes, (0xFA-0xFC)
-long bmp280GetTemp()
-{
- 5f0:	af 92       	push	r10
- 5f2:	bf 92       	push	r11
- 5f4:	cf 92       	push	r12
- 5f6:	df 92       	push	r13
- 5f8:	ef 92       	push	r14
- 5fa:	ff 92       	push	r15
- 5fc:	0f 93       	push	r16
- 5fe:	1f 93       	push	r17
-	//Keil long = 4 bytes, int = 2
-	static long adc_T, var1, var2;//, T = 0;
-	short T;
-	
-	i2c_start();
- 600:	83 d1       	rcall	.+774    	; 0x908 <i2c_start>
-	i2c_device_id(bmp280, 0);
- 602:	87 e7       	ldi	r24, 0x77	; 119
- 604:	60 e0       	ldi	r22, 0x00	; 0
- 606:	aa d1       	rcall	.+852    	; 0x95c <i2c_device_id>
-
-	i2c_write(0xFA);
- 608:	8a ef       	ldi	r24, 0xFA	; 250
- 60a:	4c d2       	rcall	.+1176   	; 0xaa4 <i2c_write>
-
-	i2c_start();
- 60c:	7d d1       	rcall	.+762    	; 0x908 <i2c_start>
-	
-	i2c_device_id(bmp280, 1);
- 60e:	87 e7       	ldi	r24, 0x77	; 119
- 610:	61 e0       	ldi	r22, 0x01	; 1
- 612:	a4 d1       	rcall	.+840    	; 0x95c <i2c_device_id>
-	
-	//shove temperature data into a 4 byte variable
-	adc_T = i2c_read(0);
- 614:	80 e0       	ldi	r24, 0x00	; 0
- 616:	fe d1       	rcall	.+1020   	; 0xa14 <i2c_read>
-	adc_T <<= 8;
- 618:	90 e0       	ldi	r25, 0x00	; 0
- 61a:	a0 e0       	ldi	r26, 0x00	; 0
- 61c:	b0 e0       	ldi	r27, 0x00	; 0
- 61e:	ba 2f       	mov	r27, r26
- 620:	a9 2f       	mov	r26, r25
- 622:	98 2f       	mov	r25, r24
- 624:	88 27       	eor	r24, r24
- 626:	80 93 88 00 	sts	0x0088, r24
- 62a:	90 93 89 00 	sts	0x0089, r25
- 62e:	a0 93 8a 00 	sts	0x008A, r26
- 632:	b0 93 8b 00 	sts	0x008B, r27
-	adc_T |= i2c_read(0);
- 636:	80 e0       	ldi	r24, 0x00	; 0
- 638:	ed d1       	rcall	.+986    	; 0xa14 <i2c_read>
-	adc_T <<= 8;
- 63a:	90 e0       	ldi	r25, 0x00	; 0
- 63c:	a0 e0       	ldi	r26, 0x00	; 0
- 63e:	b0 e0       	ldi	r27, 0x00	; 0
- 640:	20 91 88 00 	lds	r18, 0x0088
- 644:	30 91 89 00 	lds	r19, 0x0089
- 648:	40 91 8a 00 	lds	r20, 0x008A
- 64c:	50 91 8b 00 	lds	r21, 0x008B
- 650:	82 2b       	or	r24, r18
- 652:	93 2b       	or	r25, r19
- 654:	a4 2b       	or	r26, r20
- 656:	b5 2b       	or	r27, r21
- 658:	ba 2f       	mov	r27, r26
- 65a:	a9 2f       	mov	r26, r25
- 65c:	98 2f       	mov	r25, r24
- 65e:	88 27       	eor	r24, r24
- 660:	80 93 88 00 	sts	0x0088, r24
- 664:	90 93 89 00 	sts	0x0089, r25
- 668:	a0 93 8a 00 	sts	0x008A, r26
- 66c:	b0 93 8b 00 	sts	0x008B, r27
-	adc_T |= i2c_read(1);
- 670:	81 e0       	ldi	r24, 0x01	; 1
- 672:	d0 d1       	rcall	.+928    	; 0xa14 <i2c_read>
- 674:	90 e0       	ldi	r25, 0x00	; 0
- 676:	a0 e0       	ldi	r26, 0x00	; 0
- 678:	b0 e0       	ldi	r27, 0x00	; 0
- 67a:	20 91 88 00 	lds	r18, 0x0088
- 67e:	30 91 89 00 	lds	r19, 0x0089
- 682:	40 91 8a 00 	lds	r20, 0x008A
- 686:	50 91 8b 00 	lds	r21, 0x008B
- 68a:	28 2b       	or	r18, r24
- 68c:	39 2b       	or	r19, r25
- 68e:	4a 2b       	or	r20, r26
- 690:	5b 2b       	or	r21, r27
- 692:	20 93 88 00 	sts	0x0088, r18
- 696:	30 93 89 00 	sts	0x0089, r19
- 69a:	40 93 8a 00 	sts	0x008A, r20
- 69e:	50 93 8b 00 	sts	0x008B, r21
-	i2c_stop();
- 6a2:	47 d1       	rcall	.+654    	; 0x932 <i2c_stop>
-
-	//conversion formula takes 20 bits
-	adc_T >>= 4;
- 6a4:	e0 90 88 00 	lds	r14, 0x0088
- 6a8:	f0 90 89 00 	lds	r15, 0x0089
- 6ac:	00 91 8a 00 	lds	r16, 0x008A
- 6b0:	10 91 8b 00 	lds	r17, 0x008B
- 6b4:	d8 01       	movw	r26, r16
- 6b6:	c7 01       	movw	r24, r14
- 6b8:	68 94       	set
- 6ba:	13 f8       	bld	r1, 3
- 6bc:	b5 95       	asr	r27
- 6be:	a7 95       	ror	r26
- 6c0:	97 95       	ror	r25
- 6c2:	87 95       	ror	r24
- 6c4:	16 94       	lsr	r1
- 6c6:	d1 f7       	brne	.-12     	; 0x6bc <bmp280GetTemp+0xcc>
- 6c8:	80 93 88 00 	sts	0x0088, r24
- 6cc:	90 93 89 00 	sts	0x0089, r25
- 6d0:	a0 93 8a 00 	sts	0x008A, r26
- 6d4:	b0 93 8b 00 	sts	0x008B, r27
-		
-	//32bit-fixed point formula from BMP280 documentation -pg45-46 (8.2)
-	
-	var1 = ((((adc_T>>3) - ((long)dig_T1<<1))) * ((long)dig_T2)) >> 11;
- 6d8:	c8 01       	movw	r24, r16
- 6da:	b7 01       	movw	r22, r14
- 6dc:	68 94       	set
- 6de:	16 f8       	bld	r1, 6
- 6e0:	95 95       	asr	r25
- 6e2:	87 95       	ror	r24
- 6e4:	77 95       	ror	r23
- 6e6:	67 95       	ror	r22
- 6e8:	16 94       	lsr	r1
- 6ea:	d1 f7       	brne	.-12     	; 0x6e0 <bmp280GetTemp+0xf0>
- 6ec:	21 e0       	ldi	r18, 0x01	; 1
- 6ee:	37 e6       	ldi	r19, 0x67	; 103
- 6f0:	40 e0       	ldi	r20, 0x00	; 0
- 6f2:	50 e0       	ldi	r21, 0x00	; 0
- 6f4:	71 d3       	rcall	.+1762   	; 0xdd8 <__mulsi3>
- 6f6:	5b 01       	movw	r10, r22
- 6f8:	6c 01       	movw	r12, r24
- 6fa:	8c e9       	ldi	r24, 0x9C	; 156
- 6fc:	9e ee       	ldi	r25, 0xEE	; 238
- 6fe:	a3 e2       	ldi	r26, 0x23	; 35
- 700:	ba ea       	ldi	r27, 0xAA	; 170
- 702:	a8 0e       	add	r10, r24
- 704:	b9 1e       	adc	r11, r25
- 706:	ca 1e       	adc	r12, r26
- 708:	db 1e       	adc	r13, r27
- 70a:	09 2e       	mov	r0, r25
- 70c:	9b e0       	ldi	r25, 0x0B	; 11
- 70e:	d5 94       	asr	r13
- 710:	c7 94       	ror	r12
- 712:	b7 94       	ror	r11
- 714:	a7 94       	ror	r10
- 716:	9a 95       	dec	r25
- 718:	d1 f7       	brne	.-12     	; 0x70e <bmp280GetTemp+0x11e>
- 71a:	90 2d       	mov	r25, r0
- 71c:	a0 92 84 00 	sts	0x0084, r10
- 720:	b0 92 85 00 	sts	0x0085, r11
- 724:	c0 92 86 00 	sts	0x0086, r12
- 728:	d0 92 87 00 	sts	0x0087, r13
-	var2  = (((((adc_T>>4) - ((long)dig_T1)) * ((adc_T>>4)
- 72c:	ef 2c       	mov	r14, r15
- 72e:	f0 2e       	mov	r15, r16
- 730:	01 2f       	mov	r16, r17
- 732:	11 27       	eor	r17, r17
- 734:	07 fd       	sbrc	r16, 7
- 736:	1a 95       	dec	r17
- 738:	8e e4       	ldi	r24, 0x4E	; 78
- 73a:	95 e9       	ldi	r25, 0x95	; 149
- 73c:	af ef       	ldi	r26, 0xFF	; 255
- 73e:	bf ef       	ldi	r27, 0xFF	; 255
- 740:	e8 0e       	add	r14, r24
- 742:	f9 1e       	adc	r15, r25
- 744:	0a 1f       	adc	r16, r26
- 746:	1b 1f       	adc	r17, r27
- 748:	c8 01       	movw	r24, r16
- 74a:	b7 01       	movw	r22, r14
- 74c:	a8 01       	movw	r20, r16
- 74e:	97 01       	movw	r18, r14
- 750:	43 d3       	rcall	.+1670   	; 0xdd8 <__mulsi3>
- 752:	05 2e       	mov	r0, r21
- 754:	5c e0       	ldi	r21, 0x0C	; 12
- 756:	95 95       	asr	r25
- 758:	87 95       	ror	r24
- 75a:	77 95       	ror	r23
- 75c:	67 95       	ror	r22
- 75e:	5a 95       	dec	r21
- 760:	d1 f7       	brne	.-12     	; 0x756 <bmp280GetTemp+0x166>
- 762:	50 2d       	mov	r21, r0
- 764:	28 e1       	ldi	r18, 0x18	; 24
- 766:	3c ef       	ldi	r19, 0xFC	; 252
- 768:	4f ef       	ldi	r20, 0xFF	; 255
- 76a:	5f ef       	ldi	r21, 0xFF	; 255
- 76c:	35 d3       	rcall	.+1642   	; 0xdd8 <__mulsi3>
- 76e:	05 2e       	mov	r0, r21
- 770:	5e e0       	ldi	r21, 0x0E	; 14
- 772:	95 95       	asr	r25
- 774:	87 95       	ror	r24
- 776:	77 95       	ror	r23
- 778:	67 95       	ror	r22
- 77a:	5a 95       	dec	r21
- 77c:	d1 f7       	brne	.-12     	; 0x772 <bmp280GetTemp+0x182>
- 77e:	50 2d       	mov	r21, r0
- 780:	60 93 80 00 	sts	0x0080, r22
- 784:	70 93 81 00 	sts	0x0081, r23
- 788:	80 93 82 00 	sts	0x0082, r24
- 78c:	90 93 83 00 	sts	0x0083, r25
-		- ((long)dig_T1))) >> 12) * ((long)dig_T3)) >> 14;
-	
-	t_fine = var1+var2;
- 790:	6a 0d       	add	r22, r10
- 792:	7b 1d       	adc	r23, r11
- 794:	8c 1d       	adc	r24, r12
- 796:	9d 1d       	adc	r25, r13
- 798:	60 93 7c 00 	sts	0x007C, r22
- 79c:	70 93 7d 00 	sts	0x007D, r23
- 7a0:	80 93 7e 00 	sts	0x007E, r24
- 7a4:	90 93 7f 00 	sts	0x007F, r25
- 7a8:	9b 01       	movw	r18, r22
- 7aa:	ac 01       	movw	r20, r24
- 7ac:	22 0f       	add	r18, r18
- 7ae:	33 1f       	adc	r19, r19
- 7b0:	44 1f       	adc	r20, r20
- 7b2:	55 1f       	adc	r21, r21
- 7b4:	22 0f       	add	r18, r18
- 7b6:	33 1f       	adc	r19, r19
- 7b8:	44 1f       	adc	r20, r20
- 7ba:	55 1f       	adc	r21, r21
- 7bc:	26 0f       	add	r18, r22
- 7be:	37 1f       	adc	r19, r23
- 7c0:	48 1f       	adc	r20, r24
- 7c2:	59 1f       	adc	r21, r25
- 7c4:	20 58       	subi	r18, 0x80	; 128
- 7c6:	3f 4f       	sbci	r19, 0xFF	; 255
- 7c8:	4f 4f       	sbci	r20, 0xFF	; 255
- 7ca:	5f 4f       	sbci	r21, 0xFF	; 255
- 7cc:	23 2f       	mov	r18, r19
- 7ce:	34 2f       	mov	r19, r20
- 7d0:	45 2f       	mov	r20, r21
- 7d2:	55 27       	eor	r21, r21
- 7d4:	47 fd       	sbrc	r20, 7
- 7d6:	5a 95       	dec	r21
- 7d8:	44 27       	eor	r20, r20
- 7da:	37 fd       	sbrc	r19, 7
- 7dc:	40 95       	com	r20
- 7de:	54 2f       	mov	r21, r20
-	T = (t_fine*5+128) >> 8;
-
-  return (T);
-}
- 7e0:	62 2f       	mov	r22, r18
- 7e2:	73 2f       	mov	r23, r19
- 7e4:	84 2f       	mov	r24, r20
- 7e6:	95 2f       	mov	r25, r21
- 7e8:	1f 91       	pop	r17
- 7ea:	0f 91       	pop	r16
- 7ec:	ff 90       	pop	r15
- 7ee:	ef 90       	pop	r14
- 7f0:	df 90       	pop	r13
- 7f2:	cf 90       	pop	r12
- 7f4:	bf 90       	pop	r11
- 7f6:	af 90       	pop	r10
- 7f8:	08 95       	ret
-
-000007fa <bmpSet>:
+0000029a <bmpSet>:
 	i2c_write(0xB6);
 	i2c_stop();
 }
 
 void bmpSet(unsigned char settings, unsigned char reg)
 {
- 7fa:	0f 93       	push	r16
- 7fc:	1f 93       	push	r17
- 7fe:	08 2f       	mov	r16, r24
- 800:	16 2f       	mov	r17, r22
+ 29a:	0f 93       	push	r16
+ 29c:	1f 93       	push	r17
+ 29e:	08 2f       	mov	r16, r24
+ 2a0:	16 2f       	mov	r17, r22
 	i2c_start();
- 802:	82 d0       	rcall	.+260    	; 0x908 <i2c_start>
+ 2a2:	8f d0       	rcall	.+286    	; 0x3c2 <i2c_start>
 	i2c_device_id(bmp280, 0);
- 804:	87 e7       	ldi	r24, 0x77	; 119
- 806:	60 e0       	ldi	r22, 0x00	; 0
- 808:	a9 d0       	rcall	.+338    	; 0x95c <i2c_device_id>
+ 2a4:	87 e7       	ldi	r24, 0x77	; 119
+ 2a6:	60 e0       	ldi	r22, 0x00	; 0
+ 2a8:	b6 d0       	rcall	.+364    	; 0x416 <i2c_device_id>
 	i2c_write(reg);
- 80a:	81 2f       	mov	r24, r17
- 80c:	4b d1       	rcall	.+662    	; 0xaa4 <i2c_write>
+ 2aa:	81 2f       	mov	r24, r17
+ 2ac:	58 d1       	rcall	.+688    	; 0x55e <i2c_write>
 
 	i2c_write(settings);
- 80e:	80 2f       	mov	r24, r16
- 810:	49 d1       	rcall	.+658    	; 0xaa4 <i2c_write>
+ 2ae:	80 2f       	mov	r24, r16
+ 2b0:	56 d1       	rcall	.+684    	; 0x55e <i2c_write>
 	i2c_stop();
- 812:	8f d0       	rcall	.+286    	; 0x932 <i2c_stop>
+ 2b2:	9c d0       	rcall	.+312    	; 0x3ec <i2c_stop>
 }
- 814:	1f 91       	pop	r17
- 816:	0f 91       	pop	r16
- 818:	08 95       	ret
+ 2b4:	1f 91       	pop	r17
+ 2b6:	0f 91       	pop	r16
+ 2b8:	08 95       	ret
 
-0000081a <bmpReset>:
+000002ba <bmpReset>:
 	}
 }
 
 void bmpReset()
 {
 	i2c_start();
- 81a:	76 d0       	rcall	.+236    	; 0x908 <i2c_start>
+ 2ba:	83 d0       	rcall	.+262    	; 0x3c2 <i2c_start>
 	(void) i2c_device_id(bmp280, 0);
- 81c:	87 e7       	ldi	r24, 0x77	; 119
- 81e:	60 e0       	ldi	r22, 0x00	; 0
- 820:	9d d0       	rcall	.+314    	; 0x95c <i2c_device_id>
+ 2bc:	87 e7       	ldi	r24, 0x77	; 119
+ 2be:	60 e0       	ldi	r22, 0x00	; 0
+ 2c0:	aa d0       	rcall	.+340    	; 0x416 <i2c_device_id>
 	i2c_write(0xE0);
- 822:	80 ee       	ldi	r24, 0xE0	; 224
- 824:	3f d1       	rcall	.+638    	; 0xaa4 <i2c_write>
+ 2c2:	80 ee       	ldi	r24, 0xE0	; 224
+ 2c4:	4c d1       	rcall	.+664    	; 0x55e <i2c_write>
 	
 	i2c_start();
- 826:	70 d0       	rcall	.+224    	; 0x908 <i2c_start>
+ 2c6:	7d d0       	rcall	.+250    	; 0x3c2 <i2c_start>
 	(void) i2c_device_id(bmp280, 0);
- 828:	87 e7       	ldi	r24, 0x77	; 119
- 82a:	60 e0       	ldi	r22, 0x00	; 0
- 82c:	97 d0       	rcall	.+302    	; 0x95c <i2c_device_id>
+ 2c8:	87 e7       	ldi	r24, 0x77	; 119
+ 2ca:	60 e0       	ldi	r22, 0x00	; 0
+ 2cc:	a4 d0       	rcall	.+328    	; 0x416 <i2c_device_id>
 	i2c_write(0xB6);
- 82e:	86 eb       	ldi	r24, 0xB6	; 182
- 830:	39 d1       	rcall	.+626    	; 0xaa4 <i2c_write>
+ 2ce:	86 eb       	ldi	r24, 0xB6	; 182
+ 2d0:	46 d1       	rcall	.+652    	; 0x55e <i2c_write>
 	i2c_stop();
- 832:	7f d0       	rcall	.+254    	; 0x932 <i2c_stop>
+ 2d2:	8c d0       	rcall	.+280    	; 0x3ec <i2c_stop>
 }
- 834:	08 95       	ret
+ 2d4:	08 95       	ret
 
-00000836 <bmpCalibration>:
+000002d6 <bmpCalibration>:
 
 //global variable to store value needed for pressure measurement
 long t_fine = 0;
 
 void bmpCalibration()
 {
- 836:	ef 92       	push	r14
- 838:	ff 92       	push	r15
- 83a:	0f 93       	push	r16
- 83c:	1f 93       	push	r17
- 83e:	df 93       	push	r29
- 840:	cf 93       	push	r28
- 842:	cd b7       	in	r28, 0x3d	; 61
- 844:	de b7       	in	r29, 0x3e	; 62
- 846:	68 97       	sbiw	r28, 0x18	; 24
- 848:	0f b6       	in	r0, 0x3f	; 63
- 84a:	f8 94       	cli
- 84c:	de bf       	out	0x3e, r29	; 62
- 84e:	0f be       	out	0x3f, r0	; 63
- 850:	cd bf       	out	0x3d, r28	; 61
+ 2d6:	cf 92       	push	r12
+ 2d8:	df 92       	push	r13
+ 2da:	ef 92       	push	r14
+ 2dc:	ff 92       	push	r15
+ 2de:	0f 93       	push	r16
+ 2e0:	1f 93       	push	r17
+ 2e2:	df 93       	push	r29
+ 2e4:	cf 93       	push	r28
+ 2e6:	cd b7       	in	r28, 0x3d	; 61
+ 2e8:	de b7       	in	r29, 0x3e	; 62
+ 2ea:	68 97       	sbiw	r28, 0x18	; 24
+ 2ec:	0f b6       	in	r0, 0x3f	; 63
+ 2ee:	f8 94       	cli
+ 2f0:	de bf       	out	0x3e, r29	; 62
+ 2f2:	0f be       	out	0x3f, r0	; 63
+ 2f4:	cd bf       	out	0x3d, r28	; 61
 	unsigned char i;
 	unsigned char arr[24];
 	
 	i2c_start();
- 852:	5a d0       	rcall	.+180    	; 0x908 <i2c_start>
+ 2f6:	65 d0       	rcall	.+202    	; 0x3c2 <i2c_start>
 	
 	i2c_device_id(bmp280, 0);
- 854:	87 e7       	ldi	r24, 0x77	; 119
- 856:	60 e0       	ldi	r22, 0x00	; 0
- 858:	81 d0       	rcall	.+258    	; 0x95c <i2c_device_id>
+ 2f8:	87 e7       	ldi	r24, 0x77	; 119
+ 2fa:	60 e0       	ldi	r22, 0x00	; 0
+ 2fc:	8c d0       	rcall	.+280    	; 0x416 <i2c_device_id>
 	
 	i2c_write(0x88);	//start of calibration data
- 85a:	88 e8       	ldi	r24, 0x88	; 136
- 85c:	23 d1       	rcall	.+582    	; 0xaa4 <i2c_write>
+ 2fe:	88 e8       	ldi	r24, 0x88	; 136
+ 300:	2e d1       	rcall	.+604    	; 0x55e <i2c_write>
 	
 	//quick start
 	i2c_start();
- 85e:	54 d0       	rcall	.+168    	; 0x908 <i2c_start>
+ 302:	5f d0       	rcall	.+190    	; 0x3c2 <i2c_start>
 	i2c_device_id(bmp280, 1);
- 860:	87 e7       	ldi	r24, 0x77	; 119
- 862:	61 e0       	ldi	r22, 0x01	; 1
- 864:	7b d0       	rcall	.+246    	; 0x95c <i2c_device_id>
- 866:	8e 01       	movw	r16, r28
- 868:	0f 5f       	subi	r16, 0xFF	; 255
- 86a:	1f 4f       	sbci	r17, 0xFF	; 255
+ 304:	87 e7       	ldi	r24, 0x77	; 119
+ 306:	61 e0       	ldi	r22, 0x01	; 1
+ 308:	86 d0       	rcall	.+268    	; 0x416 <i2c_device_id>
+ 30a:	8e 01       	movw	r16, r28
+ 30c:	0f 5f       	subi	r16, 0xFF	; 255
+ 30e:	1f 4f       	sbci	r17, 0xFF	; 255
 	
-	for(i = 0; i < sizeof(arr); i++)	//write calibration values to EEPROM or return pointer?
- 86c:	0f 2e       	mov	r0, r31
- 86e:	f9 e1       	ldi	r31, 0x19	; 25
- 870:	ef 2e       	mov	r14, r31
- 872:	ff 24       	eor	r15, r15
- 874:	f0 2d       	mov	r31, r0
- 876:	ec 0e       	add	r14, r28
- 878:	fd 1e       	adc	r15, r29
+	for(i = 0; i < sizeof(arr) -1; i++)	//write calibration values to EEPROM or return pointer?
+ 310:	0f 2e       	mov	r0, r31
+ 312:	f8 e1       	ldi	r31, 0x18	; 24
+ 314:	ef 2e       	mov	r14, r31
+ 316:	ff 24       	eor	r15, r15
+ 318:	f0 2d       	mov	r31, r0
+ 31a:	ec 0e       	add	r14, r28
+ 31c:	fd 1e       	adc	r15, r29
 	{
 		arr[i] = i2c_read(0);
- 87a:	80 e0       	ldi	r24, 0x00	; 0
- 87c:	cb d0       	rcall	.+406    	; 0xa14 <i2c_read>
- 87e:	f8 01       	movw	r30, r16
- 880:	81 93       	st	Z+, r24
- 882:	8f 01       	movw	r16, r30
+ 31e:	80 e0       	ldi	r24, 0x00	; 0
+ 320:	d6 d0       	rcall	.+428    	; 0x4ce <i2c_read>
+ 322:	f8 01       	movw	r30, r16
+ 324:	81 93       	st	Z+, r24
+ 326:	8f 01       	movw	r16, r30
 	
 	//quick start
 	i2c_start();
 	i2c_device_id(bmp280, 1);
 	
-	for(i = 0; i < sizeof(arr); i++)	//write calibration values to EEPROM or return pointer?
- 884:	ee 15       	cp	r30, r14
- 886:	ff 05       	cpc	r31, r15
- 888:	c1 f7       	brne	.-16     	; 0x87a <bmpCalibration+0x44>
+	for(i = 0; i < sizeof(arr) -1; i++)	//write calibration values to EEPROM or return pointer?
+ 328:	ee 15       	cp	r30, r14
+ 32a:	ff 05       	cpc	r31, r15
+ 32c:	c1 f7       	brne	.-16     	; 0x31e <bmpCalibration+0x48>
 	{
 		arr[i] = i2c_read(0);
 	}
-	arr[25] = i2c_read(1);
- 88a:	81 e0       	ldi	r24, 0x01	; 1
- 88c:	c3 d0       	rcall	.+390    	; 0xa14 <i2c_read>
- 88e:	8a 8f       	std	Y+26, r24	; 0x1a
+	arr[24] = i2c_read(1);
+ 32e:	81 e0       	ldi	r24, 0x01	; 1
+ 330:	ce d0       	rcall	.+412    	; 0x4ce <i2c_read>
+ 332:	89 8f       	std	Y+25, r24	; 0x19
 	
 	i2c_stop();
- 890:	50 d0       	rcall	.+160    	; 0x932 <i2c_stop>
- 892:	01 e0       	ldi	r16, 0x01	; 1
- 894:	10 e0       	ldi	r17, 0x00	; 0
+ 334:	5b d0       	rcall	.+182    	; 0x3ec <i2c_stop>
+ 336:	01 e0       	ldi	r16, 0x01	; 1
+ 338:	10 e0       	ldi	r17, 0x00	; 0
 	
-	for(i = 1; i < sizeof(arr); i++)
+	for(i = 1; i < sizeof(arr) + 1; i++)
 	{
 		eeprom_write_byte((uint8_t*)i, arr[i]);
- 896:	7e 01       	movw	r14, r28
- 898:	08 94       	sec
- 89a:	e1 1c       	adc	r14, r1
- 89c:	f1 1c       	adc	r15, r1
- 89e:	f7 01       	movw	r30, r14
- 8a0:	e0 0f       	add	r30, r16
- 8a2:	f1 1f       	adc	r31, r17
- 8a4:	c8 01       	movw	r24, r16
- 8a6:	60 81       	ld	r22, Z
- 8a8:	01 d3       	rcall	.+1538   	; 0xeac <__eewr_byte_tn85>
- 8aa:	0f 5f       	subi	r16, 0xFF	; 255
- 8ac:	1f 4f       	sbci	r17, 0xFF	; 255
+ 33a:	6e 01       	movw	r12, r28
+ 33c:	08 94       	sec
+ 33e:	c1 1c       	adc	r12, r1
+ 340:	d1 1c       	adc	r13, r1
+		while(!eeprom_is_ready());	//wait for eeprom to write data
+ 342:	0f 2e       	mov	r0, r31
+ 344:	fc e3       	ldi	r31, 0x3C	; 60
+ 346:	ef 2e       	mov	r14, r31
+ 348:	ff 24       	eor	r15, r15
+ 34a:	f0 2d       	mov	r31, r0
+	
+	i2c_stop();
+	
+	for(i = 1; i < sizeof(arr) + 1; i++)
+	{
+		eeprom_write_byte((uint8_t*)i, arr[i]);
+ 34c:	f6 01       	movw	r30, r12
+ 34e:	e0 0f       	add	r30, r16
+ 350:	f1 1f       	adc	r31, r17
+ 352:	c8 01       	movw	r24, r16
+ 354:	60 81       	ld	r22, Z
+ 356:	03 d2       	rcall	.+1030   	; 0x75e <__eewr_byte_tn85>
+		while(!eeprom_is_ready());	//wait for eeprom to write data
+ 358:	f7 01       	movw	r30, r14
+ 35a:	80 81       	ld	r24, Z
+ 35c:	81 fd       	sbrc	r24, 1
+ 35e:	fc cf       	rjmp	.-8      	; 0x358 <bmpCalibration+0x82>
+ 360:	0f 5f       	subi	r16, 0xFF	; 255
+ 362:	1f 4f       	sbci	r17, 0xFF	; 255
 	}
-	arr[25] = i2c_read(1);
+	arr[24] = i2c_read(1);
 	
 	i2c_stop();
 	
-	for(i = 1; i < sizeof(arr); i++)
- 8ae:	08 31       	cpi	r16, 0x18	; 24
- 8b0:	11 05       	cpc	r17, r1
- 8b2:	a9 f7       	brne	.-22     	; 0x89e <bmpCalibration+0x68>
+	for(i = 1; i < sizeof(arr) + 1; i++)
+ 364:	09 31       	cpi	r16, 0x19	; 25
+ 366:	11 05       	cpc	r17, r1
+ 368:	89 f7       	brne	.-30     	; 0x34c <bmpCalibration+0x76>
 	{
 		eeprom_write_byte((uint8_t*)i, arr[i]);
+		while(!eeprom_is_ready());	//wait for eeprom to write data
 	}
 }
- 8b4:	68 96       	adiw	r28, 0x18	; 24
- 8b6:	0f b6       	in	r0, 0x3f	; 63
- 8b8:	f8 94       	cli
- 8ba:	de bf       	out	0x3e, r29	; 62
- 8bc:	0f be       	out	0x3f, r0	; 63
- 8be:	cd bf       	out	0x3d, r28	; 61
- 8c0:	cf 91       	pop	r28
- 8c2:	df 91       	pop	r29
- 8c4:	1f 91       	pop	r17
- 8c6:	0f 91       	pop	r16
- 8c8:	ff 90       	pop	r15
- 8ca:	ef 90       	pop	r14
- 8cc:	08 95       	ret
+ 36a:	68 96       	adiw	r28, 0x18	; 24
+ 36c:	0f b6       	in	r0, 0x3f	; 63
+ 36e:	f8 94       	cli
+ 370:	de bf       	out	0x3e, r29	; 62
+ 372:	0f be       	out	0x3f, r0	; 63
+ 374:	cd bf       	out	0x3d, r28	; 61
+ 376:	cf 91       	pop	r28
+ 378:	df 91       	pop	r29
+ 37a:	1f 91       	pop	r17
+ 37c:	0f 91       	pop	r16
+ 37e:	ff 90       	pop	r15
+ 380:	ef 90       	pop	r14
+ 382:	df 90       	pop	r13
+ 384:	cf 90       	pop	r12
+ 386:	08 95       	ret
 
-000008ce <init_i2c>:
+00000388 <init_i2c>:
 
 #include "i2c.h"
 
 void init_i2c()
 {
 	DDRB |= (1 << PB0);	// Set SDA as output
- 8ce:	e7 e3       	ldi	r30, 0x37	; 55
- 8d0:	f0 e0       	ldi	r31, 0x00	; 0
- 8d2:	80 81       	ld	r24, Z
- 8d4:	81 60       	ori	r24, 0x01	; 1
- 8d6:	80 83       	st	Z, r24
+ 388:	e7 e3       	ldi	r30, 0x37	; 55
+ 38a:	f0 e0       	ldi	r31, 0x00	; 0
+ 38c:	80 81       	ld	r24, Z
+ 38e:	81 60       	ori	r24, 0x01	; 1
+ 390:	80 83       	st	Z, r24
 	DDRB |= (1 << PB2);	// Set SCL as output
- 8d8:	80 81       	ld	r24, Z
- 8da:	84 60       	ori	r24, 0x04	; 4
- 8dc:	80 83       	st	Z, r24
+ 392:	80 81       	ld	r24, Z
+ 394:	84 60       	ori	r24, 0x04	; 4
+ 396:	80 83       	st	Z, r24
 	
 	SDA_HIGH;
- 8de:	e8 e3       	ldi	r30, 0x38	; 56
- 8e0:	f0 e0       	ldi	r31, 0x00	; 0
- 8e2:	80 81       	ld	r24, Z
- 8e4:	81 60       	ori	r24, 0x01	; 1
- 8e6:	80 83       	st	Z, r24
+ 398:	e8 e3       	ldi	r30, 0x38	; 56
+ 39a:	f0 e0       	ldi	r31, 0x00	; 0
+ 39c:	80 81       	ld	r24, Z
+ 39e:	81 60       	ori	r24, 0x01	; 1
+ 3a0:	80 83       	st	Z, r24
 	SCL_HIGH;
- 8e8:	80 81       	ld	r24, Z
- 8ea:	84 60       	ori	r24, 0x04	; 4
- 8ec:	80 83       	st	Z, r24
+ 3a2:	80 81       	ld	r24, Z
+ 3a4:	84 60       	ori	r24, 0x04	; 4
+ 3a6:	80 83       	st	Z, r24
 }
- 8ee:	08 95       	ret
+ 3a8:	08 95       	ret
 
-000008f0 <i2c_clock>:
+000003aa <i2c_clock>:
 
 void i2c_clock()
 {
 	SCL_HIGH;
- 8f0:	e8 e3       	ldi	r30, 0x38	; 56
- 8f2:	f0 e0       	ldi	r31, 0x00	; 0
- 8f4:	80 81       	ld	r24, Z
- 8f6:	84 60       	ori	r24, 0x04	; 4
- 8f8:	80 83       	st	Z, r24
+ 3aa:	e8 e3       	ldi	r30, 0x38	; 56
+ 3ac:	f0 e0       	ldi	r31, 0x00	; 0
+ 3ae:	80 81       	ld	r24, Z
+ 3b0:	84 60       	ori	r24, 0x04	; 4
+ 3b2:	80 83       	st	Z, r24
     can be achieved.
 */
 void
 _delay_loop_1(uint8_t __count)
 {
 	__asm__ volatile (
- 8fa:	83 e0       	ldi	r24, 0x03	; 3
- 8fc:	8a 95       	dec	r24
- 8fe:	f1 f7       	brne	.-4      	; 0x8fc <i2c_clock+0xc>
+ 3b4:	83 e0       	ldi	r24, 0x03	; 3
+ 3b6:	8a 95       	dec	r24
+ 3b8:	f1 f7       	brne	.-4      	; 0x3b6 <i2c_clock+0xc>
 	_delay_us(TIME);
 	SCL_LOW;
- 900:	80 81       	ld	r24, Z
- 902:	8b 7f       	andi	r24, 0xFB	; 251
- 904:	80 83       	st	Z, r24
+ 3ba:	80 81       	ld	r24, Z
+ 3bc:	8b 7f       	andi	r24, 0xFB	; 251
+ 3be:	80 83       	st	Z, r24
 }
- 906:	08 95       	ret
+ 3c0:	08 95       	ret
 
-00000908 <i2c_start>:
+000003c2 <i2c_start>:
 
 void i2c_start()
 {
 	//Clock stays high and SDA pulled low
 	SDA_HIGH;
- 908:	e8 e3       	ldi	r30, 0x38	; 56
- 90a:	f0 e0       	ldi	r31, 0x00	; 0
- 90c:	80 81       	ld	r24, Z
- 90e:	81 60       	ori	r24, 0x01	; 1
- 910:	80 83       	st	Z, r24
+ 3c2:	e8 e3       	ldi	r30, 0x38	; 56
+ 3c4:	f0 e0       	ldi	r31, 0x00	; 0
+ 3c6:	80 81       	ld	r24, Z
+ 3c8:	81 60       	ori	r24, 0x01	; 1
+ 3ca:	80 83       	st	Z, r24
 	SCL_HIGH;
- 912:	80 81       	ld	r24, Z
- 914:	84 60       	ori	r24, 0x04	; 4
- 916:	80 83       	st	Z, r24
- 918:	93 e0       	ldi	r25, 0x03	; 3
- 91a:	89 2f       	mov	r24, r25
- 91c:	8a 95       	dec	r24
- 91e:	f1 f7       	brne	.-4      	; 0x91c <i2c_start+0x14>
+ 3cc:	80 81       	ld	r24, Z
+ 3ce:	84 60       	ori	r24, 0x04	; 4
+ 3d0:	80 83       	st	Z, r24
+ 3d2:	93 e0       	ldi	r25, 0x03	; 3
+ 3d4:	89 2f       	mov	r24, r25
+ 3d6:	8a 95       	dec	r24
+ 3d8:	f1 f7       	brne	.-4      	; 0x3d6 <i2c_start+0x14>
 
 	_delay_us(TIME);
 	SDA_LOW;
- 920:	80 81       	ld	r24, Z
- 922:	8e 7f       	andi	r24, 0xFE	; 254
- 924:	80 83       	st	Z, r24
- 926:	9a 95       	dec	r25
- 928:	f1 f7       	brne	.-4      	; 0x926 <i2c_start+0x1e>
+ 3da:	80 81       	ld	r24, Z
+ 3dc:	8e 7f       	andi	r24, 0xFE	; 254
+ 3de:	80 83       	st	Z, r24
+ 3e0:	9a 95       	dec	r25
+ 3e2:	f1 f7       	brne	.-4      	; 0x3e0 <i2c_start+0x1e>
 	_delay_us(TIME);
 	SCL_LOW;
- 92a:	80 81       	ld	r24, Z
- 92c:	8b 7f       	andi	r24, 0xFB	; 251
- 92e:	80 83       	st	Z, r24
+ 3e4:	80 81       	ld	r24, Z
+ 3e6:	8b 7f       	andi	r24, 0xFB	; 251
+ 3e8:	80 83       	st	Z, r24
 }
- 930:	08 95       	ret
+ 3ea:	08 95       	ret
 
-00000932 <i2c_stop>:
+000003ec <i2c_stop>:
 
 void i2c_stop()
 {
 	//clock goes low before data
 	SCL_LOW;
- 932:	e8 e3       	ldi	r30, 0x38	; 56
- 934:	f0 e0       	ldi	r31, 0x00	; 0
- 936:	80 81       	ld	r24, Z
- 938:	8b 7f       	andi	r24, 0xFB	; 251
- 93a:	80 83       	st	Z, r24
+ 3ec:	e8 e3       	ldi	r30, 0x38	; 56
+ 3ee:	f0 e0       	ldi	r31, 0x00	; 0
+ 3f0:	80 81       	ld	r24, Z
+ 3f2:	8b 7f       	andi	r24, 0xFB	; 251
+ 3f4:	80 83       	st	Z, r24
 	SDA_LOW;
- 93c:	80 81       	ld	r24, Z
- 93e:	8e 7f       	andi	r24, 0xFE	; 254
- 940:	80 83       	st	Z, r24
- 942:	93 e0       	ldi	r25, 0x03	; 3
- 944:	89 2f       	mov	r24, r25
- 946:	8a 95       	dec	r24
- 948:	f1 f7       	brne	.-4      	; 0x946 <i2c_stop+0x14>
+ 3f6:	80 81       	ld	r24, Z
+ 3f8:	8e 7f       	andi	r24, 0xFE	; 254
+ 3fa:	80 83       	st	Z, r24
+ 3fc:	93 e0       	ldi	r25, 0x03	; 3
+ 3fe:	89 2f       	mov	r24, r25
+ 400:	8a 95       	dec	r24
+ 402:	f1 f7       	brne	.-4      	; 0x400 <i2c_stop+0x14>
 	_delay_us(TIME);
 
 	SCL_HIGH;
- 94a:	80 81       	ld	r24, Z
- 94c:	84 60       	ori	r24, 0x04	; 4
- 94e:	80 83       	st	Z, r24
- 950:	9a 95       	dec	r25
- 952:	f1 f7       	brne	.-4      	; 0x950 <i2c_stop+0x1e>
+ 404:	80 81       	ld	r24, Z
+ 406:	84 60       	ori	r24, 0x04	; 4
+ 408:	80 83       	st	Z, r24
+ 40a:	9a 95       	dec	r25
+ 40c:	f1 f7       	brne	.-4      	; 0x40a <i2c_stop+0x1e>
 	_delay_us(TIME);
 	SDA_HIGH;
- 954:	80 81       	ld	r24, Z
- 956:	81 60       	ori	r24, 0x01	; 1
- 958:	80 83       	st	Z, r24
+ 40e:	80 81       	ld	r24, Z
+ 410:	81 60       	ori	r24, 0x01	; 1
+ 412:	80 83       	st	Z, r24
 }
- 95a:	08 95       	ret
+ 414:	08 95       	ret
 
-0000095c <i2c_device_id>:
+00000416 <i2c_device_id>:
 
 char i2c_device_id(volatile char id, volatile char rw)
 {
- 95c:	ef 92       	push	r14
- 95e:	ff 92       	push	r15
- 960:	0f 93       	push	r16
- 962:	1f 93       	push	r17
- 964:	df 93       	push	r29
- 966:	cf 93       	push	r28
- 968:	00 d0       	rcall	.+0      	; 0x96a <i2c_device_id+0xe>
- 96a:	cd b7       	in	r28, 0x3d	; 61
- 96c:	de b7       	in	r29, 0x3e	; 62
- 96e:	89 83       	std	Y+1, r24	; 0x01
- 970:	6a 83       	std	Y+2, r22	; 0x02
+ 416:	ef 92       	push	r14
+ 418:	ff 92       	push	r15
+ 41a:	0f 93       	push	r16
+ 41c:	1f 93       	push	r17
+ 41e:	df 93       	push	r29
+ 420:	cf 93       	push	r28
+ 422:	00 d0       	rcall	.+0      	; 0x424 <i2c_device_id+0xe>
+ 424:	cd b7       	in	r28, 0x3d	; 61
+ 426:	de b7       	in	r29, 0x3e	; 62
+ 428:	89 83       	std	Y+1, r24	; 0x01
+ 42a:	6a 83       	std	Y+2, r22	; 0x02
 	char i, ACK;
 	//id = 0x77;//0x76;//0x3C;//78;
 
 	//check if valid i2c address
 	if(id < 8 || id > 120)
- 972:	89 81       	ldd	r24, Y+1	; 0x01
- 974:	88 30       	cpi	r24, 0x08	; 8
- 976:	08 f4       	brcc	.+2      	; 0x97a <i2c_device_id+0x1e>
- 978:	42 c0       	rjmp	.+132    	; 0x9fe <i2c_device_id+0xa2>
- 97a:	89 81       	ldd	r24, Y+1	; 0x01
- 97c:	89 37       	cpi	r24, 0x79	; 121
- 97e:	08 f0       	brcs	.+2      	; 0x982 <i2c_device_id+0x26>
- 980:	3e c0       	rjmp	.+124    	; 0x9fe <i2c_device_id+0xa2>
- 982:	07 e0       	ldi	r16, 0x07	; 7
+ 42c:	89 81       	ldd	r24, Y+1	; 0x01
+ 42e:	88 30       	cpi	r24, 0x08	; 8
+ 430:	08 f4       	brcc	.+2      	; 0x434 <i2c_device_id+0x1e>
+ 432:	42 c0       	rjmp	.+132    	; 0x4b8 <i2c_device_id+0xa2>
+ 434:	89 81       	ldd	r24, Y+1	; 0x01
+ 436:	89 37       	cpi	r24, 0x79	; 121
+ 438:	08 f0       	brcs	.+2      	; 0x43c <i2c_device_id+0x26>
+ 43a:	3e c0       	rjmp	.+124    	; 0x4b8 <i2c_device_id+0xa2>
+ 43c:	07 e0       	ldi	r16, 0x07	; 7
 	{
 		id <<= 1;
 		if((id & 0x80))
 			SDA_HIGH;
 		else
 			SDA_LOW;
- 984:	0f 2e       	mov	r0, r31
- 986:	f8 e3       	ldi	r31, 0x38	; 56
- 988:	ef 2e       	mov	r14, r31
- 98a:	ff 24       	eor	r15, r15
- 98c:	f0 2d       	mov	r31, r0
+ 43e:	0f 2e       	mov	r0, r31
+ 440:	f8 e3       	ldi	r31, 0x38	; 56
+ 442:	ef 2e       	mov	r14, r31
+ 444:	ff 24       	eor	r15, r15
+ 446:	f0 2d       	mov	r31, r0
 		return 2;
 
 	//Starting at 7 to avoid last bit
 	for(i = 7; i > 0; i--)
 	{
 		id <<= 1;
- 98e:	89 81       	ldd	r24, Y+1	; 0x01
- 990:	88 0f       	add	r24, r24
- 992:	89 83       	std	Y+1, r24	; 0x01
+ 448:	89 81       	ldd	r24, Y+1	; 0x01
+ 44a:	88 0f       	add	r24, r24
+ 44c:	89 83       	std	Y+1, r24	; 0x01
 		if((id & 0x80))
- 994:	89 81       	ldd	r24, Y+1	; 0x01
- 996:	88 23       	and	r24, r24
- 998:	2c f4       	brge	.+10     	; 0x9a4 <i2c_device_id+0x48>
+ 44e:	89 81       	ldd	r24, Y+1	; 0x01
+ 450:	88 23       	and	r24, r24
+ 452:	2c f4       	brge	.+10     	; 0x45e <i2c_device_id+0x48>
 			SDA_HIGH;
- 99a:	f7 01       	movw	r30, r14
- 99c:	80 81       	ld	r24, Z
- 99e:	81 60       	ori	r24, 0x01	; 1
- 9a0:	80 83       	st	Z, r24
- 9a2:	04 c0       	rjmp	.+8      	; 0x9ac <i2c_device_id+0x50>
+ 454:	f7 01       	movw	r30, r14
+ 456:	80 81       	ld	r24, Z
+ 458:	81 60       	ori	r24, 0x01	; 1
+ 45a:	80 83       	st	Z, r24
+ 45c:	04 c0       	rjmp	.+8      	; 0x466 <i2c_device_id+0x50>
 		else
 			SDA_LOW;
- 9a4:	f7 01       	movw	r30, r14
- 9a6:	80 81       	ld	r24, Z
- 9a8:	8e 7f       	andi	r24, 0xFE	; 254
- 9aa:	80 83       	st	Z, r24
+ 45e:	f7 01       	movw	r30, r14
+ 460:	80 81       	ld	r24, Z
+ 462:	8e 7f       	andi	r24, 0xFE	; 254
+ 464:	80 83       	st	Z, r24
 		//SDA = id & 0x80;	//Sends a 1 or 0 to SDA
 
 		//Pulses the clock
 		i2c_clock();
- 9ac:	a1 df       	rcall	.-190    	; 0x8f0 <i2c_clock>
+ 466:	a1 df       	rcall	.-190    	; 0x3aa <i2c_clock>
 	//check if valid i2c address
 	if(id < 8 || id > 120)
 		return 2;
 
 	//Starting at 7 to avoid last bit
 	for(i = 7; i > 0; i--)
- 9ae:	01 50       	subi	r16, 0x01	; 1
- 9b0:	71 f7       	brne	.-36     	; 0x98e <i2c_device_id+0x32>
+ 468:	01 50       	subi	r16, 0x01	; 1
+ 46a:	71 f7       	brne	.-36     	; 0x448 <i2c_device_id+0x32>
 		i2c_clock();
 	}
 	//8th bit. pulses the read/write bit
 	//rw low for write and high for read
 
 	if(rw == 1)
- 9b2:	8a 81       	ldd	r24, Y+2	; 0x02
- 9b4:	81 30       	cpi	r24, 0x01	; 1
- 9b6:	31 f4       	brne	.+12     	; 0x9c4 <i2c_device_id+0x68>
+ 46c:	8a 81       	ldd	r24, Y+2	; 0x02
+ 46e:	81 30       	cpi	r24, 0x01	; 1
+ 470:	31 f4       	brne	.+12     	; 0x47e <i2c_device_id+0x68>
 		SDA_HIGH;
- 9b8:	e8 e3       	ldi	r30, 0x38	; 56
- 9ba:	f0 e0       	ldi	r31, 0x00	; 0
- 9bc:	80 81       	ld	r24, Z
- 9be:	81 60       	ori	r24, 0x01	; 1
- 9c0:	80 83       	st	Z, r24
- 9c2:	05 c0       	rjmp	.+10     	; 0x9ce <i2c_device_id+0x72>
+ 472:	e8 e3       	ldi	r30, 0x38	; 56
+ 474:	f0 e0       	ldi	r31, 0x00	; 0
+ 476:	80 81       	ld	r24, Z
+ 478:	81 60       	ori	r24, 0x01	; 1
+ 47a:	80 83       	st	Z, r24
+ 47c:	05 c0       	rjmp	.+10     	; 0x488 <i2c_device_id+0x72>
 	else
 		SDA_LOW;
- 9c4:	e8 e3       	ldi	r30, 0x38	; 56
- 9c6:	f0 e0       	ldi	r31, 0x00	; 0
- 9c8:	80 81       	ld	r24, Z
- 9ca:	8e 7f       	andi	r24, 0xFE	; 254
- 9cc:	80 83       	st	Z, r24
+ 47e:	e8 e3       	ldi	r30, 0x38	; 56
+ 480:	f0 e0       	ldi	r31, 0x00	; 0
+ 482:	80 81       	ld	r24, Z
+ 484:	8e 7f       	andi	r24, 0xFE	; 254
+ 486:	80 83       	st	Z, r24
 	i2c_clock();
- 9ce:	90 df       	rcall	.-224    	; 0x8f0 <i2c_clock>
+ 488:	90 df       	rcall	.-224    	; 0x3aa <i2c_clock>
 	//SDA = rw;
 	
 	//9th bit
 	//set SDA to input
 	DDRB &= ~(1 << PB0);	//set pin0 to input; turn off pin
- 9d0:	0f 2e       	mov	r0, r31
- 9d2:	f7 e3       	ldi	r31, 0x37	; 55
- 9d4:	ef 2e       	mov	r14, r31
- 9d6:	ff 24       	eor	r15, r15
- 9d8:	f0 2d       	mov	r31, r0
- 9da:	f7 01       	movw	r30, r14
- 9dc:	80 81       	ld	r24, Z
- 9de:	8e 7f       	andi	r24, 0xFE	; 254
- 9e0:	80 83       	st	Z, r24
+ 48a:	0f 2e       	mov	r0, r31
+ 48c:	f7 e3       	ldi	r31, 0x37	; 55
+ 48e:	ef 2e       	mov	r14, r31
+ 490:	ff 24       	eor	r15, r15
+ 492:	f0 2d       	mov	r31, r0
+ 494:	f7 01       	movw	r30, r14
+ 496:	80 81       	ld	r24, Z
+ 498:	8e 7f       	andi	r24, 0xFE	; 254
+ 49a:	80 83       	st	Z, r24
 	SDA_HIGH;//PORTB |= (1 << PB0);	//enable pull up; turn on pin
- 9e2:	e8 e3       	ldi	r30, 0x38	; 56
- 9e4:	f0 e0       	ldi	r31, 0x00	; 0
- 9e6:	80 81       	ld	r24, Z
- 9e8:	81 60       	ori	r24, 0x01	; 1
- 9ea:	80 83       	st	Z, r24
+ 49c:	e8 e3       	ldi	r30, 0x38	; 56
+ 49e:	f0 e0       	ldi	r31, 0x00	; 0
+ 4a0:	80 81       	ld	r24, Z
+ 4a2:	81 60       	ori	r24, 0x01	; 1
+ 4a4:	80 83       	st	Z, r24
 	ACK = (PINB & (1 << PB0));	//read pin
- 9ec:	86 b3       	in	r24, 0x16	; 22
- 9ee:	18 2f       	mov	r17, r24
- 9f0:	11 70       	andi	r17, 0x01	; 1
+ 4a6:	86 b3       	in	r24, 0x16	; 22
+ 4a8:	18 2f       	mov	r17, r24
+ 4aa:	11 70       	andi	r17, 0x01	; 1
 
 	i2c_clock();
- 9f2:	7e df       	rcall	.-260    	; 0x8f0 <i2c_clock>
+ 4ac:	7e df       	rcall	.-260    	; 0x3aa <i2c_clock>
 	
 	DDRB |= (1 << PB0);	//set pin0 to output
- 9f4:	f7 01       	movw	r30, r14
- 9f6:	80 81       	ld	r24, Z
- 9f8:	81 60       	ori	r24, 0x01	; 1
- 9fa:	80 83       	st	Z, r24
- 9fc:	01 c0       	rjmp	.+2      	; 0xa00 <i2c_device_id+0xa4>
+ 4ae:	f7 01       	movw	r30, r14
+ 4b0:	80 81       	ld	r24, Z
+ 4b2:	81 60       	ori	r24, 0x01	; 1
+ 4b4:	80 83       	st	Z, r24
+ 4b6:	01 c0       	rjmp	.+2      	; 0x4ba <i2c_device_id+0xa4>
 
 	return ACK;
- 9fe:	12 e0       	ldi	r17, 0x02	; 2
+ 4b8:	12 e0       	ldi	r17, 0x02	; 2
 }
- a00:	81 2f       	mov	r24, r17
- a02:	0f 90       	pop	r0
- a04:	0f 90       	pop	r0
- a06:	cf 91       	pop	r28
- a08:	df 91       	pop	r29
- a0a:	1f 91       	pop	r17
- a0c:	0f 91       	pop	r16
- a0e:	ff 90       	pop	r15
- a10:	ef 90       	pop	r14
- a12:	08 95       	ret
+ 4ba:	81 2f       	mov	r24, r17
+ 4bc:	0f 90       	pop	r0
+ 4be:	0f 90       	pop	r0
+ 4c0:	cf 91       	pop	r28
+ 4c2:	df 91       	pop	r29
+ 4c4:	1f 91       	pop	r17
+ 4c6:	0f 91       	pop	r16
+ 4c8:	ff 90       	pop	r15
+ 4ca:	ef 90       	pop	r14
+ 4cc:	08 95       	ret
 
-00000a14 <i2c_read>:
+000004ce <i2c_read>:
 
 unsigned char i2c_read(char last_byte)
 {
- a14:	df 92       	push	r13
- a16:	ef 92       	push	r14
- a18:	ff 92       	push	r15
- a1a:	0f 93       	push	r16
- a1c:	1f 93       	push	r17
- a1e:	cf 93       	push	r28
- a20:	df 93       	push	r29
- a22:	d8 2e       	mov	r13, r24
+ 4ce:	df 92       	push	r13
+ 4d0:	ef 92       	push	r14
+ 4d2:	ff 92       	push	r15
+ 4d4:	0f 93       	push	r16
+ 4d6:	1f 93       	push	r17
+ 4d8:	cf 93       	push	r28
+ 4da:	df 93       	push	r29
+ 4dc:	d8 2e       	mov	r13, r24
 	char i = 0, byte = 0;
 	SDA_HIGH;
- a24:	e8 e3       	ldi	r30, 0x38	; 56
- a26:	f0 e0       	ldi	r31, 0x00	; 0
- a28:	80 81       	ld	r24, Z
- a2a:	81 60       	ori	r24, 0x01	; 1
- a2c:	80 83       	st	Z, r24
+ 4de:	e8 e3       	ldi	r30, 0x38	; 56
+ 4e0:	f0 e0       	ldi	r31, 0x00	; 0
+ 4e2:	80 81       	ld	r24, Z
+ 4e4:	81 60       	ori	r24, 0x01	; 1
+ 4e6:	80 83       	st	Z, r24
 	
 	DDRB &= ~(1 << PB0);	//set pin0 to input; turn off pin
- a2e:	a7 e3       	ldi	r26, 0x37	; 55
- a30:	b0 e0       	ldi	r27, 0x00	; 0
- a32:	8c 91       	ld	r24, X
- a34:	8e 7f       	andi	r24, 0xFE	; 254
- a36:	8c 93       	st	X, r24
+ 4e8:	a7 e3       	ldi	r26, 0x37	; 55
+ 4ea:	b0 e0       	ldi	r27, 0x00	; 0
+ 4ec:	8c 91       	ld	r24, X
+ 4ee:	8e 7f       	andi	r24, 0xFE	; 254
+ 4f0:	8c 93       	st	X, r24
 	SDA_HIGH;				//enable pull up; turn on pin
- a38:	80 81       	ld	r24, Z
- a3a:	81 60       	ori	r24, 0x01	; 1
- a3c:	80 83       	st	Z, r24
- a3e:	18 e0       	ldi	r17, 0x08	; 8
- a40:	00 e0       	ldi	r16, 0x00	; 0
+ 4f2:	80 81       	ld	r24, Z
+ 4f4:	81 60       	ori	r24, 0x01	; 1
+ 4f6:	80 83       	st	Z, r24
+ 4f8:	18 e0       	ldi	r17, 0x08	; 8
+ 4fa:	00 e0       	ldi	r16, 0x00	; 0
 	
 	for(i = 8; i > 0; i--)
 	{	
 		SCL_HIGH;
- a42:	c8 e3       	ldi	r28, 0x38	; 56
- a44:	d0 e0       	ldi	r29, 0x00	; 0
+ 4fc:	c8 e3       	ldi	r28, 0x38	; 56
+ 4fe:	d0 e0       	ldi	r29, 0x00	; 0
 		byte <<= 1;
 
 		//read pin
 		
 		//OR byte bit with SDA
 		byte |= (PINB & (1<<PB0));
- a46:	0f 2e       	mov	r0, r31
- a48:	f6 e3       	ldi	r31, 0x36	; 54
- a4a:	ef 2e       	mov	r14, r31
- a4c:	ff 24       	eor	r15, r15
- a4e:	f0 2d       	mov	r31, r0
+ 500:	0f 2e       	mov	r0, r31
+ 502:	f6 e3       	ldi	r31, 0x36	; 54
+ 504:	ef 2e       	mov	r14, r31
+ 506:	ff 24       	eor	r15, r15
+ 508:	f0 2d       	mov	r31, r0
 	DDRB &= ~(1 << PB0);	//set pin0 to input; turn off pin
 	SDA_HIGH;				//enable pull up; turn on pin
 	
 	for(i = 8; i > 0; i--)
 	{	
 		SCL_HIGH;
- a50:	88 81       	ld	r24, Y
- a52:	84 60       	ori	r24, 0x04	; 4
- a54:	88 83       	st	Y, r24
+ 50a:	88 81       	ld	r24, Y
+ 50c:	84 60       	ori	r24, 0x04	; 4
+ 50e:	88 83       	st	Y, r24
 		byte <<= 1;
 
 		//read pin
 		
 		//OR byte bit with SDA
 		byte |= (PINB & (1<<PB0));
- a56:	f7 01       	movw	r30, r14
- a58:	80 81       	ld	r24, Z
- a5a:	90 2f       	mov	r25, r16
- a5c:	99 0f       	add	r25, r25
- a5e:	81 70       	andi	r24, 0x01	; 1
- a60:	09 2f       	mov	r16, r25
- a62:	08 2b       	or	r16, r24
+ 510:	f7 01       	movw	r30, r14
+ 512:	80 81       	ld	r24, Z
+ 514:	90 2f       	mov	r25, r16
+ 516:	99 0f       	add	r25, r25
+ 518:	81 70       	andi	r24, 0x01	; 1
+ 51a:	09 2f       	mov	r16, r25
+ 51c:	08 2b       	or	r16, r24
 
 		i2c_clock();
- a64:	45 df       	rcall	.-374    	; 0x8f0 <i2c_clock>
+ 51e:	45 df       	rcall	.-374    	; 0x3aa <i2c_clock>
 	SDA_HIGH;
 	
 	DDRB &= ~(1 << PB0);	//set pin0 to input; turn off pin
 	SDA_HIGH;				//enable pull up; turn on pin
 	
 	for(i = 8; i > 0; i--)
- a66:	11 50       	subi	r17, 0x01	; 1
- a68:	99 f7       	brne	.-26     	; 0xa50 <i2c_read+0x3c>
+ 520:	11 50       	subi	r17, 0x01	; 1
+ 522:	99 f7       	brne	.-26     	; 0x50a <i2c_read+0x3c>
 		//OR byte bit with SDA
 		byte |= (PINB & (1<<PB0));
 
 		i2c_clock();
 	}
 	DDRB |= (1 << PB0);	//set pin0 to output
- a6a:	e7 e3       	ldi	r30, 0x37	; 55
- a6c:	f0 e0       	ldi	r31, 0x00	; 0
- a6e:	80 81       	ld	r24, Z
- a70:	81 60       	ori	r24, 0x01	; 1
- a72:	80 83       	st	Z, r24
+ 524:	e7 e3       	ldi	r30, 0x37	; 55
+ 526:	f0 e0       	ldi	r31, 0x00	; 0
+ 528:	80 81       	ld	r24, Z
+ 52a:	81 60       	ori	r24, 0x01	; 1
+ 52c:	80 83       	st	Z, r24
 	
 	//9th bit master acknowledges data transfer or indicates last byte
 	if(last_byte == 1)
- a74:	f1 e0       	ldi	r31, 0x01	; 1
- a76:	df 16       	cp	r13, r31
- a78:	31 f4       	brne	.+12     	; 0xa86 <i2c_read+0x72>
+ 52e:	f1 e0       	ldi	r31, 0x01	; 1
+ 530:	df 16       	cp	r13, r31
+ 532:	31 f4       	brne	.+12     	; 0x540 <i2c_read+0x72>
 		SDA_HIGH;
- a7a:	e8 e3       	ldi	r30, 0x38	; 56
- a7c:	f0 e0       	ldi	r31, 0x00	; 0
- a7e:	80 81       	ld	r24, Z
- a80:	81 60       	ori	r24, 0x01	; 1
- a82:	80 83       	st	Z, r24
- a84:	05 c0       	rjmp	.+10     	; 0xa90 <i2c_read+0x7c>
+ 534:	e8 e3       	ldi	r30, 0x38	; 56
+ 536:	f0 e0       	ldi	r31, 0x00	; 0
+ 538:	80 81       	ld	r24, Z
+ 53a:	81 60       	ori	r24, 0x01	; 1
+ 53c:	80 83       	st	Z, r24
+ 53e:	05 c0       	rjmp	.+10     	; 0x54a <i2c_read+0x7c>
 	else
 		SDA_LOW;
- a86:	e8 e3       	ldi	r30, 0x38	; 56
- a88:	f0 e0       	ldi	r31, 0x00	; 0
- a8a:	80 81       	ld	r24, Z
- a8c:	8e 7f       	andi	r24, 0xFE	; 254
- a8e:	80 83       	st	Z, r24
+ 540:	e8 e3       	ldi	r30, 0x38	; 56
+ 542:	f0 e0       	ldi	r31, 0x00	; 0
+ 544:	80 81       	ld	r24, Z
+ 546:	8e 7f       	andi	r24, 0xFE	; 254
+ 548:	80 83       	st	Z, r24
 	//SDA = last_byte;
 	
 	i2c_clock();
- a90:	2f df       	rcall	.-418    	; 0x8f0 <i2c_clock>
+ 54a:	2f df       	rcall	.-418    	; 0x3aa <i2c_clock>
 	
 	return byte;
 }
- a92:	80 2f       	mov	r24, r16
- a94:	df 91       	pop	r29
- a96:	cf 91       	pop	r28
- a98:	1f 91       	pop	r17
- a9a:	0f 91       	pop	r16
- a9c:	ff 90       	pop	r15
- a9e:	ef 90       	pop	r14
- aa0:	df 90       	pop	r13
- aa2:	08 95       	ret
+ 54c:	80 2f       	mov	r24, r16
+ 54e:	df 91       	pop	r29
+ 550:	cf 91       	pop	r28
+ 552:	1f 91       	pop	r17
+ 554:	0f 91       	pop	r16
+ 556:	ff 90       	pop	r15
+ 558:	ef 90       	pop	r14
+ 55a:	df 90       	pop	r13
+ 55c:	08 95       	ret
 
-00000aa4 <i2c_write>:
+0000055e <i2c_write>:
 
 void i2c_write(unsigned char byte)
 {
- aa4:	0f 93       	push	r16
- aa6:	1f 93       	push	r17
- aa8:	cf 93       	push	r28
- aaa:	df 93       	push	r29
- aac:	08 2f       	mov	r16, r24
- aae:	18 e0       	ldi	r17, 0x08	; 8
+ 55e:	0f 93       	push	r16
+ 560:	1f 93       	push	r17
+ 562:	cf 93       	push	r28
+ 564:	df 93       	push	r29
+ 566:	08 2f       	mov	r16, r24
+ 568:	18 e0       	ldi	r17, 0x08	; 8
 	{
 		//bit shifts data by i and ANDs it to convert it to boolean
 		if((byte & 0x80))
 			SDA_HIGH;
 		else
 			SDA_LOW;
- ab0:	c8 e3       	ldi	r28, 0x38	; 56
- ab2:	d0 e0       	ldi	r29, 0x00	; 0
+ 56a:	c8 e3       	ldi	r28, 0x38	; 56
+ 56c:	d0 e0       	ldi	r29, 0x00	; 0
 {
 	char i;
 	for(i = 8; i > 0; i--)
 	{
 		//bit shifts data by i and ANDs it to convert it to boolean
 		if((byte & 0x80))
- ab4:	00 23       	and	r16, r16
- ab6:	24 f4       	brge	.+8      	; 0xac0 <i2c_write+0x1c>
+ 56e:	00 23       	and	r16, r16
+ 570:	24 f4       	brge	.+8      	; 0x57a <i2c_write+0x1c>
 			SDA_HIGH;
- ab8:	88 81       	ld	r24, Y
- aba:	81 60       	ori	r24, 0x01	; 1
- abc:	88 83       	st	Y, r24
- abe:	03 c0       	rjmp	.+6      	; 0xac6 <i2c_write+0x22>
+ 572:	88 81       	ld	r24, Y
+ 574:	81 60       	ori	r24, 0x01	; 1
+ 576:	88 83       	st	Y, r24
+ 578:	03 c0       	rjmp	.+6      	; 0x580 <i2c_write+0x22>
 		else
 			SDA_LOW;
- ac0:	88 81       	ld	r24, Y
- ac2:	8e 7f       	andi	r24, 0xFE	; 254
- ac4:	88 83       	st	Y, r24
+ 57a:	88 81       	ld	r24, Y
+ 57c:	8e 7f       	andi	r24, 0xFE	; 254
+ 57e:	88 83       	st	Y, r24
 		//SDA = byte & 0x80;	//Sends a 1 or 0 to SDA
 		
 		//pulse the clock
 		i2c_clock();
- ac6:	14 df       	rcall	.-472    	; 0x8f0 <i2c_clock>
+ 580:	14 df       	rcall	.-472    	; 0x3aa <i2c_clock>
 }
 
 void i2c_write(unsigned char byte)
 {
 	char i;
 	for(i = 8; i > 0; i--)
- ac8:	11 50       	subi	r17, 0x01	; 1
- aca:	11 f0       	breq	.+4      	; 0xad0 <i2c_write+0x2c>
+ 582:	11 50       	subi	r17, 0x01	; 1
+ 584:	11 f0       	breq	.+4      	; 0x58a <i2c_write+0x2c>
 		//SDA = byte & 0x80;	//Sends a 1 or 0 to SDA
 		
 		//pulse the clock
 		i2c_clock();
 		
 		byte <<= 1;
- acc:	00 0f       	add	r16, r16
- ace:	f2 cf       	rjmp	.-28     	; 0xab4 <i2c_write+0x10>
+ 586:	00 0f       	add	r16, r16
+ 588:	f2 cf       	rjmp	.-28     	; 0x56e <i2c_write+0x10>
 	}
 	
 	//set to high to detect ack bit
 	SDA_HIGH;
- ad0:	e8 e3       	ldi	r30, 0x38	; 56
- ad2:	f0 e0       	ldi	r31, 0x00	; 0
- ad4:	80 81       	ld	r24, Z
- ad6:	81 60       	ori	r24, 0x01	; 1
- ad8:	80 83       	st	Z, r24
+ 58a:	e8 e3       	ldi	r30, 0x38	; 56
+ 58c:	f0 e0       	ldi	r31, 0x00	; 0
+ 58e:	80 81       	ld	r24, Z
+ 590:	81 60       	ori	r24, 0x01	; 1
+ 592:	80 83       	st	Z, r24
 	
 	i2c_clock();
- ada:	0a df       	rcall	.-492    	; 0x8f0 <i2c_clock>
+ 594:	0a df       	rcall	.-492    	; 0x3aa <i2c_clock>
 
 }
- adc:	df 91       	pop	r29
- ade:	cf 91       	pop	r28
- ae0:	1f 91       	pop	r17
- ae2:	0f 91       	pop	r16
- ae4:	08 95       	ret
+ 596:	df 91       	pop	r29
+ 598:	cf 91       	pop	r28
+ 59a:	1f 91       	pop	r17
+ 59c:	0f 91       	pop	r16
+ 59e:	08 95       	ret
 
-00000ae6 <blink>:
+000005a0 <blink>:
 //#include "font6x8.h"
 
 void blink()
 {
 	//flash LED
 	PORTB |= (1 << PB4);	//on
- ae6:	e8 e3       	ldi	r30, 0x38	; 56
- ae8:	f0 e0       	ldi	r31, 0x00	; 0
- aea:	80 81       	ld	r24, Z
- aec:	80 61       	ori	r24, 0x10	; 16
- aee:	80 83       	st	Z, r24
+ 5a0:	e8 e3       	ldi	r30, 0x38	; 56
+ 5a2:	f0 e0       	ldi	r31, 0x00	; 0
+ 5a4:	80 81       	ld	r24, Z
+ 5a6:	80 61       	ori	r24, 0x10	; 16
+ 5a8:	80 83       	st	Z, r24
     milliseconds can be achieved.
  */
 void
 _delay_loop_2(uint16_t __count)
 {
 	__asm__ volatile (
- af0:	20 e5       	ldi	r18, 0x50	; 80
- af2:	33 ec       	ldi	r19, 0xC3	; 195
- af4:	c9 01       	movw	r24, r18
- af6:	01 97       	sbiw	r24, 0x01	; 1
- af8:	f1 f7       	brne	.-4      	; 0xaf6 <blink+0x10>
+ 5aa:	20 e5       	ldi	r18, 0x50	; 80
+ 5ac:	33 ec       	ldi	r19, 0xC3	; 195
+ 5ae:	c9 01       	movw	r24, r18
+ 5b0:	01 97       	sbiw	r24, 0x01	; 1
+ 5b2:	f1 f7       	brne	.-4      	; 0x5b0 <blink+0x10>
 	_delay_ms(200);
 	PORTB &= ~(1 << PB4);	//off
- afa:	80 81       	ld	r24, Z
- afc:	8f 7e       	andi	r24, 0xEF	; 239
- afe:	80 83       	st	Z, r24
- b00:	c9 01       	movw	r24, r18
- b02:	01 97       	sbiw	r24, 0x01	; 1
- b04:	f1 f7       	brne	.-4      	; 0xb02 <blink+0x1c>
+ 5b4:	80 81       	ld	r24, Z
+ 5b6:	8f 7e       	andi	r24, 0xEF	; 239
+ 5b8:	80 83       	st	Z, r24
+ 5ba:	c9 01       	movw	r24, r18
+ 5bc:	01 97       	sbiw	r24, 0x01	; 1
+ 5be:	f1 f7       	brne	.-4      	; 0x5bc <blink+0x1c>
 	_delay_ms(200);
 	
 	//flash LED
 	PORTB |= (1 << PB4);	//on
- b06:	80 81       	ld	r24, Z
- b08:	80 61       	ori	r24, 0x10	; 16
- b0a:	80 83       	st	Z, r24
- b0c:	c9 01       	movw	r24, r18
- b0e:	01 97       	sbiw	r24, 0x01	; 1
- b10:	f1 f7       	brne	.-4      	; 0xb0e <blink+0x28>
+ 5c0:	80 81       	ld	r24, Z
+ 5c2:	80 61       	ori	r24, 0x10	; 16
+ 5c4:	80 83       	st	Z, r24
+ 5c6:	c9 01       	movw	r24, r18
+ 5c8:	01 97       	sbiw	r24, 0x01	; 1
+ 5ca:	f1 f7       	brne	.-4      	; 0x5c8 <blink+0x28>
 	_delay_ms(200);
 	PORTB &= ~(1 << PB4);	//off
- b12:	80 81       	ld	r24, Z
- b14:	8f 7e       	andi	r24, 0xEF	; 239
- b16:	80 83       	st	Z, r24
+ 5cc:	80 81       	ld	r24, Z
+ 5ce:	8f 7e       	andi	r24, 0xEF	; 239
+ 5d0:	80 83       	st	Z, r24
 }
- b18:	08 95       	ret
+ 5d2:	08 95       	ret
 
-00000b1a <main>:
+000005d4 <main>:
 	0xAF			// Display ON in normal mode
 	
 };
 
 int main(void)
 {
- b1a:	cf 92       	push	r12
- b1c:	df 92       	push	r13
- b1e:	ef 92       	push	r14
- b20:	ff 92       	push	r15
- b22:	0f 93       	push	r16
- b24:	1f 93       	push	r17
- b26:	cf 93       	push	r28
- b28:	df 93       	push	r29
+ 5d4:	0f 93       	push	r16
+ 5d6:	1f 93       	push	r17
+ 5d8:	cf 93       	push	r28
+ 5da:	df 93       	push	r29
 	DDRB |= (1 << PB4); //set led to output
- b2a:	e7 e3       	ldi	r30, 0x37	; 55
- b2c:	f0 e0       	ldi	r31, 0x00	; 0
- b2e:	80 81       	ld	r24, Z
- b30:	80 61       	ori	r24, 0x10	; 16
- b32:	80 83       	st	Z, r24
+ 5dc:	e7 e3       	ldi	r30, 0x37	; 55
+ 5de:	f0 e0       	ldi	r31, 0x00	; 0
+ 5e0:	80 81       	ld	r24, Z
+ 5e2:	80 61       	ori	r24, 0x10	; 16
+ 5e4:	80 83       	st	Z, r24
 	
 	init_i2c();
- b34:	cc de       	rcall	.-616    	; 0x8ce <init_i2c>
+ 5e6:	d0 de       	rcall	.-608    	; 0x388 <init_i2c>
 	
 	blink();
- b36:	d7 df       	rcall	.-82     	; 0xae6 <blink>
+ 5e8:	db df       	rcall	.-74     	; 0x5a0 <blink>
 	
 	oled_write_string("\n");
- b38:	80 e6       	ldi	r24, 0x60	; 96
- b3a:	90 e0       	ldi	r25, 0x00	; 0
- b3c:	f9 d0       	rcall	.+498    	; 0xd30 <oled_write_string>
- b3e:	ce e1       	ldi	r28, 0x1E	; 30
- b40:	d0 e0       	ldi	r29, 0x00	; 0
+ 5ea:	80 e6       	ldi	r24, 0x60	; 96
+ 5ec:	90 e0       	ldi	r25, 0x00	; 0
+ 5ee:	a1 d0       	rcall	.+322    	; 0x732 <oled_write_string>
+ 5f0:	ce e1       	ldi	r28, 0x1E	; 30
+ 5f2:	d0 e0       	ldi	r29, 0x00	; 0
 	
 	for (uint8_t i = 0; i < sizeof (ssd1306_init_sequence); i++) {
- b42:	0a e3       	ldi	r16, 0x3A	; 58
- b44:	10 e0       	ldi	r17, 0x00	; 0
+ 5f4:	0a e3       	ldi	r16, 0x3A	; 58
+ 5f6:	10 e0       	ldi	r17, 0x00	; 0
 		oled_control(pgm_read_byte(&ssd1306_init_sequence[i]));
- b46:	fe 01       	movw	r30, r28
- b48:	84 91       	lpm	r24, Z+
- b4a:	71 d0       	rcall	.+226    	; 0xc2e <oled_control>
- b4c:	21 96       	adiw	r28, 0x01	; 1
+ 5f8:	fe 01       	movw	r30, r28
+ 5fa:	84 91       	lpm	r24, Z+
+ 5fc:	28 d0       	rcall	.+80     	; 0x64e <oled_control>
+ 5fe:	21 96       	adiw	r28, 0x01	; 1
 	
 	blink();
 	
 	oled_write_string("\n");
 	
 	for (uint8_t i = 0; i < sizeof (ssd1306_init_sequence); i++) {
- b4e:	c0 17       	cp	r28, r16
- b50:	d1 07       	cpc	r29, r17
- b52:	c9 f7       	brne	.-14     	; 0xb46 <main+0x2c>
+ 600:	c0 17       	cp	r28, r16
+ 602:	d1 07       	cpc	r29, r17
+ 604:	c9 f7       	brne	.-14     	; 0x5f8 <main+0x24>
 		i2c_write(pgm_read_byte(&ssd1306_init_sequence[i]));
 		*/
 	}
 	//i2c_stop();
 	
 	if(eeprom_read_byte(0) == 0xFF)	//if new ATTINY
- b54:	80 e0       	ldi	r24, 0x00	; 0
- b56:	90 e0       	ldi	r25, 0x00	; 0
- b58:	a1 d1       	rcall	.+834    	; 0xe9c <__eerd_byte_tn85>
- b5a:	8f 3f       	cpi	r24, 0xFF	; 255
- b5c:	29 f4       	brne	.+10     	; 0xb68 <main+0x4e>
+ 606:	80 e0       	ldi	r24, 0x00	; 0
+ 608:	90 e0       	ldi	r25, 0x00	; 0
+ 60a:	a1 d0       	rcall	.+322    	; 0x74e <__eerd_byte_tn85>
+ 60c:	8f 3f       	cpi	r24, 0xFF	; 255
+ 60e:	29 f4       	brne	.+10     	; 0x61a <main+0x46>
 	{
 		bmpCalibration();	//run calibration to save data in EEPROM
- b5e:	6b de       	rcall	.-810    	; 0x836 <bmpCalibration>
+ 610:	62 de       	rcall	.-828    	; 0x2d6 <bmpCalibration>
 		eeprom_write_byte(0, 0);
- b60:	80 e0       	ldi	r24, 0x00	; 0
- b62:	90 e0       	ldi	r25, 0x00	; 0
- b64:	60 e0       	ldi	r22, 0x00	; 0
- b66:	a2 d1       	rcall	.+836    	; 0xeac <__eewr_byte_tn85>
+ 612:	80 e0       	ldi	r24, 0x00	; 0
+ 614:	90 e0       	ldi	r25, 0x00	; 0
+ 616:	60 e0       	ldi	r22, 0x00	; 0
+ 618:	a2 d0       	rcall	.+324    	; 0x75e <__eewr_byte_tn85>
 	
 	_delay_ms(1000);
 	oled_clear();
 	//oled_control(0xFF, OLED_DATA);
 	*/
 	oled_clear();
- b68:	82 d0       	rcall	.+260    	; 0xc6e <oled_clear>
+ 61a:	39 d0       	rcall	.+114    	; 0x68e <oled_clear>
 	//oled_write_int((bmp280GetTemp()/100));
 	short bmpTemp;
 	char INTbmpTemp;
 	unsigned long bmpPressure;
 	
 	oled_setpos(0,0);
- b6a:	80 e0       	ldi	r24, 0x00	; 0
- b6c:	60 e0       	ldi	r22, 0x00	; 0
- b6e:	6c d0       	rcall	.+216    	; 0xc48 <oled_setpos>
+ 61c:	80 e0       	ldi	r24, 0x00	; 0
+ 61e:	60 e0       	ldi	r22, 0x00	; 0
+ 620:	23 d0       	rcall	.+70     	; 0x668 <oled_setpos>
 	//oled_write_int(eeprom_read_byte(2));
 	//oled_setpos(0,1);
 	//oled_write_int(dig_T2);
 	//oled_setpos(0,2);
 	//oled_write_int(dig_T3);
 	bmpReset();
- b70:	54 de       	rcall	.-856    	; 0x81a <bmpReset>
+ 622:	4b de       	rcall	.-874    	; 0x2ba <bmpReset>
 	
 	//setting up sampling parameters
 	bmpSet(0x64, CONFIG); //standby time = 250ms, IIR filter =
- b72:	84 e6       	ldi	r24, 0x64	; 100
- b74:	65 ef       	ldi	r22, 0xF5	; 245
- b76:	41 de       	rcall	.-894    	; 0x7fa <bmpSet>
+ 624:	84 e6       	ldi	r24, 0x64	; 100
+ 626:	65 ef       	ldi	r22, 0xF5	; 245
+ 628:	38 de       	rcall	.-912    	; 0x29a <bmpSet>
 	bmpSet(0xFF, CTRL_MEAS); //x16 temperature oversampling, x16 pressure measurement, normal mode
- b78:	8f ef       	ldi	r24, 0xFF	; 255
- b7a:	64 ef       	ldi	r22, 0xF4	; 244
- b7c:	3e de       	rcall	.-900    	; 0x7fa <bmpSet>
-		
-		bmpPressure = bmp280GetPressure();
-		
-		
-		oled_setpos(0, 0);
-		oled_write_string("Temperature: ");
- b7e:	0f 2e       	mov	r0, r31
- b80:	f2 e6       	ldi	r31, 0x62	; 98
- b82:	cf 2e       	mov	r12, r31
- b84:	f0 e0       	ldi	r31, 0x00	; 0
- b86:	df 2e       	mov	r13, r31
- b88:	f0 2d       	mov	r31, r0
-		oled_write_int(bmp280GetTemp() / 100);
-		oled_write_char('.');
-		oled_write_int(bmp280GetTemp() % 100);
-		
-		oled_setpos(0,2);
-		oled_write_string("Pressure: ");
- b8a:	c0 e7       	ldi	r28, 0x70	; 112
- b8c:	d0 e0       	ldi	r29, 0x00	; 0
-	
-	
-    while (1) 
-    {
-		
-		bmpPressure = bmp280GetPressure();
- b8e:	85 db       	rcall	.-2294   	; 0x29a <bmp280GetPressure>
- b90:	7b 01       	movw	r14, r22
- b92:	8c 01       	movw	r16, r24
-		
-		
-		oled_setpos(0, 0);
- b94:	80 e0       	ldi	r24, 0x00	; 0
- b96:	60 e0       	ldi	r22, 0x00	; 0
- b98:	57 d0       	rcall	.+174    	; 0xc48 <oled_setpos>
-		oled_write_string("Temperature: ");
- b9a:	c6 01       	movw	r24, r12
- b9c:	c9 d0       	rcall	.+402    	; 0xd30 <oled_write_string>
-		oled_write_int(bmp280GetTemp() / 100);
- b9e:	28 dd       	rcall	.-1456   	; 0x5f0 <bmp280GetTemp>
- ba0:	24 e6       	ldi	r18, 0x64	; 100
- ba2:	30 e0       	ldi	r19, 0x00	; 0
- ba4:	40 e0       	ldi	r20, 0x00	; 0
- ba6:	50 e0       	ldi	r21, 0x00	; 0
- ba8:	5e d1       	rcall	.+700    	; 0xe66 <__divmodsi4>
- baa:	82 2f       	mov	r24, r18
- bac:	b2 d0       	rcall	.+356    	; 0xd12 <oled_write_int>
-		oled_write_char('.');
- bae:	8e e2       	ldi	r24, 0x2E	; 46
- bb0:	79 d0       	rcall	.+242    	; 0xca4 <oled_write_char>
-		oled_write_int(bmp280GetTemp() % 100);
- bb2:	1e dd       	rcall	.-1476   	; 0x5f0 <bmp280GetTemp>
- bb4:	24 e6       	ldi	r18, 0x64	; 100
- bb6:	30 e0       	ldi	r19, 0x00	; 0
- bb8:	40 e0       	ldi	r20, 0x00	; 0
- bba:	50 e0       	ldi	r21, 0x00	; 0
- bbc:	54 d1       	rcall	.+680    	; 0xe66 <__divmodsi4>
- bbe:	86 2f       	mov	r24, r22
- bc0:	a8 d0       	rcall	.+336    	; 0xd12 <oled_write_int>
-		
-		oled_setpos(0,2);
- bc2:	80 e0       	ldi	r24, 0x00	; 0
- bc4:	62 e0       	ldi	r22, 0x02	; 2
- bc6:	40 d0       	rcall	.+128    	; 0xc48 <oled_setpos>
-		oled_write_string("Pressure: ");
- bc8:	ce 01       	movw	r24, r28
- bca:	b2 d0       	rcall	.+356    	; 0xd30 <oled_write_string>
-		oled_write_int(bmpPressure / 1000);
- bcc:	c8 01       	movw	r24, r16
- bce:	b7 01       	movw	r22, r14
- bd0:	28 ee       	ldi	r18, 0xE8	; 232
- bd2:	33 e0       	ldi	r19, 0x03	; 3
- bd4:	40 e0       	ldi	r20, 0x00	; 0
- bd6:	50 e0       	ldi	r21, 0x00	; 0
- bd8:	24 d1       	rcall	.+584    	; 0xe22 <__udivmodsi4>
- bda:	82 2f       	mov	r24, r18
- bdc:	9a d0       	rcall	.+308    	; 0xd12 <oled_write_int>
-		oled_write_int((bmpPressure % 1000) / 100);
- bde:	c8 01       	movw	r24, r16
- be0:	b7 01       	movw	r22, r14
- be2:	28 ee       	ldi	r18, 0xE8	; 232
- be4:	33 e0       	ldi	r19, 0x03	; 3
- be6:	40 e0       	ldi	r20, 0x00	; 0
- be8:	50 e0       	ldi	r21, 0x00	; 0
- bea:	1b d1       	rcall	.+566    	; 0xe22 <__udivmodsi4>
- bec:	24 e6       	ldi	r18, 0x64	; 100
- bee:	30 e0       	ldi	r19, 0x00	; 0
- bf0:	40 e0       	ldi	r20, 0x00	; 0
- bf2:	50 e0       	ldi	r21, 0x00	; 0
- bf4:	16 d1       	rcall	.+556    	; 0xe22 <__udivmodsi4>
- bf6:	82 2f       	mov	r24, r18
- bf8:	8c d0       	rcall	.+280    	; 0xd12 <oled_write_int>
-		oled_write_char('.');
- bfa:	8e e2       	ldi	r24, 0x2E	; 46
- bfc:	53 d0       	rcall	.+166    	; 0xca4 <oled_write_char>
-		oled_write_int(bmpPressure % 100);	//add <10 check thing
- bfe:	c8 01       	movw	r24, r16
- c00:	b7 01       	movw	r22, r14
- c02:	24 e6       	ldi	r18, 0x64	; 100
- c04:	30 e0       	ldi	r19, 0x00	; 0
- c06:	40 e0       	ldi	r20, 0x00	; 0
- c08:	50 e0       	ldi	r21, 0x00	; 0
- c0a:	0b d1       	rcall	.+534    	; 0xe22 <__udivmodsi4>
- c0c:	86 2f       	mov	r24, r22
- c0e:	81 d0       	rcall	.+258    	; 0xd12 <oled_write_int>
+ 62a:	8f ef       	ldi	r24, 0xFF	; 255
+ 62c:	64 ef       	ldi	r22, 0xF4	; 244
+ 62e:	35 de       	rcall	.-918    	; 0x29a <bmpSet>
 		/*
 		oled_fill();
 		_delay_ms(1000);
 		oled_clear();
 		*/
 		blink();
- c10:	6a df       	rcall	.-300    	; 0xae6 <blink>
- c12:	bd cf       	rjmp	.-134    	; 0xb8e <main+0x74>
+ 630:	b7 df       	rcall	.-146    	; 0x5a0 <blink>
+ 632:	fe cf       	rjmp	.-4      	; 0x630 <main+0x5c>
 
-00000c14 <oled_data>:
+00000634 <oled_data>:
 }
 
 /*send data to oled
 */
 void oled_data(char data)
 {
- c14:	1f 93       	push	r17
- c16:	18 2f       	mov	r17, r24
+ 634:	1f 93       	push	r17
+ 636:	18 2f       	mov	r17, r24
 	//oled_checkposx();	//check if data in range
 	
 	i2c_start();
- c18:	77 de       	rcall	.-786    	; 0x908 <i2c_start>
+ 638:	c4 de       	rcall	.-632    	; 0x3c2 <i2c_start>
 	i2c_device_id(OLED, WRITE);
- c1a:	8c e3       	ldi	r24, 0x3C	; 60
- c1c:	60 e0       	ldi	r22, 0x00	; 0
- c1e:	9e de       	rcall	.-708    	; 0x95c <i2c_device_id>
+ 63a:	8c e3       	ldi	r24, 0x3C	; 60
+ 63c:	60 e0       	ldi	r22, 0x00	; 0
+ 63e:	eb de       	rcall	.-554    	; 0x416 <i2c_device_id>
 	i2c_write(OLED_DATA);		//DATA byte
- c20:	80 e4       	ldi	r24, 0x40	; 64
- c22:	40 df       	rcall	.-384    	; 0xaa4 <i2c_write>
+ 640:	80 e4       	ldi	r24, 0x40	; 64
+ 642:	8d df       	rcall	.-230    	; 0x55e <i2c_write>
 	i2c_write(data);
- c24:	81 2f       	mov	r24, r17
- c26:	3e df       	rcall	.-388    	; 0xaa4 <i2c_write>
+ 644:	81 2f       	mov	r24, r17
+ 646:	8b df       	rcall	.-234    	; 0x55e <i2c_write>
 	i2c_stop();
- c28:	84 de       	rcall	.-760    	; 0x932 <i2c_stop>
+ 648:	d1 de       	rcall	.-606    	; 0x3ec <i2c_stop>
 }
- c2a:	1f 91       	pop	r17
- c2c:	08 95       	ret
+ 64a:	1f 91       	pop	r17
+ 64c:	08 95       	ret
 
-00000c2e <oled_control>:
+0000064e <oled_control>:
 }
 
 /*send commands to oled
 */
 void oled_control(char command)
 {
- c2e:	1f 93       	push	r17
- c30:	18 2f       	mov	r17, r24
+ 64e:	1f 93       	push	r17
+ 650:	18 2f       	mov	r17, r24
 	i2c_start();
- c32:	6a de       	rcall	.-812    	; 0x908 <i2c_start>
+ 652:	b7 de       	rcall	.-658    	; 0x3c2 <i2c_start>
 	i2c_device_id(OLED, WRITE);
- c34:	8c e3       	ldi	r24, 0x3C	; 60
- c36:	60 e0       	ldi	r22, 0x00	; 0
- c38:	91 de       	rcall	.-734    	; 0x95c <i2c_device_id>
+ 654:	8c e3       	ldi	r24, 0x3C	; 60
+ 656:	60 e0       	ldi	r22, 0x00	; 0
+ 658:	de de       	rcall	.-580    	; 0x416 <i2c_device_id>
 	i2c_write(OLED_COMMAND);		//control byte
- c3a:	80 e0       	ldi	r24, 0x00	; 0
- c3c:	33 df       	rcall	.-410    	; 0xaa4 <i2c_write>
+ 65a:	80 e0       	ldi	r24, 0x00	; 0
+ 65c:	80 df       	rcall	.-256    	; 0x55e <i2c_write>
 	i2c_write(command);	
- c3e:	81 2f       	mov	r24, r17
- c40:	31 df       	rcall	.-414    	; 0xaa4 <i2c_write>
+ 65e:	81 2f       	mov	r24, r17
+ 660:	7e df       	rcall	.-260    	; 0x55e <i2c_write>
 	i2c_stop();
- c42:	77 de       	rcall	.-786    	; 0x932 <i2c_stop>
+ 662:	c4 de       	rcall	.-632    	; 0x3ec <i2c_stop>
 }
- c44:	1f 91       	pop	r17
- c46:	08 95       	ret
+ 664:	1f 91       	pop	r17
+ 666:	08 95       	ret
 
-00000c48 <oled_setpos>:
+00000668 <oled_setpos>:
 */
 /*sets cursor position.
  ARGS: x = 0-127, y = 0-7
 */
 void oled_setpos(char x, char y)
 {
- c48:	0f 93       	push	r16
- c4a:	1f 93       	push	r17
- c4c:	18 2f       	mov	r17, r24
- c4e:	06 2f       	mov	r16, r22
+ 668:	0f 93       	push	r16
+ 66a:	1f 93       	push	r17
+ 66c:	18 2f       	mov	r17, r24
+ 66e:	06 2f       	mov	r16, r22
 	//add data verification
 	oled_control(OLED_COLUMNADDR);
- c50:	81 e2       	ldi	r24, 0x21	; 33
- c52:	ed df       	rcall	.-38     	; 0xc2e <oled_control>
+ 670:	81 e2       	ldi	r24, 0x21	; 33
+ 672:	ed df       	rcall	.-38     	; 0x64e <oled_control>
 	oled_control(x);
- c54:	81 2f       	mov	r24, r17
- c56:	eb df       	rcall	.-42     	; 0xc2e <oled_control>
+ 674:	81 2f       	mov	r24, r17
+ 676:	eb df       	rcall	.-42     	; 0x64e <oled_control>
 	oled_control(127);
- c58:	8f e7       	ldi	r24, 0x7F	; 127
- c5a:	e9 df       	rcall	.-46     	; 0xc2e <oled_control>
+ 678:	8f e7       	ldi	r24, 0x7F	; 127
+ 67a:	e9 df       	rcall	.-46     	; 0x64e <oled_control>
 	
 	oled_control(OLED_PAGEADDR);
- c5c:	82 e2       	ldi	r24, 0x22	; 34
- c5e:	e7 df       	rcall	.-50     	; 0xc2e <oled_control>
+ 67c:	82 e2       	ldi	r24, 0x22	; 34
+ 67e:	e7 df       	rcall	.-50     	; 0x64e <oled_control>
 	oled_control(y);
- c60:	80 2f       	mov	r24, r16
- c62:	e5 df       	rcall	.-54     	; 0xc2e <oled_control>
+ 680:	80 2f       	mov	r24, r16
+ 682:	e5 df       	rcall	.-54     	; 0x64e <oled_control>
 	oled_control(7);
- c64:	87 e0       	ldi	r24, 0x07	; 7
- c66:	e3 df       	rcall	.-58     	; 0xc2e <oled_control>
+ 684:	87 e0       	ldi	r24, 0x07	; 7
+ 686:	e3 df       	rcall	.-58     	; 0x64e <oled_control>
 }
- c68:	1f 91       	pop	r17
- c6a:	0f 91       	pop	r16
- c6c:	08 95       	ret
+ 688:	1f 91       	pop	r17
+ 68a:	0f 91       	pop	r16
+ 68c:	08 95       	ret
 
-00000c6e <oled_clear>:
+0000068e <oled_clear>:
 }
 
 /*clears the display with blank
 */
 void oled_clear()
 {
- c6e:	ff 92       	push	r15
- c70:	0f 93       	push	r16
- c72:	1f 93       	push	r17
+ 68e:	ff 92       	push	r15
+ 690:	0f 93       	push	r16
+ 692:	1f 93       	push	r17
 	unsigned char page, x;
 	
 	oled_setpos(0, 0);
- c74:	80 e0       	ldi	r24, 0x00	; 0
- c76:	60 e0       	ldi	r22, 0x00	; 0
- c78:	e7 df       	rcall	.-50     	; 0xc48 <oled_setpos>
- c7a:	ff 24       	eor	r15, r15
+ 694:	80 e0       	ldi	r24, 0x00	; 0
+ 696:	60 e0       	ldi	r22, 0x00	; 0
+ 698:	e7 df       	rcall	.-50     	; 0x668 <oled_setpos>
+ 69a:	ff 24       	eor	r15, r15
 	{
 		for(x = 0; x <= OLEDX; x++)
 			oled_data(0x00);
 	}
 	oled_setpos(0, 0);
 }
- c7c:	00 e0       	ldi	r16, 0x00	; 0
- c7e:	10 c0       	rjmp	.+32     	; 0xca0 <oled_clear+0x32>
+ 69c:	00 e0       	ldi	r16, 0x00	; 0
+ 69e:	10 c0       	rjmp	.+32     	; 0x6c0 <oled_clear+0x32>
 	oled_setpos(0, 0);
 	
 	for(page = 0; page <= OLEDY; page++)
 	{
 		for(x = 0; x <= OLEDX; x++)
 			oled_data(0x00);
- c80:	80 2f       	mov	r24, r16
- c82:	c8 df       	rcall	.-112    	; 0xc14 <oled_data>
+ 6a0:	80 2f       	mov	r24, r16
+ 6a2:	c8 df       	rcall	.-112    	; 0x634 <oled_data>
 	
 	oled_setpos(0, 0);
 	
 	for(page = 0; page <= OLEDY; page++)
 	{
 		for(x = 0; x <= OLEDX; x++)
- c84:	1f 5f       	subi	r17, 0xFF	; 255
- c86:	10 38       	cpi	r17, 0x80	; 128
- c88:	d9 f7       	brne	.-10     	; 0xc80 <oled_clear+0x12>
+ 6a4:	1f 5f       	subi	r17, 0xFF	; 255
+ 6a6:	10 38       	cpi	r17, 0x80	; 128
+ 6a8:	d9 f7       	brne	.-10     	; 0x6a0 <oled_clear+0x12>
 {
 	unsigned char page, x;
 	
 	oled_setpos(0, 0);
 	
 	for(page = 0; page <= OLEDY; page++)
- c8a:	f3 94       	inc	r15
- c8c:	88 e0       	ldi	r24, 0x08	; 8
- c8e:	f8 16       	cp	r15, r24
- c90:	39 f4       	brne	.+14     	; 0xca0 <oled_clear+0x32>
+ 6aa:	f3 94       	inc	r15
+ 6ac:	88 e0       	ldi	r24, 0x08	; 8
+ 6ae:	f8 16       	cp	r15, r24
+ 6b0:	39 f4       	brne	.+14     	; 0x6c0 <oled_clear+0x32>
 	{
 		for(x = 0; x <= OLEDX; x++)
 			oled_data(0x00);
 	}
 	oled_setpos(0, 0);
- c92:	80 e0       	ldi	r24, 0x00	; 0
- c94:	60 e0       	ldi	r22, 0x00	; 0
- c96:	d8 df       	rcall	.-80     	; 0xc48 <oled_setpos>
+ 6b2:	80 e0       	ldi	r24, 0x00	; 0
+ 6b4:	60 e0       	ldi	r22, 0x00	; 0
+ 6b6:	d8 df       	rcall	.-80     	; 0x668 <oled_setpos>
 }
- c98:	1f 91       	pop	r17
- c9a:	0f 91       	pop	r16
- c9c:	ff 90       	pop	r15
- c9e:	08 95       	ret
- ca0:	10 2f       	mov	r17, r16
- ca2:	ee cf       	rjmp	.-36     	; 0xc80 <oled_clear+0x12>
+ 6b8:	1f 91       	pop	r17
+ 6ba:	0f 91       	pop	r16
+ 6bc:	ff 90       	pop	r15
+ 6be:	08 95       	ret
+ 6c0:	10 2f       	mov	r17, r16
+ 6c2:	ee cf       	rjmp	.-36     	; 0x6a0 <oled_clear+0x12>
 
-00000ca4 <oled_write_char>:
+000006c4 <oled_write_char>:
 	i2c_write(data);
 	i2c_stop();
 }
 
 void oled_write_char(char ch)
 {
- ca4:	1f 93       	push	r17
- ca6:	cf 93       	push	r28
- ca8:	df 93       	push	r29
- caa:	18 2f       	mov	r17, r24
+ 6c4:	1f 93       	push	r17
+ 6c6:	cf 93       	push	r28
+ 6c8:	df 93       	push	r29
+ 6ca:	18 2f       	mov	r17, r24
 	//oled_checkposx();
 	
 	if(ch == '\n')	//go to newline
- cac:	8a 30       	cpi	r24, 0x0A	; 10
- cae:	89 f4       	brne	.+34     	; 0xcd2 <oled_write_char+0x2e>
+ 6cc:	8a 30       	cpi	r24, 0x0A	; 10
+ 6ce:	89 f4       	brne	.+34     	; 0x6f2 <oled_write_char+0x2e>
 	{
 		if(pos_y < 8)
- cb0:	60 91 90 00 	lds	r22, 0x0090
- cb4:	68 30       	cpi	r22, 0x08	; 8
- cb6:	30 f4       	brcc	.+12     	; 0xcc4 <oled_write_char+0x20>
+ 6d0:	60 91 62 00 	lds	r22, 0x0062
+ 6d4:	68 30       	cpi	r22, 0x08	; 8
+ 6d6:	30 f4       	brcc	.+12     	; 0x6e4 <oled_write_char+0x20>
 			oled_setpos(0, ++pos_y);
- cb8:	6f 5f       	subi	r22, 0xFF	; 255
- cba:	60 93 90 00 	sts	0x0090, r22
- cbe:	80 e0       	ldi	r24, 0x00	; 0
- cc0:	c3 df       	rcall	.-122    	; 0xc48 <oled_setpos>
- cc2:	23 c0       	rjmp	.+70     	; 0xd0a <oled_write_char+0x66>
+ 6d8:	6f 5f       	subi	r22, 0xFF	; 255
+ 6da:	60 93 62 00 	sts	0x0062, r22
+ 6de:	80 e0       	ldi	r24, 0x00	; 0
+ 6e0:	c3 df       	rcall	.-122    	; 0x668 <oled_setpos>
+ 6e2:	23 c0       	rjmp	.+70     	; 0x72a <oled_write_char+0x66>
 		else
 		{
 			pos_y = 0;
 			oled_setpos(0, ++pos_y);
- cc4:	81 e0       	ldi	r24, 0x01	; 1
- cc6:	80 93 90 00 	sts	0x0090, r24
- cca:	80 e0       	ldi	r24, 0x00	; 0
- ccc:	61 e0       	ldi	r22, 0x01	; 1
- cce:	bc df       	rcall	.-136    	; 0xc48 <oled_setpos>
- cd0:	1c c0       	rjmp	.+56     	; 0xd0a <oled_write_char+0x66>
+ 6e4:	81 e0       	ldi	r24, 0x01	; 1
+ 6e6:	80 93 62 00 	sts	0x0062, r24
+ 6ea:	80 e0       	ldi	r24, 0x00	; 0
+ 6ec:	61 e0       	ldi	r22, 0x01	; 1
+ 6ee:	bc df       	rcall	.-136    	; 0x668 <oled_setpos>
+ 6f0:	1c c0       	rjmp	.+56     	; 0x72a <oled_write_char+0x66>
 		return;
 	}
 	
 	//convert ASCII to map address
 	ch -= 32;
 	i2c_start();
- cd2:	1a de       	rcall	.-972    	; 0x908 <i2c_start>
+ 6f2:	67 de       	rcall	.-818    	; 0x3c2 <i2c_start>
 	i2c_device_id(OLED, WRITE);
- cd4:	8c e3       	ldi	r24, 0x3C	; 60
- cd6:	60 e0       	ldi	r22, 0x00	; 0
- cd8:	41 de       	rcall	.-894    	; 0x95c <i2c_device_id>
+ 6f4:	8c e3       	ldi	r24, 0x3C	; 60
+ 6f6:	60 e0       	ldi	r22, 0x00	; 0
+ 6f8:	8e de       	rcall	.-740    	; 0x416 <i2c_device_id>
 	i2c_write(OLED_DATA);
- cda:	80 e4       	ldi	r24, 0x40	; 64
- cdc:	e3 de       	rcall	.-570    	; 0xaa4 <i2c_write>
- cde:	21 2f       	mov	r18, r17
- ce0:	20 52       	subi	r18, 0x20	; 32
- ce2:	30 e0       	ldi	r19, 0x00	; 0
- ce4:	c9 01       	movw	r24, r18
- ce6:	88 0f       	add	r24, r24
- ce8:	99 1f       	adc	r25, r25
- cea:	82 0f       	add	r24, r18
- cec:	93 1f       	adc	r25, r19
- cee:	88 0f       	add	r24, r24
- cf0:	99 1f       	adc	r25, r25
- cf2:	ec 01       	movw	r28, r24
- cf4:	c6 5c       	subi	r28, 0xC6	; 198
- cf6:	df 4f       	sbci	r29, 0xFF	; 255
- cf8:	10 e0       	ldi	r17, 0x00	; 0
+ 6fa:	80 e4       	ldi	r24, 0x40	; 64
+ 6fc:	30 df       	rcall	.-416    	; 0x55e <i2c_write>
+ 6fe:	21 2f       	mov	r18, r17
+ 700:	20 52       	subi	r18, 0x20	; 32
+ 702:	30 e0       	ldi	r19, 0x00	; 0
+ 704:	c9 01       	movw	r24, r18
+ 706:	88 0f       	add	r24, r24
+ 708:	99 1f       	adc	r25, r25
+ 70a:	82 0f       	add	r24, r18
+ 70c:	93 1f       	adc	r25, r19
+ 70e:	88 0f       	add	r24, r24
+ 710:	99 1f       	adc	r25, r25
+ 712:	ec 01       	movw	r28, r24
+ 714:	c6 5c       	subi	r28, 0xC6	; 198
+ 716:	df 4f       	sbci	r29, 0xFF	; 255
+ 718:	10 e0       	ldi	r17, 0x00	; 0
 
 	for (char i= 0; i < 6; i++)
 	{
 		i2c_write(pgm_read_byte(&oled_font6x8[ch * 6 + i]));
- cfa:	fe 01       	movw	r30, r28
- cfc:	84 91       	lpm	r24, Z+
- cfe:	d2 de       	rcall	.-604    	; 0xaa4 <i2c_write>
+ 71a:	fe 01       	movw	r30, r28
+ 71c:	84 91       	lpm	r24, Z+
+ 71e:	1f df       	rcall	.-450    	; 0x55e <i2c_write>
 	ch -= 32;
 	i2c_start();
 	i2c_device_id(OLED, WRITE);
 	i2c_write(OLED_DATA);
 
 	for (char i= 0; i < 6; i++)
- d00:	1f 5f       	subi	r17, 0xFF	; 255
- d02:	21 96       	adiw	r28, 0x01	; 1
- d04:	16 30       	cpi	r17, 0x06	; 6
- d06:	c9 f7       	brne	.-14     	; 0xcfa <oled_write_char+0x56>
+ 720:	1f 5f       	subi	r17, 0xFF	; 255
+ 722:	21 96       	adiw	r28, 0x01	; 1
+ 724:	16 30       	cpi	r17, 0x06	; 6
+ 726:	c9 f7       	brne	.-14     	; 0x71a <oled_write_char+0x56>
 	{
 		i2c_write(pgm_read_byte(&oled_font6x8[ch * 6 + i]));
 	}
 	i2c_stop();
- d08:	14 de       	rcall	.-984    	; 0x932 <i2c_stop>
+ 728:	61 de       	rcall	.-830    	; 0x3ec <i2c_stop>
 }
- d0a:	df 91       	pop	r29
- d0c:	cf 91       	pop	r28
- d0e:	1f 91       	pop	r17
- d10:	08 95       	ret
+ 72a:	df 91       	pop	r29
+ 72c:	cf 91       	pop	r28
+ 72e:	1f 91       	pop	r17
+ 730:	08 95       	ret
 
-00000d12 <oled_write_int>:
-	}
-	oled_write_char(pos_x);
-}
-
-void oled_write_int(unsigned char value)
-{
- d12:	cf 93       	push	r28
- d14:	df 93       	push	r29
-
-	char *arr;
-	
-	arr = convert(value);
- d16:	30 d0       	rcall	.+96     	; 0xd78 <convert>
- d18:	ec 01       	movw	r28, r24
-	
-	while(*arr != '\0')
- d1a:	88 81       	ld	r24, Y
- d1c:	88 23       	and	r24, r24
- d1e:	29 f0       	breq	.+10     	; 0xd2a <oled_write_int+0x18>
-		oled_write_char(*arr++);
- d20:	21 96       	adiw	r28, 0x01	; 1
- d22:	c0 df       	rcall	.-128    	; 0xca4 <oled_write_char>
-
-	char *arr;
-	
-	arr = convert(value);
-	
-	while(*arr != '\0')
- d24:	88 81       	ld	r24, Y
- d26:	88 23       	and	r24, r24
- d28:	d9 f7       	brne	.-10     	; 0xd20 <oled_write_int+0xe>
-		oled_write_char(*arr++);
- d2a:	df 91       	pop	r29
- d2c:	cf 91       	pop	r28
- d2e:	08 95       	ret
-
-00000d30 <oled_write_string>:
-	}
-	i2c_stop();
-}
+00000732 <oled_write_string>:
 
 void oled_write_string(char *str)
 {
- d30:	cf 93       	push	r28
- d32:	df 93       	push	r29
- d34:	ec 01       	movw	r28, r24
+ 732:	cf 93       	push	r28
+ 734:	df 93       	push	r29
+ 736:	ec 01       	movw	r28, r24
 	while(*str)
- d36:	88 81       	ld	r24, Y
- d38:	88 23       	and	r24, r24
- d3a:	29 f0       	breq	.+10     	; 0xd46 <oled_write_string+0x16>
+ 738:	88 81       	ld	r24, Y
+ 73a:	88 23       	and	r24, r24
+ 73c:	29 f0       	breq	.+10     	; 0x748 <oled_write_string+0x16>
 	{
 		oled_write_char(*str++);
- d3c:	21 96       	adiw	r28, 0x01	; 1
- d3e:	b2 df       	rcall	.-156    	; 0xca4 <oled_write_char>
+ 73e:	21 96       	adiw	r28, 0x01	; 1
+ 740:	c1 df       	rcall	.-126    	; 0x6c4 <oled_write_char>
 	i2c_stop();
 }
 
 void oled_write_string(char *str)
 {
 	while(*str)
- d40:	88 81       	ld	r24, Y
- d42:	88 23       	and	r24, r24
- d44:	d9 f7       	brne	.-10     	; 0xd3c <oled_write_string+0xc>
+ 742:	88 81       	ld	r24, Y
+ 744:	88 23       	and	r24, r24
+ 746:	d9 f7       	brne	.-10     	; 0x73e <oled_write_string+0xc>
 	{
 		oled_write_char(*str++);
 	}
-	oled_write_char(pos_x);
- d46:	80 91 91 00 	lds	r24, 0x0091
- d4a:	ac df       	rcall	.-168    	; 0xca4 <oled_write_char>
+	//oled_write_char(pos_x);
 }
- d4c:	df 91       	pop	r29
- d4e:	cf 91       	pop	r28
- d50:	08 95       	ret
+ 748:	df 91       	pop	r29
+ 74a:	cf 91       	pop	r28
+ 74c:	08 95       	ret
 
-00000d52 <reverse_array>:
-	
-	return array;
-}
+0000074e <__eerd_byte_tn85>:
+ 74e:	e1 99       	sbic	0x1c, 1	; 28
+ 750:	fe cf       	rjmp	.-4      	; 0x74e <__eerd_byte_tn85>
+ 752:	9f bb       	out	0x1f, r25	; 31
+ 754:	8e bb       	out	0x1e, r24	; 30
+ 756:	e0 9a       	sbi	0x1c, 0	; 28
+ 758:	99 27       	eor	r25, r25
+ 75a:	8d b3       	in	r24, 0x1d	; 29
+ 75c:	08 95       	ret
 
-void reverse_array(unsigned char *array, unsigned char end)
-{
- d52:	ac 01       	movw	r20, r24
-	unsigned char start = 0, temp;
-	
-	while(start < end)
- d54:	66 23       	and	r22, r22
- d56:	79 f0       	breq	.+30     	; 0xd76 <reverse_array+0x24>
- d58:	20 e0       	ldi	r18, 0x00	; 0
-	{
-		temp = array[start];
- d5a:	da 01       	movw	r26, r20
- d5c:	a2 0f       	add	r26, r18
- d5e:	b1 1d       	adc	r27, r1
- d60:	9c 91       	ld	r25, X
-		array[start] = array[end];
- d62:	fa 01       	movw	r30, r20
- d64:	e6 0f       	add	r30, r22
- d66:	f1 1d       	adc	r31, r1
- d68:	80 81       	ld	r24, Z
- d6a:	8c 93       	st	X, r24
-		array[end] = temp;
- d6c:	90 83       	st	Z, r25
-		start++;
- d6e:	2f 5f       	subi	r18, 0xFF	; 255
-		end--;
- d70:	61 50       	subi	r22, 0x01	; 1
+0000075e <__eewr_byte_tn85>:
+ 75e:	26 2f       	mov	r18, r22
 
-void reverse_array(unsigned char *array, unsigned char end)
-{
-	unsigned char start = 0, temp;
-	
-	while(start < end)
- d72:	26 17       	cp	r18, r22
- d74:	90 f3       	brcs	.-28     	; 0xd5a <reverse_array+0x8>
- d76:	08 95       	ret
+00000760 <__eewr_r18_tn85>:
+ 760:	e1 99       	sbic	0x1c, 1	; 28
+ 762:	fe cf       	rjmp	.-4      	; 0x760 <__eewr_r18_tn85>
+ 764:	1c ba       	out	0x1c, r1	; 28
+ 766:	9f bb       	out	0x1f, r25	; 31
+ 768:	8e bb       	out	0x1e, r24	; 30
+ 76a:	2d bb       	out	0x1d, r18	; 29
+ 76c:	0f b6       	in	r0, 0x3f	; 63
+ 76e:	f8 94       	cli
+ 770:	e2 9a       	sbi	0x1c, 2	; 28
+ 772:	e1 9a       	sbi	0x1c, 1	; 28
+ 774:	0f be       	out	0x3f, r0	; 63
+ 776:	01 96       	adiw	r24, 0x01	; 1
+ 778:	08 95       	ret
 
-00000d78 <convert>:
-*/
+0000077a <_exit>:
+ 77a:	f8 94       	cli
 
-
-//converts a char number value into separate ASCII
-char* convert(unsigned char value)
-{
- d78:	0f 93       	push	r16
- d7a:	1f 93       	push	r17
- d7c:	cf 93       	push	r28
- d7e:	df 93       	push	r29
- d80:	48 2f       	mov	r20, r24
- d82:	20 e0       	ldi	r18, 0x00	; 0
- d84:	30 e0       	ldi	r19, 0x00	; 0
-	static unsigned char array[4];	//3
-	
-	for(i = 0; i < 4; i++)
-	{
-		//puts value in array after being split by 1 character and converted to ascii.
-		array[i] = value % 10 + '0';
- d86:	cc e8       	ldi	r28, 0x8C	; 140
- d88:	d0 e0       	ldi	r29, 0x00	; 0
-*/
-
-
-//converts a char number value into separate ASCII
-char* convert(unsigned char value)
-{
- d8a:	52 2f       	mov	r21, r18
- d8c:	d9 01       	movw	r26, r18
-	static unsigned char array[4];	//3
-	
-	for(i = 0; i < 4; i++)
-	{
-		//puts value in array after being split by 1 character and converted to ascii.
-		array[i] = value % 10 + '0';
- d8e:	fe 01       	movw	r30, r28
- d90:	e2 0f       	add	r30, r18
- d92:	f3 1f       	adc	r31, r19
- d94:	84 2f       	mov	r24, r20
- d96:	6a e0       	ldi	r22, 0x0A	; 10
- d98:	38 d0       	rcall	.+112    	; 0xe0a <__udivmodqi4>
- d9a:	90 5d       	subi	r25, 0xD0	; 208
- d9c:	90 83       	st	Z, r25
-		
-		//checks if it's the last digit to process && ensures that it won't go out of bounds
-		if(value / 10 == 0)// && i < 3)
- d9e:	4a 30       	cpi	r20, 0x0A	; 10
- da0:	28 f4       	brcc	.+10     	; 0xdac <convert+0x34>
-		{
-			//if the number of digits uses is less than 3 e.g. 24, 1
-			//set a terminator value in the next position
-			array[i+1] = '\0';
- da2:	fd 01       	movw	r30, r26
- da4:	e3 57       	subi	r30, 0x73	; 115
- da6:	ff 4f       	sbci	r31, 0xFF	; 255
- da8:	10 82       	st	Z, r1
- daa:	0b c0       	rjmp	.+22     	; 0xdc2 <convert+0x4a>
-			break;
- dac:	5f 5f       	subi	r21, 0xFF	; 255
- dae:	2f 5f       	subi	r18, 0xFF	; 255
- db0:	3f 4f       	sbci	r19, 0xFF	; 255
-{
-	char i;
-	//support max of size char + NULL terminator
-	static unsigned char array[4];	//3
-	
-	for(i = 0; i < 4; i++)
- db2:	24 30       	cpi	r18, 0x04	; 4
- db4:	31 05       	cpc	r19, r1
- db6:	29 f0       	breq	.+10     	; 0xdc2 <convert+0x4a>
-			//if the number of digits uses is less than 3 e.g. 24, 1
-			//set a terminator value in the next position
-			array[i+1] = '\0';
-			break;
-		}
-		value /= 10;
- db8:	84 2f       	mov	r24, r20
- dba:	6a e0       	ldi	r22, 0x0A	; 10
- dbc:	26 d0       	rcall	.+76     	; 0xe0a <__udivmodqi4>
- dbe:	48 2f       	mov	r20, r24
- dc0:	e4 cf       	rjmp	.-56     	; 0xd8a <convert+0x12>
-	}
-	
-	//array is currently back to front, reverse to fix
-	reverse_array(array, i);
- dc2:	0c e8       	ldi	r16, 0x8C	; 140
- dc4:	10 e0       	ldi	r17, 0x00	; 0
- dc6:	c8 01       	movw	r24, r16
- dc8:	65 2f       	mov	r22, r21
- dca:	c3 df       	rcall	.-122    	; 0xd52 <reverse_array>
-	
-	return array;
-}
- dcc:	c8 01       	movw	r24, r16
- dce:	df 91       	pop	r29
- dd0:	cf 91       	pop	r28
- dd2:	1f 91       	pop	r17
- dd4:	0f 91       	pop	r16
- dd6:	08 95       	ret
-
-00000dd8 <__mulsi3>:
- dd8:	ff 27       	eor	r31, r31
- dda:	ee 27       	eor	r30, r30
- ddc:	bb 27       	eor	r27, r27
- dde:	aa 27       	eor	r26, r26
-
-00000de0 <__mulsi3_loop>:
- de0:	60 ff       	sbrs	r22, 0
- de2:	04 c0       	rjmp	.+8      	; 0xdec <__mulsi3_skip1>
- de4:	a2 0f       	add	r26, r18
- de6:	b3 1f       	adc	r27, r19
- de8:	e4 1f       	adc	r30, r20
- dea:	f5 1f       	adc	r31, r21
-
-00000dec <__mulsi3_skip1>:
- dec:	22 0f       	add	r18, r18
- dee:	33 1f       	adc	r19, r19
- df0:	44 1f       	adc	r20, r20
- df2:	55 1f       	adc	r21, r21
- df4:	96 95       	lsr	r25
- df6:	87 95       	ror	r24
- df8:	77 95       	ror	r23
- dfa:	67 95       	ror	r22
- dfc:	89 f7       	brne	.-30     	; 0xde0 <__mulsi3_loop>
- dfe:	00 97       	sbiw	r24, 0x00	; 0
- e00:	76 07       	cpc	r23, r22
- e02:	71 f7       	brne	.-36     	; 0xde0 <__mulsi3_loop>
-
-00000e04 <__mulsi3_exit>:
- e04:	cf 01       	movw	r24, r30
- e06:	bd 01       	movw	r22, r26
- e08:	08 95       	ret
-
-00000e0a <__udivmodqi4>:
- e0a:	99 1b       	sub	r25, r25
- e0c:	79 e0       	ldi	r23, 0x09	; 9
- e0e:	04 c0       	rjmp	.+8      	; 0xe18 <__udivmodqi4_ep>
-
-00000e10 <__udivmodqi4_loop>:
- e10:	99 1f       	adc	r25, r25
- e12:	96 17       	cp	r25, r22
- e14:	08 f0       	brcs	.+2      	; 0xe18 <__udivmodqi4_ep>
- e16:	96 1b       	sub	r25, r22
-
-00000e18 <__udivmodqi4_ep>:
- e18:	88 1f       	adc	r24, r24
- e1a:	7a 95       	dec	r23
- e1c:	c9 f7       	brne	.-14     	; 0xe10 <__udivmodqi4_loop>
- e1e:	80 95       	com	r24
- e20:	08 95       	ret
-
-00000e22 <__udivmodsi4>:
- e22:	a1 e2       	ldi	r26, 0x21	; 33
- e24:	1a 2e       	mov	r1, r26
- e26:	aa 1b       	sub	r26, r26
- e28:	bb 1b       	sub	r27, r27
- e2a:	fd 01       	movw	r30, r26
- e2c:	0d c0       	rjmp	.+26     	; 0xe48 <__udivmodsi4_ep>
-
-00000e2e <__udivmodsi4_loop>:
- e2e:	aa 1f       	adc	r26, r26
- e30:	bb 1f       	adc	r27, r27
- e32:	ee 1f       	adc	r30, r30
- e34:	ff 1f       	adc	r31, r31
- e36:	a2 17       	cp	r26, r18
- e38:	b3 07       	cpc	r27, r19
- e3a:	e4 07       	cpc	r30, r20
- e3c:	f5 07       	cpc	r31, r21
- e3e:	20 f0       	brcs	.+8      	; 0xe48 <__udivmodsi4_ep>
- e40:	a2 1b       	sub	r26, r18
- e42:	b3 0b       	sbc	r27, r19
- e44:	e4 0b       	sbc	r30, r20
- e46:	f5 0b       	sbc	r31, r21
-
-00000e48 <__udivmodsi4_ep>:
- e48:	66 1f       	adc	r22, r22
- e4a:	77 1f       	adc	r23, r23
- e4c:	88 1f       	adc	r24, r24
- e4e:	99 1f       	adc	r25, r25
- e50:	1a 94       	dec	r1
- e52:	69 f7       	brne	.-38     	; 0xe2e <__udivmodsi4_loop>
- e54:	60 95       	com	r22
- e56:	70 95       	com	r23
- e58:	80 95       	com	r24
- e5a:	90 95       	com	r25
- e5c:	9b 01       	movw	r18, r22
- e5e:	ac 01       	movw	r20, r24
- e60:	bd 01       	movw	r22, r26
- e62:	cf 01       	movw	r24, r30
- e64:	08 95       	ret
-
-00000e66 <__divmodsi4>:
- e66:	97 fb       	bst	r25, 7
- e68:	09 2e       	mov	r0, r25
- e6a:	05 26       	eor	r0, r21
- e6c:	0e d0       	rcall	.+28     	; 0xe8a <__divmodsi4_neg1>
- e6e:	57 fd       	sbrc	r21, 7
- e70:	04 d0       	rcall	.+8      	; 0xe7a <__divmodsi4_neg2>
- e72:	d7 df       	rcall	.-82     	; 0xe22 <__udivmodsi4>
- e74:	0a d0       	rcall	.+20     	; 0xe8a <__divmodsi4_neg1>
- e76:	00 1c       	adc	r0, r0
- e78:	38 f4       	brcc	.+14     	; 0xe88 <__divmodsi4_exit>
-
-00000e7a <__divmodsi4_neg2>:
- e7a:	50 95       	com	r21
- e7c:	40 95       	com	r20
- e7e:	30 95       	com	r19
- e80:	21 95       	neg	r18
- e82:	3f 4f       	sbci	r19, 0xFF	; 255
- e84:	4f 4f       	sbci	r20, 0xFF	; 255
- e86:	5f 4f       	sbci	r21, 0xFF	; 255
-
-00000e88 <__divmodsi4_exit>:
- e88:	08 95       	ret
-
-00000e8a <__divmodsi4_neg1>:
- e8a:	f6 f7       	brtc	.-4      	; 0xe88 <__divmodsi4_exit>
- e8c:	90 95       	com	r25
- e8e:	80 95       	com	r24
- e90:	70 95       	com	r23
- e92:	61 95       	neg	r22
- e94:	7f 4f       	sbci	r23, 0xFF	; 255
- e96:	8f 4f       	sbci	r24, 0xFF	; 255
- e98:	9f 4f       	sbci	r25, 0xFF	; 255
- e9a:	08 95       	ret
-
-00000e9c <__eerd_byte_tn85>:
- e9c:	e1 99       	sbic	0x1c, 1	; 28
- e9e:	fe cf       	rjmp	.-4      	; 0xe9c <__eerd_byte_tn85>
- ea0:	9f bb       	out	0x1f, r25	; 31
- ea2:	8e bb       	out	0x1e, r24	; 30
- ea4:	e0 9a       	sbi	0x1c, 0	; 28
- ea6:	99 27       	eor	r25, r25
- ea8:	8d b3       	in	r24, 0x1d	; 29
- eaa:	08 95       	ret
-
-00000eac <__eewr_byte_tn85>:
- eac:	26 2f       	mov	r18, r22
-
-00000eae <__eewr_r18_tn85>:
- eae:	e1 99       	sbic	0x1c, 1	; 28
- eb0:	fe cf       	rjmp	.-4      	; 0xeae <__eewr_r18_tn85>
- eb2:	1c ba       	out	0x1c, r1	; 28
- eb4:	9f bb       	out	0x1f, r25	; 31
- eb6:	8e bb       	out	0x1e, r24	; 30
- eb8:	2d bb       	out	0x1d, r18	; 29
- eba:	0f b6       	in	r0, 0x3f	; 63
- ebc:	f8 94       	cli
- ebe:	e2 9a       	sbi	0x1c, 2	; 28
- ec0:	e1 9a       	sbi	0x1c, 1	; 28
- ec2:	0f be       	out	0x3f, r0	; 63
- ec4:	01 96       	adiw	r24, 0x01	; 1
- ec6:	08 95       	ret
-
-00000ec8 <_exit>:
- ec8:	f8 94       	cli
-
-00000eca <__stop_program>:
- eca:	ff cf       	rjmp	.-2      	; 0xeca <__stop_program>
+0000077c <__stop_program>:
+ 77c:	ff cf       	rjmp	.-2      	; 0x77c <__stop_program>
