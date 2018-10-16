@@ -157,6 +157,9 @@
     <Compile Include="oled.h">
       <SubType>compile</SubType>
     </Compile>
+    <Compile Include="oledCustomChar.h">
+      <SubType>compile</SubType>
+    </Compile>
     <Compile Include="sht20.c">
       <SubType>compile</SubType>
     </Compile>

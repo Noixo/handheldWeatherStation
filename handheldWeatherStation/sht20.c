@@ -6,42 +6,75 @@
  */ 
 #include "sht20.h"
 #include "i2c.h"
-#include <math.h>
 #include <avr/io.h>
+#include "oled.h"
 
-char sht20_humidity()
+void sht_init()
 {
-	unsigned char humidity, raw_humidity;
-	
-	humidity = -6 + 125 * (raw_humidity/(pow(2, 16)));
-	
-	return humidity;
+	i2c_start();
+	i2c_device_id(SHT, WRITE);
+	i2c_write(0x24);	//some setting thing
+	i2c_stop();
 }
 
-char sht20_temp()
+char sht_humidity()
 {
-	static unsigned short temp, raw_temp;
+	unsigned short humidity, raw_humidity;
 	
 	i2c_start();
-	i2c_device_id(SHT20, WRITE);
-	i2c_write(SHT20T);
+	i2c_device_id(SHT, WRITE);
+	i2c_write(0xE5);	//humidity
 	
 	i2c_start();
-	i2c_device_id(SHT20, READ);
+	i2c_device_id(SHT, READ);
 	
 	//set SCL to input
 	DDRB &= ~(1 << PB2);	//set pin1 to input; turn off pin
 	SCL_HIGH;				//enable pull up; turn on pin
-	while(((PINB & (1 << PB0)) == 0));	//while SHT20 is low
+	while(((PINB & (1 << PB2)) == 0));	//while SHT20 is low
+	
+	DDRB |= (1 << PB2);		//set pin2 to output
+
+	//read SHT20 data
+	//oled_write_int(i2c_read(0));
+	//oled_write_char(' ');
+	//oled_write_int(i2c_read(1));
+	
+	raw_humidity = i2c_read(0);
+	raw_humidity <<= 8;
+	raw_humidity |= i2c_read(1);	//ignore checksum
+	
+	raw_humidity &= 0xFFF0;	//and with resolution
+	
+	humidity = -6 + (125 * (raw_humidity/65536));
+	
+	return humidity;
+}
+
+char sht_temp()
+{
+	static unsigned short temp, raw_temp;
+	
+	i2c_start();
+	i2c_device_id(SHT, WRITE);
+	i2c_write(0xE3);	//temp
+	
+	i2c_start();
+	i2c_device_id(SHT, READ);
+	
+	//set SCL to input
+	DDRB &= ~(1 << PB2);	//set pin1 to input; turn off pin
+	SCL_HIGH;				//enable pull up; turn on pin
+	while(((PINB & (1 << PB2)) == 0));	//while SHT20 is low
 		
-	DDRB |= (1 << PB0);		//set pin2 to output
+	DDRB |= (1 << PB2);		//set pin2 to output
 
 	//read SHT20 data
 	raw_temp = i2c_read(0);
 	raw_temp <<= 8;
 	raw_temp |= i2c_read(1);	//ignore checksum
 	
-	temp = -46.85 + 175.72 * (raw_temp/(pow(2, 16)));
+	temp = -46.85 + (175.72 * (raw_temp/65536));
 	
 	return temp;
 }

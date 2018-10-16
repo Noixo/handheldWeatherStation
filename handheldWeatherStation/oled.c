@@ -121,7 +121,7 @@ void oled_write_char(char ch)
 
 	for (char i= 0; i < 6; i++)
 	{
-		i2c_write(pgm_read_byte(&oled_font6x8[ch * 6 + i]));
+		i2c_write(pgm_read_byte(&oled_font6x8[ch * 6 + i]));	//*6 to select char, i increments through 
 	}
 	i2c_stop();
 }

@@ -16,7 +16,7 @@ PB5: RST
 
 /************************************************************************/
 /* TODO
-                                                                     */
+    Finish SHT20 code                                                    */
 /************************************************************************/
 
 #define F_CPU 1000000UL
@@ -26,11 +26,13 @@ PB5: RST
 #include <avr/eeprom.h>
 #include <avr/pgmspace.h>
 
+#include <stdlib.h>
+
 #include "i2c.h"
 #include "bmp280.h"
 #include "oled.h"
-
-//#include "font6x8.h"
+#include "sht20.h"
+#include "oledCustomChar.h"
 
 void blink()
 {
@@ -71,173 +73,133 @@ const uint8_t ssd1306_init_sequence [] PROGMEM = {	// Initialization Sequence
 	0x20,			// 0x20,0.77xVcc
 	0x8D, 0x14,		// Set DC-DC enable
 	0xAF			// Display ON in normal mode
-	
 };
+
+void display()
+{
+	//short bmpTemp;
+	//char INTbmpTemp;
+	unsigned long bmpPressure;
+	
+	bmp280GetTemp();
+	//bmpTemp = bmp280GetTemp();
+	//INTbmpTemp = bmpTemp / 100;
+	bmpPressure = bmp280GetPressure();
+	
+	oled_setpos(0,1);
+	
+	oled_write_string("Temperature: ");
+	//temp
+	oled_write_string("*C");
+	
+	oled_setpos(0,3);
+	
+	oled_write_string("Humidity: ");
+	//humdity
+	oled_write_string("%RH");
+	/*
+	oled_write_int((INTbmpTemp));
+	oled_write_char('.');
+	oled_write_int((bmpTemp % 100));
+	*/
+			
+	oled_setpos(0,5);
+	oled_write_string("Pressure: ");
+	oled_write_int(bmpPressure / 1000);
+	oled_write_int((bmpPressure % 1000) / 100);
+	oled_write_char('.');
+	if((bmpPressure % 100) < 10)
+		oled_write_char('0');
+	oled_write_int(bmpPressure % 100);	//add <10 check thing
+	oled_write_string("HPa");
+			
+}
+
+// 0 = empty
+//4 = full
+void battery()
+{
+	unsigned char convert;
+	
+	//get ADC
+	ADCSRA |= (1 << ADSC);
+	while(ADCSRA & (1 << ADSC));	//wait till done
+	
+	oled_setpos(OLEDX - 6,0);
+
+	//2V-3.3V
+	if(ADCH < 255 && ADCH > 213)	//full
+		convert = 4;
+		
+	if(ADCH < 213 && ADCH > 192)	//75%
+		convert = 3;
+		
+	if(ADCH < 192 && ADCH > 171)	//50%
+		convert = 2;
+	
+	if(ADCH < 171 && ADCH > 150)	//25%
+		convert = 1;
+	
+	if(ADCH < 150)	//ded @2V
+		convert = 0;
+
+	for(char i = 0; i < 6; i++)
+	{
+		oled_data(pgm_read_byte(&oled_customChar[convert * 6 + i]));
+	}
+}
+
+void adcInit()
+{
+	//VCC ref, PB4 input, ADLAR = 1
+	ADMUX = (1 << MUX1);
+	ADMUX |= (1 << ADLAR);
+			
+	ADCSRA = (1 << ADEN);
+	ADCSRA |= (1 << ADPS2);
+	ADCSRA |= (1 << ADPS1);
+	
+}
 
 int main(void)
 {
 	DDRB |= (1 << PB4); //set led to output
 	
+	adcInit();
 	init_i2c();
 	
-	blink();
-	
-	oled_write_string("\n");
-	
+	//start up OLED
 	for (uint8_t i = 0; i < sizeof (ssd1306_init_sequence); i++) {
 		oled_control(pgm_read_byte(&ssd1306_init_sequence[i]));
-		/*
-		i2c_start();
-		i2c_device_id(OLED, WRITE);
-		i2c_write(OLED_COMMAND);
-		i2c_write(pgm_read_byte(&ssd1306_init_sequence[i]));
-		*/
 	}
-	//i2c_stop();
 	
-	if(eeprom_read_byte(0) == 0xFF)	//if new ATTINY
+	
+	if(eeprom_read_byte((uint8_t*)0x00) == 0xFF)	//if new ATTINY
 	{
 		bmpCalibration();	//run calibration to save data in EEPROM
 		eeprom_write_byte(0, 0);
 	}
-	/*
-	//oled_control(OLED_INVERT, 0);
-	oled_control(OLED_CONTRAST);
-	//_delay_ms(1000);
-	oled_control(255);
-	
-	//oled_control(OLED_CONTRAST, OLED_COMMAND);
-	//_delay_ms(1000);
-	//oled_control(0, 1);
-	//oled_control(0xA6, 1);
-	oled_clear();
-	
-	oled_setpos(0,1);
-	oled_write_string("Hello, world!");
-	oled_setpos(0,3);
-	//oled_clear();
-	//_delay_ms(1000);
-	oled_write_string("apple pie!");
-	
-	_delay_ms(1000);
-	oled_clear();
-	//oled_control(0xFF, OLED_DATA);
-	*/
-	oled_clear();
-	//oled_write_string("Hello\n");
-		
-	//oled_write_string("THIS IS A TEST\n\n");
-		
-	//oled_write_string("THIS\n IS A LOOOOOOONNNNNGGGG    TEST\n");
-		
-	//oled_write_string("APPLE");
-	
-	//oled_write_int((bmp280GetTemp()/100));
-	short bmpTemp;
-	char INTbmpTemp;
-	unsigned long bmpPressure;
-	
-	oled_setpos(0,0);
-	//oled_write_int(eeprom_read_byte(1));
-	//oled_setpos(0,1);
-	//oled_write_int(eeprom_read_byte(2));
-	//oled_setpos(0,1);
-	//oled_write_int(dig_T2);
-	//oled_setpos(0,2);
-	//oled_write_int(dig_T3);
+
 	bmpReset();
 	
 	//setting up sampling parameters
 	bmpSet(0x64, CONFIG); //standby time = 250ms, IIR filter =
 	bmpSet(0xFF, CTRL_MEAS); //x16 temperature oversampling, x16 pressure measurement, normal mode
-	
-	/*
-	oled_write_int(eeprom_read_byte(1));
-	oled_write_int(eeprom_read_byte(2));
-	oled_write_char(' ');
-	oled_write_int(eeprom_read_byte(3));
-	oled_write_int(eeprom_read_byte(4));
-	oled_write_char(' ');
-	oled_write_int(eeprom_read_byte(5));
-	oled_write_int(eeprom_read_byte(6));
-	oled_write_char(' ');
-	oled_write_int(eeprom_read_byte(7));
-	oled_write_int(eeprom_read_byte(8));
-	oled_write_char(' ');
-	oled_write_int(eeprom_read_byte(9));
-	oled_write_int(eeprom_read_byte(10));
-	oled_write_char(' ');
-	oled_write_int(eeprom_read_byte(11));
-	oled_write_int(eeprom_read_byte(12));
-	oled_write_char(' ');
-	oled_write_int(eeprom_read_byte(13));
-	oled_write_int(eeprom_read_byte(14));
-	oled_write_char(' ');
-	oled_write_int(eeprom_read_byte(15));
-	oled_write_int(eeprom_read_byte(16));
-	oled_write_char(' ');
-	oled_write_int(eeprom_read_byte(17));
-	oled_write_int(eeprom_read_byte(18));
-	oled_write_char(' ');
-	oled_write_int(eeprom_read_byte(19));
-	oled_write_int(eeprom_read_byte(20));
-	oled_write_char(' ');
-	oled_write_int(eeprom_read_byte(21));
-	oled_write_int(eeprom_read_byte(22));
-	oled_write_char(' ');
-	oled_write_int(eeprom_read_byte(23));
-	oled_write_int(eeprom_read_byte(24));
-	oled_write_char(' ');
-	*/
-    while (1)
+
+	//clear oled of random data
+	oled_clear();
+
+    while(1)
     {
-		//oled_write_int((sht20_temp() / 100);
-		//oled_write_int((sht20_temp() % 100));
-		/*
-		bmpPressure = bmp280GetPressure();
-		bmpTemp = bmp280GetTemp();
-		INTbmpTemp = bmpTemp / 100;
-		
-		oled_setpos(0, 0);
-		oled_write_string("Temperature: ");
-		oled_write_int(INTbmpTemp);
-		
-		oled_write_char('.');
-		oled_write_int(bmpTemp % 100);
-		
-		oled_setpos(0,2);
-		oled_write_string("Pressure: ");
-		oled_write_int(bmpPressure / 1000);
-		oled_write_int((bmpPressure % 1000) / 100);
-		oled_write_char('.');
-		oled_write_int(bmpPressure % 100);	//add <10 check thing
-		*/
-		/*
-		bmpTemp = bmp280GetTemp();
-		INTbmpTemp = bmpTemp / 100;
-		bmpPressure = bmp280GetPressure();
-		
-		oled_write_int((INTbmpTemp));
-		oled_write_char('.');
-		oled_write_int((bmpTemp % 100));
-		oled_setpos(0,2);
-		
-		oled_write_int(bmpPressure / 1000);
-		oled_write_int((bmpPressure % 1000) / 100);
-		oled_write_char('.');
-		oled_write_int(bmpPressure % 100);	//add <10 check thing
-		*/
-		//_delay_ms(10);
-		//oled_write_char(' ');
-		/*
-		oled_fill();
+		//check battery level
+		battery();
+
+		//display data
+		display();
+
 		_delay_ms(1000);
-		oled_clear();
-		*/
-		blink();
-		//oled_control(0xFF, OLED_DATA);
-		//_delay_ms(100);	
     }
 	return 0;
 }
+
 

@@ -5,15 +5,16 @@
  *  Author: flato
  */ 
 
-#ifndef SHT20_H_
-#define SHT20_H_
+#ifndef SHT_H_
+#define SHT_H_
 
-#define SHT20 0x40
+#define SHT 0x40
 
-#define SHT20T 0xE3;
-#define SHT20H 0xE5;
+#define SHTTEMP 0xE3;
+#define SHTHUM 0xE5;
 
-char sht20_humidty();
-char sht20_temp();
+void sht_init();
+char sht_humidity();
+char sht_temp();
 
 #endif

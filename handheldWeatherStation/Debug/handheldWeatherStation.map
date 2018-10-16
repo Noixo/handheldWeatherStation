@@ -7,7 +7,7 @@ c:/winavr-20100110/bin/../lib/gcc/avr/4.3.3/../../../../avr/lib/avr25\libm.a(add
 c:/winavr-20100110/bin/../lib/gcc/avr/4.3.3/../../../../avr/lib/avr25\libm.a(fixunssfsi.o)
                               sht20.o (__fixunssfsi)
 c:/winavr-20100110/bin/../lib/gcc/avr/4.3.3/../../../../avr/lib/avr25\libm.a(floatsisf.o)
-                              sht20.o (__floatunsisf)
+                              sht20.o (__floatsisf)
 c:/winavr-20100110/bin/../lib/gcc/avr/4.3.3/../../../../avr/lib/avr25\libm.a(fp_inf.o)
                               c:/winavr-20100110/bin/../lib/gcc/avr/4.3.3/../../../../avr/lib/avr25\libm.a(addsf3x.o) (__fp_inf)
 c:/winavr-20100110/bin/../lib/gcc/avr/4.3.3/../../../../avr/lib/avr25\libm.a(fp_nan.o)
@@ -32,6 +32,8 @@ c:/winavr-20100110/bin/../lib/gcc/avr/4.3.3/avr25\libgcc.a(_udivmodqi4.o)
                               subroutine.o (__udivmodqi4)
 c:/winavr-20100110/bin/../lib/gcc/avr/4.3.3/avr25\libgcc.a(_udivmodsi4.o)
                               bmp280.o (__udivmodsi4)
+c:/winavr-20100110/bin/../lib/gcc/avr/4.3.3/avr25\libgcc.a(_divmodsi4.o)
+                              sht20.o (__divmodsi4)
 c:/winavr-20100110/bin/../lib/gcc/avr/4.3.3/avr25\libgcc.a(_exit.o)
                               c:/winavr-20100110/bin/../lib/gcc/avr/4.3.3/../../../../avr/lib/avr25/crttn85.o (exit)
 c:/winavr-20100110/bin/../lib/gcc/avr/4.3.3/avr25\libgcc.a(_copy_data.o)
@@ -43,7 +45,9 @@ c:/winavr-20100110/bin/../lib/gcc/avr/4.3.3/../../../../avr/lib/avr25\libc.a(eer
 c:/winavr-20100110/bin/../lib/gcc/avr/4.3.3/../../../../avr/lib/avr25\libc.a(eerd_word_attiny85.o)
                               bmp280.o (__eerd_word_tn85)
 c:/winavr-20100110/bin/../lib/gcc/avr/4.3.3/../../../../avr/lib/avr25\libc.a(eewr_byte_attiny85.o)
-                              bmp280.o (__eewr_byte_tn85)
+                              main.o (__eewr_byte_tn85)
+c:/winavr-20100110/bin/../lib/gcc/avr/4.3.3/../../../../avr/lib/avr25\libc.a(eewr_word_attiny85.o)
+                              bmp280.o (__eewr_word_tn85)
 c:/winavr-20100110/bin/../lib/gcc/avr/4.3.3/../../../../avr/lib/avr25\libc.a(eerd_block_attiny85.o)
                               c:/winavr-20100110/bin/../lib/gcc/avr/4.3.3/../../../../avr/lib/avr25\libc.a(eerd_word_attiny85.o) (__eerd_blraw_tn85)
 
@@ -60,17 +64,6 @@ Discarded input sections
  .text          0x00000000        0x0 bmp280.o
  .data          0x00000000        0x0 bmp280.o
  .bss           0x00000000        0x0 bmp280.o
- .text.bmp280GetPressure
-                0x00000000        0x0 bmp280.o
- .text.bmp280GetTemp
-                0x00000000        0x0 bmp280.o
- .bss.t_fine    0x00000000        0x0 bmp280.o
- .bss.var2.1310
-                0x00000000        0x0 bmp280.o
- .bss.var1.1309
-                0x00000000        0x0 bmp280.o
- .bss.adc_T.1308
-                0x00000000        0x0 bmp280.o
  .text          0x00000000        0x0 i2c.o
  .data          0x00000000        0x0 i2c.o
  .bss           0x00000000        0x0 i2c.o
@@ -78,32 +71,28 @@ Discarded input sections
                 0x00000000        0x0 i2c.o
  .text          0x00000000        0x0 main.o
  .bss           0x00000000        0x0 main.o
+ .text.blink    0x00000000        0x0 main.o
  .text          0x00000000        0x0 oled.o
  .data          0x00000000        0x0 oled.o
  .bss           0x00000000        0x0 oled.o
  .text.oled_fill
                 0x00000000        0x0 oled.o
- .text.oled_write_int
-                0x00000000        0x0 oled.o
  .text          0x00000000        0x0 sht20.o
  .data          0x00000000        0x0 sht20.o
  .bss           0x00000000        0x0 sht20.o
- .text.sht20_humidity
+ .text.sht_temp
                 0x00000000        0x0 sht20.o
- .text.sht20_temp
+ .text.sht_humidity
                 0x00000000        0x0 sht20.o
- .bss.raw_temp.1334
+ .text.sht_init
                 0x00000000        0x0 sht20.o
- .bss.temp.1333
+ .bss.raw_temp.1272
+                0x00000000        0x0 sht20.o
+ .bss.temp.1271
                 0x00000000        0x0 sht20.o
  .text          0x00000000        0x0 subroutine.o
  .data          0x00000000        0x0 subroutine.o
  .bss           0x00000000        0x0 subroutine.o
- .text.reverse_array
-                0x00000000        0x0 subroutine.o
- .text.convert  0x00000000        0x0 subroutine.o
- .bss.array.1184
-                0x00000000        0x0 subroutine.o
  .text          0x00000000        0x0 c:/winavr-20100110/bin/../lib/gcc/avr/4.3.3/../../../../avr/lib/avr25\libm.a(addsf3.o)
  .data          0x00000000        0x0 c:/winavr-20100110/bin/../lib/gcc/avr/4.3.3/../../../../avr/lib/avr25\libm.a(addsf3.o)
  .bss           0x00000000        0x0 c:/winavr-20100110/bin/../lib/gcc/avr/4.3.3/../../../../avr/lib/avr25\libm.a(addsf3.o)
@@ -172,15 +161,16 @@ Discarded input sections
  .text          0x00000000        0x0 c:/winavr-20100110/bin/../lib/gcc/avr/4.3.3/avr25\libgcc.a(_mulsi3.o)
  .data          0x00000000        0x0 c:/winavr-20100110/bin/../lib/gcc/avr/4.3.3/avr25\libgcc.a(_mulsi3.o)
  .bss           0x00000000        0x0 c:/winavr-20100110/bin/../lib/gcc/avr/4.3.3/avr25\libgcc.a(_mulsi3.o)
- .text.libgcc   0x00000000        0x0 c:/winavr-20100110/bin/../lib/gcc/avr/4.3.3/avr25\libgcc.a(_mulsi3.o)
  .text          0x00000000        0x0 c:/winavr-20100110/bin/../lib/gcc/avr/4.3.3/avr25\libgcc.a(_udivmodqi4.o)
  .data          0x00000000        0x0 c:/winavr-20100110/bin/../lib/gcc/avr/4.3.3/avr25\libgcc.a(_udivmodqi4.o)
  .bss           0x00000000        0x0 c:/winavr-20100110/bin/../lib/gcc/avr/4.3.3/avr25\libgcc.a(_udivmodqi4.o)
- .text.libgcc   0x00000000        0x0 c:/winavr-20100110/bin/../lib/gcc/avr/4.3.3/avr25\libgcc.a(_udivmodqi4.o)
  .text          0x00000000        0x0 c:/winavr-20100110/bin/../lib/gcc/avr/4.3.3/avr25\libgcc.a(_udivmodsi4.o)
  .data          0x00000000        0x0 c:/winavr-20100110/bin/../lib/gcc/avr/4.3.3/avr25\libgcc.a(_udivmodsi4.o)
  .bss           0x00000000        0x0 c:/winavr-20100110/bin/../lib/gcc/avr/4.3.3/avr25\libgcc.a(_udivmodsi4.o)
- .text.libgcc   0x00000000        0x0 c:/winavr-20100110/bin/../lib/gcc/avr/4.3.3/avr25\libgcc.a(_udivmodsi4.o)
+ .text          0x00000000        0x0 c:/winavr-20100110/bin/../lib/gcc/avr/4.3.3/avr25\libgcc.a(_divmodsi4.o)
+ .data          0x00000000        0x0 c:/winavr-20100110/bin/../lib/gcc/avr/4.3.3/avr25\libgcc.a(_divmodsi4.o)
+ .bss           0x00000000        0x0 c:/winavr-20100110/bin/../lib/gcc/avr/4.3.3/avr25\libgcc.a(_divmodsi4.o)
+ .text.libgcc   0x00000000        0x0 c:/winavr-20100110/bin/../lib/gcc/avr/4.3.3/avr25\libgcc.a(_divmodsi4.o)
  .text          0x00000000        0x0 c:/winavr-20100110/bin/../lib/gcc/avr/4.3.3/avr25\libgcc.a(_exit.o)
  .data          0x00000000        0x0 c:/winavr-20100110/bin/../lib/gcc/avr/4.3.3/avr25\libgcc.a(_exit.o)
  .bss           0x00000000        0x0 c:/winavr-20100110/bin/../lib/gcc/avr/4.3.3/avr25\libgcc.a(_exit.o)
@@ -199,16 +189,15 @@ Discarded input sections
  .text          0x00000000        0x0 c:/winavr-20100110/bin/../lib/gcc/avr/4.3.3/../../../../avr/lib/avr25\libc.a(eerd_word_attiny85.o)
  .data          0x00000000        0x0 c:/winavr-20100110/bin/../lib/gcc/avr/4.3.3/../../../../avr/lib/avr25\libc.a(eerd_word_attiny85.o)
  .bss           0x00000000        0x0 c:/winavr-20100110/bin/../lib/gcc/avr/4.3.3/../../../../avr/lib/avr25\libc.a(eerd_word_attiny85.o)
- .text.avr-libc
-                0x00000000        0x0 c:/winavr-20100110/bin/../lib/gcc/avr/4.3.3/../../../../avr/lib/avr25\libc.a(eerd_word_attiny85.o)
  .text          0x00000000        0x0 c:/winavr-20100110/bin/../lib/gcc/avr/4.3.3/../../../../avr/lib/avr25\libc.a(eewr_byte_attiny85.o)
  .data          0x00000000        0x0 c:/winavr-20100110/bin/../lib/gcc/avr/4.3.3/../../../../avr/lib/avr25\libc.a(eewr_byte_attiny85.o)
  .bss           0x00000000        0x0 c:/winavr-20100110/bin/../lib/gcc/avr/4.3.3/../../../../avr/lib/avr25\libc.a(eewr_byte_attiny85.o)
+ .text          0x00000000        0x0 c:/winavr-20100110/bin/../lib/gcc/avr/4.3.3/../../../../avr/lib/avr25\libc.a(eewr_word_attiny85.o)
+ .data          0x00000000        0x0 c:/winavr-20100110/bin/../lib/gcc/avr/4.3.3/../../../../avr/lib/avr25\libc.a(eewr_word_attiny85.o)
+ .bss           0x00000000        0x0 c:/winavr-20100110/bin/../lib/gcc/avr/4.3.3/../../../../avr/lib/avr25\libc.a(eewr_word_attiny85.o)
  .text          0x00000000        0x0 c:/winavr-20100110/bin/../lib/gcc/avr/4.3.3/../../../../avr/lib/avr25\libc.a(eerd_block_attiny85.o)
  .data          0x00000000        0x0 c:/winavr-20100110/bin/../lib/gcc/avr/4.3.3/../../../../avr/lib/avr25\libc.a(eerd_block_attiny85.o)
  .bss           0x00000000        0x0 c:/winavr-20100110/bin/../lib/gcc/avr/4.3.3/../../../../avr/lib/avr25\libc.a(eerd_block_attiny85.o)
- .text.avr-libc
-                0x00000000        0x0 c:/winavr-20100110/bin/../lib/gcc/avr/4.3.3/../../../../avr/lib/avr25\libc.a(eerd_block_attiny85.o)
 
 Memory Configuration
 
@@ -327,7 +316,7 @@ LOAD c:/winavr-20100110/bin/../lib/gcc/avr/4.3.3/avr25\libgcc.a
 .rela.plt
  *(.rela.plt)
 
-.text           0x00000000      0x77e
+.text           0x00000000     0x1006
  *(.vectors)
  .vectors       0x00000000       0x1e c:/winavr-20100110/bin/../lib/gcc/avr/4.3.3/../../../../avr/lib/avr25/crttn85.o
                 0x00000000                __vectors
@@ -335,44 +324,45 @@ LOAD c:/winavr-20100110/bin/../lib/gcc/avr/4.3.3/avr25\libgcc.a
  *(.vectors)
  *(.progmem.gcc*)
  *(.progmem*)
- .progmem.data  0x0000001e       0x1c main.o
-                0x0000001e                ssd1306_init_sequence
- .progmem.data  0x0000003a      0x228 oled.o
-                0x0000003a                oled_font6x8
-                0x00000262                . = ALIGN (0x2)
-                0x00000262                __trampolines_start = .
+ .progmem.data  0x0000001e       0x3a main.o
+                0x0000001e                oled_customChar
+                0x0000003c                ssd1306_init_sequence
+ .progmem.data  0x00000058      0x228 oled.o
+                0x00000058                oled_font6x8
+                0x00000280                . = ALIGN (0x2)
+                0x00000280                __trampolines_start = .
  *(.trampolines)
- .trampolines   0x00000262        0x0 linker stubs
+ .trampolines   0x00000280        0x0 linker stubs
  *(.trampolines*)
-                0x00000262                __trampolines_end = .
+                0x00000280                __trampolines_end = .
  *(.jumptables)
  *(.jumptables*)
  *(.lowtext)
  *(.lowtext*)
-                0x00000262                __ctors_start = .
+                0x00000280                __ctors_start = .
  *(.ctors)
-                0x00000262                __ctors_end = .
-                0x00000262                __dtors_start = .
+                0x00000280                __ctors_end = .
+                0x00000280                __dtors_start = .
  *(.dtors)
-                0x00000262                __dtors_end = .
+                0x00000280                __dtors_end = .
  SORT(*)(.ctors)
  SORT(*)(.dtors)
  *(.init0)
- .init0         0x00000262        0x0 c:/winavr-20100110/bin/../lib/gcc/avr/4.3.3/../../../../avr/lib/avr25/crttn85.o
-                0x00000262                __init
+ .init0         0x00000280        0x0 c:/winavr-20100110/bin/../lib/gcc/avr/4.3.3/../../../../avr/lib/avr25/crttn85.o
+                0x00000280                __init
  *(.init0)
  *(.init1)
  *(.init1)
  *(.init2)
- .init2         0x00000262        0xc c:/winavr-20100110/bin/../lib/gcc/avr/4.3.3/../../../../avr/lib/avr25/crttn85.o
+ .init2         0x00000280        0xc c:/winavr-20100110/bin/../lib/gcc/avr/4.3.3/../../../../avr/lib/avr25/crttn85.o
  *(.init2)
  *(.init3)
  *(.init3)
  *(.init4)
- .init4         0x0000026e       0x16 c:/winavr-20100110/bin/../lib/gcc/avr/4.3.3/avr25\libgcc.a(_copy_data.o)
-                0x0000026e                __do_copy_data
- .init4         0x00000284       0x10 c:/winavr-20100110/bin/../lib/gcc/avr/4.3.3/avr25\libgcc.a(_clear_bss.o)
-                0x00000284                __do_clear_bss
+ .init4         0x0000028c       0x16 c:/winavr-20100110/bin/../lib/gcc/avr/4.3.3/avr25\libgcc.a(_copy_data.o)
+                0x0000028c                __do_copy_data
+ .init4         0x000002a2       0x10 c:/winavr-20100110/bin/../lib/gcc/avr/4.3.3/avr25\libgcc.a(_clear_bss.o)
+                0x000002a2                __do_clear_bss
  *(.init4)
  *(.init5)
  *(.init5)
@@ -383,90 +373,124 @@ LOAD c:/winavr-20100110/bin/../lib/gcc/avr/4.3.3/avr25\libgcc.a
  *(.init8)
  *(.init8)
  *(.init9)
- .init9         0x00000294        0x4 c:/winavr-20100110/bin/../lib/gcc/avr/4.3.3/../../../../avr/lib/avr25/crttn85.o
+ .init9         0x000002b2        0x4 c:/winavr-20100110/bin/../lib/gcc/avr/4.3.3/../../../../avr/lib/avr25/crttn85.o
  *(.init9)
  *(.text)
- .text          0x00000298        0x2 c:/winavr-20100110/bin/../lib/gcc/avr/4.3.3/../../../../avr/lib/avr25/crttn85.o
-                0x00000298                __vector_1
-                0x00000298                __vector_12
-                0x00000298                __bad_interrupt
-                0x00000298                __vector_6
-                0x00000298                __vector_3
-                0x00000298                __vector_11
-                0x00000298                __vector_13
-                0x00000298                __vector_7
-                0x00000298                __vector_5
-                0x00000298                __vector_4
-                0x00000298                __vector_9
-                0x00000298                __vector_2
-                0x00000298                __vector_8
-                0x00000298                __vector_14
-                0x00000298                __vector_10
-                0x0000029a                . = ALIGN (0x2)
+ .text          0x000002b6        0x2 c:/winavr-20100110/bin/../lib/gcc/avr/4.3.3/../../../../avr/lib/avr25/crttn85.o
+                0x000002b6                __vector_1
+                0x000002b6                __vector_12
+                0x000002b6                __bad_interrupt
+                0x000002b6                __vector_6
+                0x000002b6                __vector_3
+                0x000002b6                __vector_11
+                0x000002b6                __vector_13
+                0x000002b6                __vector_7
+                0x000002b6                __vector_5
+                0x000002b6                __vector_4
+                0x000002b6                __vector_9
+                0x000002b6                __vector_2
+                0x000002b6                __vector_8
+                0x000002b6                __vector_14
+                0x000002b6                __vector_10
+                0x000002b8                . = ALIGN (0x2)
  *(.text.*)
- .text.bmpSet   0x0000029a       0x20 bmp280.o
-                0x0000029a                bmpSet
+ .text.bmpSet   0x000002b8       0x20 bmp280.o
+                0x000002b8                bmpSet
  .text.bmpReset
-                0x000002ba       0x1c bmp280.o
-                0x000002ba                bmpReset
+                0x000002d8       0x1c bmp280.o
+                0x000002d8                bmpReset
+ .text.bmp280GetPressure
+                0x000002f4      0x406 bmp280.o
+                0x000002f4                bmp280GetPressure
+ .text.bmp280GetTemp
+                0x000006fa      0x1aa bmp280.o
+                0x000006fa                bmp280GetTemp
  .text.bmpCalibration
-                0x000002d6       0xb2 bmp280.o
-                0x000002d6                bmpCalibration
+                0x000008a4       0xd0 bmp280.o
+                0x000008a4                bmpCalibration
  .text.init_i2c
-                0x00000388       0x22 i2c.o
-                0x00000388                init_i2c
+                0x00000974       0x22 i2c.o
+                0x00000974                init_i2c
  .text.i2c_clock
-                0x000003aa       0x18 i2c.o
-                0x000003aa                i2c_clock
+                0x00000996       0x18 i2c.o
+                0x00000996                i2c_clock
  .text.i2c_start
-                0x000003c2       0x2a i2c.o
-                0x000003c2                i2c_start
+                0x000009ae       0x2a i2c.o
+                0x000009ae                i2c_start
  .text.i2c_stop
-                0x000003ec       0x2a i2c.o
-                0x000003ec                i2c_stop
+                0x000009d8       0x2a i2c.o
+                0x000009d8                i2c_stop
  .text.i2c_device_id
-                0x00000416       0xb8 i2c.o
-                0x00000416                i2c_device_id
+                0x00000a02       0xb8 i2c.o
+                0x00000a02                i2c_device_id
  .text.i2c_read
-                0x000004ce       0x90 i2c.o
-                0x000004ce                i2c_read
+                0x00000aba       0x90 i2c.o
+                0x00000aba                i2c_read
  .text.i2c_write
-                0x0000055e       0x42 i2c.o
-                0x0000055e                i2c_write
- .text.blink    0x000005a0       0x34 main.o
-                0x000005a0                blink
- .text.main     0x000005d4       0x60 main.o
-                0x000005d4                main
+                0x00000b4a       0x42 i2c.o
+                0x00000b4a                i2c_write
+ .text.adcInit  0x00000b8c       0x24 main.o
+                0x00000b8c                adcInit
+ .text.battery  0x00000bb0       0x88 main.o
+                0x00000bb0                battery
+ .text.display  0x00000c38       0xb6 main.o
+                0x00000c38                display
+ .text.main     0x00000cee       0x6c main.o
+                0x00000cee                main
  .text.oled_data
-                0x00000634       0x1a oled.o
-                0x00000634                oled_data
+                0x00000d5a       0x1a oled.o
+                0x00000d5a                oled_data
  .text.oled_control
-                0x0000064e       0x1a oled.o
-                0x0000064e                oled_control
+                0x00000d74       0x1a oled.o
+                0x00000d74                oled_control
  .text.oled_setpos
-                0x00000668       0x26 oled.o
-                0x00000668                oled_setpos
+                0x00000d8e       0x26 oled.o
+                0x00000d8e                oled_setpos
  .text.oled_clear
-                0x0000068e       0x36 oled.o
-                0x0000068e                oled_clear
+                0x00000db4       0x36 oled.o
+                0x00000db4                oled_clear
  .text.oled_write_char
-                0x000006c4       0x6e oled.o
-                0x000006c4                oled_write_char
+                0x00000dea       0x6e oled.o
+                0x00000dea                oled_write_char
+ .text.oled_write_int
+                0x00000e58       0x1e oled.o
+                0x00000e58                oled_write_int
  .text.oled_write_string
-                0x00000732       0x1c oled.o
-                0x00000732                oled_write_string
+                0x00000e76       0x1c oled.o
+                0x00000e76                oled_write_string
+ .text.reverse_array
+                0x00000e92       0x26 subroutine.o
+                0x00000e92                reverse_array
+ .text.convert  0x00000eb8       0x60 subroutine.o
+                0x00000eb8                convert
+ .text.libgcc   0x00000f18       0x32 c:/winavr-20100110/bin/../lib/gcc/avr/4.3.3/avr25\libgcc.a(_mulsi3.o)
+                0x00000f18                __mulsi3
+ .text.libgcc   0x00000f4a       0x18 c:/winavr-20100110/bin/../lib/gcc/avr/4.3.3/avr25\libgcc.a(_udivmodqi4.o)
+                0x00000f4a                __udivmodqi4
+ .text.libgcc   0x00000f62       0x44 c:/winavr-20100110/bin/../lib/gcc/avr/4.3.3/avr25\libgcc.a(_udivmodsi4.o)
+                0x00000f62                __udivmodsi4
  .text.avr-libc
-                0x0000074e       0x10 c:/winavr-20100110/bin/../lib/gcc/avr/4.3.3/../../../../avr/lib/avr25\libc.a(eerd_byte_attiny85.o)
-                0x0000074e                __eerd_byte_tn85
+                0x00000fa6       0x10 c:/winavr-20100110/bin/../lib/gcc/avr/4.3.3/../../../../avr/lib/avr25\libc.a(eerd_byte_attiny85.o)
+                0x00000fa6                __eerd_byte_tn85
  .text.avr-libc
-                0x0000075e       0x1c c:/winavr-20100110/bin/../lib/gcc/avr/4.3.3/../../../../avr/lib/avr25\libc.a(eewr_byte_attiny85.o)
-                0x00000760                __eewr_r18_tn85
-                0x0000075e                __eewr_byte_tn85
-                0x0000077a                . = ALIGN (0x2)
+                0x00000fb6        0xa c:/winavr-20100110/bin/../lib/gcc/avr/4.3.3/../../../../avr/lib/avr25\libc.a(eerd_word_attiny85.o)
+                0x00000fb6                __eerd_word_tn85
+ .text.avr-libc
+                0x00000fc0       0x1c c:/winavr-20100110/bin/../lib/gcc/avr/4.3.3/../../../../avr/lib/avr25\libc.a(eewr_byte_attiny85.o)
+                0x00000fc2                __eewr_r18_tn85
+                0x00000fc0                __eewr_byte_tn85
+ .text.avr-libc
+                0x00000fdc        0x6 c:/winavr-20100110/bin/../lib/gcc/avr/4.3.3/../../../../avr/lib/avr25\libc.a(eewr_word_attiny85.o)
+                0x00000fdc                __eewr_word_tn85
+ .text.avr-libc
+                0x00000fe2       0x20 c:/winavr-20100110/bin/../lib/gcc/avr/4.3.3/../../../../avr/lib/avr25\libc.a(eerd_block_attiny85.o)
+                0x00000fe6                __eerd_blraw_tn85
+                0x00000fe2                __eerd_block_tn85
+                0x00001002                . = ALIGN (0x2)
  *(.fini9)
- .fini9         0x0000077a        0x0 c:/winavr-20100110/bin/../lib/gcc/avr/4.3.3/avr25\libgcc.a(_exit.o)
-                0x0000077a                exit
-                0x0000077a                _exit
+ .fini9         0x00001002        0x0 c:/winavr-20100110/bin/../lib/gcc/avr/4.3.3/avr25\libgcc.a(_exit.o)
+                0x00001002                exit
+                0x00001002                _exit
  *(.fini9)
  *(.fini8)
  *(.fini8)
@@ -485,40 +509,45 @@ LOAD c:/winavr-20100110/bin/../lib/gcc/avr/4.3.3/avr25\libgcc.a
  *(.fini1)
  *(.fini1)
  *(.fini0)
- .fini0         0x0000077a        0x4 c:/winavr-20100110/bin/../lib/gcc/avr/4.3.3/avr25\libgcc.a(_exit.o)
+ .fini0         0x00001002        0x4 c:/winavr-20100110/bin/../lib/gcc/avr/4.3.3/avr25\libgcc.a(_exit.o)
  *(.fini0)
-                0x0000077e                _etext = .
+                0x00001006                _etext = .
 
-.data           0x00800060        0x2 load address 0x0000077e
+.data           0x00800060       0x30 load address 0x00001006
                 0x00800060                PROVIDE (__data_start, .)
  *(.data)
- .data          0x00800060        0x2 main.o
+ .data          0x00800060       0x2f main.o
  *(.data*)
  *(.rodata)
  *(.rodata*)
  *(.gnu.linkonce.d*)
-                0x00800062                . = ALIGN (0x2)
-                0x00800062                _edata = .
-                0x00800062                PROVIDE (__data_end, .)
+                0x00800090                . = ALIGN (0x2)
+ *fill*         0x0080008f        0x1 00
+                0x00800090                _edata = .
+                0x00800090                PROVIDE (__data_end, .)
 
-.bss            0x00800062        0x2
-                0x00800062                PROVIDE (__bss_start, .)
+.bss            0x00800090        0xa
+                0x00800090                PROVIDE (__bss_start, .)
  *(.bss)
  *(.bss*)
+ .bss.t_fine    0x00800090        0x4 bmp280.o
+                0x00800090                t_fine
+ .bss.array.1184
+                0x00800094        0x4 subroutine.o
  *(COMMON)
- COMMON         0x00800062        0x2 oled.o
-                0x00800062                pos_y
-                0x00800063                pos_x
-                0x00800064                PROVIDE (__bss_end, .)
-                0x0000077e                __data_load_start = LOADADDR (.data)
-                0x00000780                __data_load_end = (__data_load_start + SIZEOF (.data))
+ COMMON         0x00800098        0x2 oled.o
+                0x00800098                pos_y
+                0x00800099                pos_x
+                0x0080009a                PROVIDE (__bss_end, .)
+                0x00001006                __data_load_start = LOADADDR (.data)
+                0x00001036                __data_load_end = (__data_load_start + SIZEOF (.data))
 
-.noinit         0x00800064        0x0
-                0x00800064                PROVIDE (__noinit_start, .)
+.noinit         0x0080009a        0x0
+                0x0080009a                PROVIDE (__noinit_start, .)
  *(.noinit*)
-                0x00800064                PROVIDE (__noinit_end, .)
-                0x00800064                _end = .
-                0x00800064                PROVIDE (__heap_start, .)
+                0x0080009a                PROVIDE (__noinit_end, .)
+                0x0080009a                _end = .
+                0x0080009a                PROVIDE (__heap_start, .)
 
 .eeprom         0x00810000        0x0
  *(.eeprom*)
@@ -569,106 +598,107 @@ LOAD c:/winavr-20100110/bin/../lib/gcc/avr/4.3.3/avr25\libgcc.a
 .debug_sfnames
  *(.debug_sfnames)
 
-.debug_aranges  0x00000000      0x168
+.debug_aranges  0x00000000      0x188
  *(.debug_aranges)
  .debug_aranges
                 0x00000000       0x40 bmp280.o
  .debug_aranges
                 0x00000040       0x58 i2c.o
  .debug_aranges
-                0x00000098       0x28 main.o
+                0x00000098       0x40 main.o
  .debug_aranges
-                0x000000c0       0x58 oled.o
+                0x000000d8       0x58 oled.o
  .debug_aranges
-                0x00000118       0x28 sht20.o
+                0x00000130       0x30 sht20.o
  .debug_aranges
-                0x00000140       0x28 subroutine.o
+                0x00000160       0x28 subroutine.o
 
 .debug_pubnames
-                0x00000000      0x258
+                0x00000000      0x299
  *(.debug_pubnames)
  .debug_pubnames
                 0x00000000       0x70 bmp280.o
  .debug_pubnames
                 0x00000070       0x85 i2c.o
  .debug_pubnames
-                0x000000f5       0x3f main.o
+                0x000000f5       0x77 main.o
  .debug_pubnames
-                0x00000134       0xc0 oled.o
+                0x0000016c       0xc0 oled.o
  .debug_pubnames
-                0x000001f4       0x34 sht20.o
+                0x0000022c       0x3d sht20.o
  .debug_pubnames
-                0x00000228       0x30 subroutine.o
+                0x00000269       0x30 subroutine.o
 
-.debug_info     0x00000000      0xc27
+.debug_info     0x00000000      0xd2e
  *(.debug_info)
- .debug_info    0x00000000      0x1b1 bmp280.o
- .debug_info    0x000001b1      0x3f1 i2c.o
- .debug_info    0x000005a2      0x232 main.o
- .debug_info    0x000007d4      0x283 oled.o
- .debug_info    0x00000a57       0xe0 sht20.o
- .debug_info    0x00000b37       0xf0 subroutine.o
+ .debug_info    0x00000000      0x1c8 bmp280.o
+ .debug_info    0x000001c8      0x3f1 i2c.o
+ .debug_info    0x000005b9      0x30b main.o
+ .debug_info    0x000008c4      0x283 oled.o
+ .debug_info    0x00000b47       0xf7 sht20.o
+ .debug_info    0x00000c3e       0xf0 subroutine.o
  *(.gnu.linkonce.wi.*)
 
-.debug_abbrev   0x00000000      0x5d9
+.debug_abbrev   0x00000000      0x65a
  *(.debug_abbrev)
- .debug_abbrev  0x00000000      0x122 bmp280.o
- .debug_abbrev  0x00000122      0x19c i2c.o
- .debug_abbrev  0x000002be      0x118 main.o
- .debug_abbrev  0x000003d6       0xf3 oled.o
- .debug_abbrev  0x000004c9       0x5f sht20.o
- .debug_abbrev  0x00000528       0xb1 subroutine.o
+ .debug_abbrev  0x00000000      0x129 bmp280.o
+ .debug_abbrev  0x00000129      0x19c i2c.o
+ .debug_abbrev  0x000002c5      0x170 main.o
+ .debug_abbrev  0x00000435       0xf3 oled.o
+ .debug_abbrev  0x00000528       0x81 sht20.o
+ .debug_abbrev  0x000005a9       0xb1 subroutine.o
 
-.debug_line     0x00000000      0xde0
+.debug_line     0x00000000     0x104a
  *(.debug_line)
- .debug_line    0x00000000      0x313 bmp280.o
- .debug_line    0x00000313      0x43a i2c.o
- .debug_line    0x0000074d      0x1d5 main.o
- .debug_line    0x00000922      0x2cb oled.o
- .debug_line    0x00000bed       0xea sht20.o
- .debug_line    0x00000cd7      0x109 subroutine.o
+ .debug_line    0x00000000      0x354 bmp280.o
+ .debug_line    0x00000354      0x43a i2c.o
+ .debug_line    0x0000078e      0x364 main.o
+ .debug_line    0x00000af2      0x2cb oled.o
+ .debug_line    0x00000dbd      0x184 sht20.o
+ .debug_line    0x00000f41      0x109 subroutine.o
 
-.debug_frame    0x00000000      0x210
+.debug_frame    0x00000000      0x250
  *(.debug_frame)
  .debug_frame   0x00000000       0x60 bmp280.o
  .debug_frame   0x00000060       0x90 i2c.o
- .debug_frame   0x000000f0       0x30 main.o
- .debug_frame   0x00000120       0x90 oled.o
- .debug_frame   0x000001b0       0x30 sht20.o
- .debug_frame   0x000001e0       0x30 subroutine.o
+ .debug_frame   0x000000f0       0x60 main.o
+ .debug_frame   0x00000150       0x90 oled.o
+ .debug_frame   0x000001e0       0x40 sht20.o
+ .debug_frame   0x00000220       0x30 subroutine.o
 
-.debug_str      0x00000000      0x354
+.debug_str      0x00000000      0x376
  *(.debug_str)
- .debug_str     0x00000000      0x115 bmp280.o
-                                0x149 (size before relaxing)
- .debug_str     0x00000115       0xd0 i2c.o
+ .debug_str     0x00000000      0x131 bmp280.o
+                                0x165 (size before relaxing)
+ .debug_str     0x00000131       0xc7 i2c.o
                                 0x1a6 (size before relaxing)
- .debug_str     0x000001e5       0x56 main.o
-                                0x184 (size before relaxing)
- .debug_str     0x0000023b       0xa1 oled.o
+ .debug_str     0x000001f8       0x7b main.o
+                                0x197 (size before relaxing)
+ .debug_str     0x00000273       0xa1 oled.o
                                 0x19a (size before relaxing)
- .debug_str     0x000002dc       0x50 sht20.o
-                                0x12f (size before relaxing)
- .debug_str     0x0000032c       0x28 subroutine.o
+ .debug_str     0x00000314       0x42 sht20.o
+                                0x134 (size before relaxing)
+ .debug_str     0x00000356       0x20 subroutine.o
                                  0xb7 (size before relaxing)
 
-.debug_loc      0x00000000      0x598
+.debug_loc      0x00000000      0x6be
  *(.debug_loc)
- .debug_loc     0x00000000      0x17e bmp280.o
- .debug_loc     0x0000017e      0x192 i2c.o
- .debug_loc     0x00000310       0x5b main.o
- .debug_loc     0x0000036b      0x1d4 oled.o
- .debug_loc     0x0000053f       0x59 subroutine.o
+ .debug_loc     0x00000000      0x1ca bmp280.o
+ .debug_loc     0x000001ca      0x192 i2c.o
+ .debug_loc     0x0000035c      0x11d main.o
+ .debug_loc     0x00000479      0x1d4 oled.o
+ .debug_loc     0x0000064d       0x18 sht20.o
+ .debug_loc     0x00000665       0x59 subroutine.o
 
 .debug_macinfo
  *(.debug_macinfo)
 OUTPUT(handheldWeatherStation.elf elf32-avr)
 LOAD linker stubs
 
-.debug_ranges   0x00000000      0x180
+.debug_ranges   0x00000000      0x1e8
  .debug_ranges  0x00000000       0x38 bmp280.o
  .debug_ranges  0x00000038       0x98 i2c.o
- .debug_ranges  0x000000d0       0x20 main.o
- .debug_ranges  0x000000f0       0x50 oled.o
- .debug_ranges  0x00000140       0x20 sht20.o
- .debug_ranges  0x00000160       0x20 subroutine.o
+ .debug_ranges  0x000000d0       0x80 main.o
+ .debug_ranges  0x00000150       0x50 oled.o
+ .debug_ranges  0x000001a0       0x28 sht20.o
+ .debug_ranges  0x000001c8       0x20 subroutine.o
