@@ -9,7 +9,7 @@
 #define SCL_HIGH  PORTB |= (1<<PB2)
 #define SCL_LOW   PORTB &= ~(1<<PB2)
 
-#define TIME 10
+#define TIME 1
 
 #define READ 0x01
 #define WRITE 0x00

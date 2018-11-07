@@ -6,8 +6,7 @@
  */ 
 #include "sht20.h"
 #include "i2c.h"
-#include <avr/io.h>
-#include "oled.h"
+#include <util/delay.h>
 
 void sht_init()
 {
@@ -17,64 +16,78 @@ void sht_init()
 	i2c_stop();
 }
 
-char sht_humidity()
+void sht_register(char cmd)
 {
-	unsigned short humidity, raw_humidity;
-	
 	i2c_start();
 	i2c_device_id(SHT, WRITE);
-	i2c_write(0xE5);	//humidity
+	i2c_write(SHTREGREAD);	//register address
 	
 	i2c_start();
 	i2c_device_id(SHT, READ);
 	
-	//set SCL to input
-	DDRB &= ~(1 << PB2);	//set pin1 to input; turn off pin
-	SCL_HIGH;				//enable pull up; turn on pin
-	while(((PINB & (1 << PB2)) == 0));	//while SHT20 is low
+	//read reg
+	(void) i2c_read(0);
 	
-	DDRB |= (1 << PB2);		//set pin2 to output
+	//write to reg
+	i2c_start();
+	i2c_device_id(SHT, WRITE);
+	i2c_write(SHTREGWRITE);
+	i2c_write(cmd);
+	i2c_stop();
+}
 
-	//read SHT20 data
-	//oled_write_int(i2c_read(0));
-	//oled_write_char(' ');
-	//oled_write_int(i2c_read(1));
-	
+char sht_humidity()
+{
+	unsigned short raw_humidity;
+	float humidity;
+
+	i2c_start();
+	i2c_device_id(SHT, WRITE);
+
+	i2c_write(0xF5);	//humidity E5
+	_delay_ms(100);
+
+	i2c_start();
+	i2c_device_id(SHT, READ);
+
 	raw_humidity = i2c_read(0);
 	raw_humidity <<= 8;
 	raw_humidity |= i2c_read(1);	//ignore checksum
 	
-	raw_humidity &= 0xFFF0;	//and with resolution
+	i2c_stop();
 	
-	humidity = -6 + (125 * (raw_humidity/65536));
-	
+	raw_humidity &= 0xFFFC;
+
+	humidity = (125.0 * ((float)raw_humidity/65536.0));
+	humidity -= 6.0;
+
 	return humidity;
 }
 
 char sht_temp()
 {
-	static unsigned short temp, raw_temp;
+	unsigned short raw_temp;
+	float temp;
 	
 	i2c_start();
 	i2c_device_id(SHT, WRITE);
-	i2c_write(0xE3);	//temp
+	i2c_write(0xF3);	//temp E3
+	_delay_ms(100);
 	
 	i2c_start();
 	i2c_device_id(SHT, READ);
-	
-	//set SCL to input
-	DDRB &= ~(1 << PB2);	//set pin1 to input; turn off pin
-	SCL_HIGH;				//enable pull up; turn on pin
-	while(((PINB & (1 << PB2)) == 0));	//while SHT20 is low
-		
-	DDRB |= (1 << PB2);		//set pin2 to output
 
 	//read SHT20 data
 	raw_temp = i2c_read(0);
 	raw_temp <<= 8;
 	raw_temp |= i2c_read(1);	//ignore checksum
 	
-	temp = -46.85 + (175.72 * (raw_temp/65536));
+	i2c_stop();
+	
+	raw_temp &= 0xFFFC;
+	
+	temp = (175.72 * ((float)raw_temp/65536.0));
+	temp -= 46.85;
 	
 	return temp;
 }

@@ -166,6 +166,12 @@
     <Compile Include="sht20.h">
       <SubType>compile</SubType>
     </Compile>
+    <Compile Include="sleep.c">
+      <SubType>compile</SubType>
+    </Compile>
+    <Compile Include="sleep.h">
+      <SubType>compile</SubType>
+    </Compile>
     <Compile Include="subroutine.c">
       <SubType>compile</SubType>
     </Compile>

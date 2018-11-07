@@ -166,8 +166,8 @@ void i2c_read_id()
 		//if ACK = 0 then device was found
 		if(ACK == 0)
 			{
-				oled_write_int(i);
-				oled_write_char(' ');
+				//oled_write_int(i);
+				//oled_write_char(' ');
 				PORTB |= (1 << PB4);
 				_delay_ms(200);
 				PORTB &= ~(1 << PB4);

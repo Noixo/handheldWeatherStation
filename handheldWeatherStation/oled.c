@@ -29,8 +29,16 @@ void oled_checkposx()
 /*sets cursor position.
  ARGS: x = 0-127, y = 0-7
 */
+void oled_bitmap()
+{
+	//for()
+}
+
 void oled_setpos(char x, char y)
 {
+	x &= 0x7F;	//ensure inputted x value doesn't go over 127
+	y &= 0x7;	//ensure inputted value doesn't go over 7
+	
 	//add data verification
 	oled_control(OLED_COLUMNADDR);
 	oled_control(x);

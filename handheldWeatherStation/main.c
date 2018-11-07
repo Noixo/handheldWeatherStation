@@ -14,18 +14,30 @@ PB4: led/batt
 PB5: RST
 */
 
-/************************************************************************/
-/* TODO
-    Finish SHT20 code                                                    */
-/************************************************************************/
+/*
+current usage: (not including boost)
+
+Display full: 4.6mA-5mA approx
+Display dim: 3mA
+Display sleep: 1.3mA - 1.5mA approx
+Micro sleep:
+*/
+
 
 #define F_CPU 1000000UL
+
+#define VERSION "1.01"
+#define DATE "19.10.18"
 
 #include <avr/io.h>
 #include <util/delay.h>
 #include <avr/eeprom.h>
 #include <avr/pgmspace.h>
+#include <avr/wdt.h>
+#include <avr/sleep.h>
+#include <avr/interrupt.h>
 
+#include <string.h>
 #include <stdlib.h>
 
 #include "i2c.h"
@@ -75,6 +87,22 @@ const uint8_t ssd1306_init_sequence [] PROGMEM = {	// Initialization Sequence
 	0xAF			// Display ON in normal mode
 };
 
+void splash_screen()
+{
+	//bitmap image
+	
+	oled_setpos((OLEDMID - 16), 6);
+	oled_write_string("Matthew Whiteley");
+	
+	oled_setpos((OLEDMID - strlen(VERSION)), 7);
+	oled_write_string(VERSION);
+	
+	oled_setpos((OLEDRIGHT - strlen(DATE)), 7);
+	oled_write_string(DATE);
+	
+	
+}
+
 void display()
 {
 	//short bmpTemp;
@@ -89,14 +117,15 @@ void display()
 	oled_setpos(0,1);
 	
 	oled_write_string("Temperature: ");
-	//temp
+	oled_write_int((char)sht_temp());
 	oled_write_string("*C");
 	
 	oled_setpos(0,3);
 	
 	oled_write_string("Humidity: ");
-	//humdity
+	oled_write_int((char)sht_humidity());
 	oled_write_string("%RH");
+	
 	/*
 	oled_write_int((INTbmpTemp));
 	oled_write_char('.');
@@ -112,11 +141,13 @@ void display()
 		oled_write_char('0');
 	oled_write_int(bmpPressure % 100);	//add <10 check thing
 	oled_write_string("HPa");
-			
+	
+	//oled_setpos(OLEDX - 4, 7);
+	//oled_write_string(VERSION);
 }
 
 // 0 = empty
-//4 = full
+// 4 = full
 void battery()
 {
 	unsigned char convert;
@@ -149,7 +180,7 @@ void battery()
 	}
 }
 
-void adcInit()
+void adc_init()
 {
 	//VCC ref, PB4 input, ADLAR = 1
 	ADMUX = (1 << MUX1);
@@ -161,18 +192,46 @@ void adcInit()
 	
 }
 
+ISR(WDT_vect)
+{
+	wdt_disable();
+}
+
+void sleep()
+{
+	
+	ADCSRA = (0 << ADEN);	//turn off?
+	
+	
+	MCUSR &= ~(1<<WDRF);
+	
+	WDTCR |= 0x18;	//enable watchdog
+
+	WDTCR = 0x46;	//turn on interrupt
+	
+	sei();	//enble interrupt
+	
+	wdt_reset();
+	set_sleep_mode(SLEEP_MODE_PWR_DOWN);
+	sleep_mode();
+	
+	ADCSRA = (1 << ADEN);	//turn on ADC
+}
+
 int main(void)
 {
-	DDRB |= (1 << PB4); //set led to output
+	_delay_ms(100);	//delay to let voltage stablise
 	
-	adcInit();
+	DDRB |= (1 << PB4); //set led to output
+	PORTB = 0xFF;	//turn on all pullups
+	
+	adc_init();
 	init_i2c();
 	
 	//start up OLED
 	for (uint8_t i = 0; i < sizeof (ssd1306_init_sequence); i++) {
 		oled_control(pgm_read_byte(&ssd1306_init_sequence[i]));
 	}
-	
 	
 	if(eeprom_read_byte((uint8_t*)0x00) == 0xFF)	//if new ATTINY
 	{
@@ -186,9 +245,18 @@ int main(void)
 	bmpSet(0x64, CONFIG); //standby time = 250ms, IIR filter =
 	bmpSet(0xFF, CTRL_MEAS); //x16 temperature oversampling, x16 pressure measurement, normal mode
 
+
+	//change contrast to 0 (lowest)
+	oled_control(0x81);
+	oled_control(0x00);
+	
 	//clear oled of random data
 	oled_clear();
-
+	
+	splash_screen();
+	_delay_ms(1000);
+	oled_clear();
+	
     while(1)
     {
 		//check battery level
@@ -196,10 +264,10 @@ int main(void)
 
 		//display data
 		display();
-
-		_delay_ms(1000);
+		
+		//sleep for 1 sec
+		sleep();
+		//_delay_ms(1000);
     }
 	return 0;
 }
-
-

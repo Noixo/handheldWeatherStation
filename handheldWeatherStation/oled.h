@@ -18,6 +18,10 @@
 #define ON 0x01;
 #define OFF 0x00;
 
+#define OLEDLEFT 0
+#define OLEDMID 64
+#define OLEDRIGHT 127
+
 //fundamental commands
 #define OLED_INVERT 0xA6	//0 = off, 1 = on
 #define OLED_CONTRAST 0X81
