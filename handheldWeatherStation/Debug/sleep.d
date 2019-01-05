@@ -1,43 +1,46 @@
-sleep.d sleep.o sleep.o: .././sleep.c \
-  c:/winavr-20100110/lib/gcc/../../avr/include/avr/interrupt.h \
-  c:/winavr-20100110/lib/gcc/../../avr/include/avr/io.h \
-  c:/winavr-20100110/lib/gcc/../../avr/include/avr/sfr_defs.h \
-  c:/winavr-20100110/lib/gcc/../../avr/include/inttypes.h \
-  c:/winavr-20100110/lib/gcc/../../avr/include/stdint.h \
-  C:\Program\ Files\ (x86)\Atmel\Studio\7.0\Packs\atmel\ATtiny_DFP\1.2.118\include/avr/iotn85.h \
-  C:\Program\ Files\ (x86)\Atmel\Studio\7.0\Packs\atmel\ATtiny_DFP\1.2.118\include/avr/iotnx5.h \
-  c:/winavr-20100110/lib/gcc/../../avr/include/avr/portpins.h \
-  c:/winavr-20100110/lib/gcc/../../avr/include/avr/common.h \
-  c:/winavr-20100110/lib/gcc/../../avr/include/avr/version.h \
-  c:/winavr-20100110/lib/gcc/../../avr/include/avr/fuse.h \
-  c:/winavr-20100110/lib/gcc/../../avr/include/avr/lock.h \
-  c:/winavr-20100110/lib/gcc/../../avr/include/avr/power.h \
-  c:/winavr-20100110/lib/gcc/../../avr/include/avr/sleep.h
+sleep.d sleep.o: .././sleep.c \
+ c:\program\ files\ (x86)\atmel\studio\7.0\toolchain\avr8\avr8-gnu-toolchain\avr\include\avr\interrupt.h \
+ c:\program\ files\ (x86)\atmel\studio\7.0\toolchain\avr8\avr8-gnu-toolchain\avr\include\avr\io.h \
+ c:\program\ files\ (x86)\atmel\studio\7.0\toolchain\avr8\avr8-gnu-toolchain\avr\include\avr\sfr_defs.h \
+ c:\program\ files\ (x86)\atmel\studio\7.0\toolchain\avr8\avr8-gnu-toolchain\avr\include\inttypes.h \
+ c:\program\ files\ (x86)\atmel\studio\7.0\toolchain\avr8\avr8-gnu-toolchain\lib\gcc\avr\5.4.0\include\stdint.h \
+ c:\program\ files\ (x86)\atmel\studio\7.0\toolchain\avr8\avr8-gnu-toolchain\avr\include\stdint.h \
+ C:\Program\ Files\ (x86)\Atmel\Studio\7.0\Packs\atmel\ATtiny_DFP\1.2.118\include/avr/iotn85.h \
+ C:\Program\ Files\ (x86)\Atmel\Studio\7.0\Packs\atmel\ATtiny_DFP\1.2.118\include/avr/iotnx5.h \
+ c:\program\ files\ (x86)\atmel\studio\7.0\toolchain\avr8\avr8-gnu-toolchain\avr\include\avr\portpins.h \
+ c:\program\ files\ (x86)\atmel\studio\7.0\toolchain\avr8\avr8-gnu-toolchain\avr\include\avr\common.h \
+ c:\program\ files\ (x86)\atmel\studio\7.0\toolchain\avr8\avr8-gnu-toolchain\avr\include\avr\version.h \
+ c:\program\ files\ (x86)\atmel\studio\7.0\toolchain\avr8\avr8-gnu-toolchain\avr\include\avr\fuse.h \
+ c:\program\ files\ (x86)\atmel\studio\7.0\toolchain\avr8\avr8-gnu-toolchain\avr\include\avr\lock.h \
+ c:\program\ files\ (x86)\atmel\studio\7.0\toolchain\avr8\avr8-gnu-toolchain\avr\include\avr\power.h \
+ c:\program\ files\ (x86)\atmel\studio\7.0\toolchain\avr8\avr8-gnu-toolchain\avr\include\avr\sleep.h
 
-c:/winavr-20100110/lib/gcc/../../avr/include/avr/interrupt.h:
+c:\program\ files\ (x86)\atmel\studio\7.0\toolchain\avr8\avr8-gnu-toolchain\avr\include\avr\interrupt.h:
 
-c:/winavr-20100110/lib/gcc/../../avr/include/avr/io.h:
+c:\program\ files\ (x86)\atmel\studio\7.0\toolchain\avr8\avr8-gnu-toolchain\avr\include\avr\io.h:
 
-c:/winavr-20100110/lib/gcc/../../avr/include/avr/sfr_defs.h:
+c:\program\ files\ (x86)\atmel\studio\7.0\toolchain\avr8\avr8-gnu-toolchain\avr\include\avr\sfr_defs.h:
 
-c:/winavr-20100110/lib/gcc/../../avr/include/inttypes.h:
+c:\program\ files\ (x86)\atmel\studio\7.0\toolchain\avr8\avr8-gnu-toolchain\avr\include\inttypes.h:
 
-c:/winavr-20100110/lib/gcc/../../avr/include/stdint.h:
+c:\program\ files\ (x86)\atmel\studio\7.0\toolchain\avr8\avr8-gnu-toolchain\lib\gcc\avr\5.4.0\include\stdint.h:
+
+c:\program\ files\ (x86)\atmel\studio\7.0\toolchain\avr8\avr8-gnu-toolchain\avr\include\stdint.h:
 
 C:\Program\ Files\ (x86)\Atmel\Studio\7.0\Packs\atmel\ATtiny_DFP\1.2.118\include/avr/iotn85.h:
 
 C:\Program\ Files\ (x86)\Atmel\Studio\7.0\Packs\atmel\ATtiny_DFP\1.2.118\include/avr/iotnx5.h:
 
-c:/winavr-20100110/lib/gcc/../../avr/include/avr/portpins.h:
+c:\program\ files\ (x86)\atmel\studio\7.0\toolchain\avr8\avr8-gnu-toolchain\avr\include\avr\portpins.h:
 
-c:/winavr-20100110/lib/gcc/../../avr/include/avr/common.h:
+c:\program\ files\ (x86)\atmel\studio\7.0\toolchain\avr8\avr8-gnu-toolchain\avr\include\avr\common.h:
 
-c:/winavr-20100110/lib/gcc/../../avr/include/avr/version.h:
+c:\program\ files\ (x86)\atmel\studio\7.0\toolchain\avr8\avr8-gnu-toolchain\avr\include\avr\version.h:
 
-c:/winavr-20100110/lib/gcc/../../avr/include/avr/fuse.h:
+c:\program\ files\ (x86)\atmel\studio\7.0\toolchain\avr8\avr8-gnu-toolchain\avr\include\avr\fuse.h:
 
-c:/winavr-20100110/lib/gcc/../../avr/include/avr/lock.h:
+c:\program\ files\ (x86)\atmel\studio\7.0\toolchain\avr8\avr8-gnu-toolchain\avr\include\avr\lock.h:
 
-c:/winavr-20100110/lib/gcc/../../avr/include/avr/power.h:
+c:\program\ files\ (x86)\atmel\studio\7.0\toolchain\avr8\avr8-gnu-toolchain\avr\include\avr\power.h:
 
-c:/winavr-20100110/lib/gcc/../../avr/include/avr/sleep.h:
+c:\program\ files\ (x86)\atmel\studio\7.0\toolchain\avr8\avr8-gnu-toolchain\avr\include\avr\sleep.h:

@@ -17,7 +17,7 @@
 
 void sht_init();
 void sht_register(char cmd);
-char sht_humidity();
-char sht_temp();
+float sht_humidity();
+float sht_temp();
 
 #endif

@@ -36,6 +36,7 @@
 
 void oled_write_int(unsigned char value);
 //void oled_checkposx();
+void oled_clear_ln(char page);
 void oled_setpos(char x, char y);
 void oled_fill();
 void oled_clear();

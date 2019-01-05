@@ -34,6 +34,22 @@ void oled_bitmap()
 	//for()
 }
 
+/*
+	clears the line and sets the position to that line
+*/
+void oled_clear_ln(char page)
+{
+	char x;
+	page &= 0x07;	//protection
+	
+	//oled_setpos(0, page);
+	
+	for(x = 0; x <= OLEDX; x++)	//overwrite line with blank
+		oled_data(0x00);
+	
+	//oled_setpos(0, page);
+}
+
 void oled_setpos(char x, char y)
 {
 	x &= 0x7F;	//ensure inputted x value doesn't go over 127

@@ -7,6 +7,7 @@
 #include "sht20.h"
 #include "i2c.h"
 #include <util/delay.h>
+#include "oled.h"
 
 void sht_init()
 {
@@ -16,27 +17,40 @@ void sht_init()
 	i2c_stop();
 }
 
+//WARNING: no reserved bit protection
 void sht_register(char cmd)
 {
+	//char tmp;
+	
 	i2c_start();
 	i2c_device_id(SHT, WRITE);
-	i2c_write(SHTREGREAD);	//register address
+	i2c_write(SHTREGREAD);	//register address	
+	i2c_stop();
 	
 	i2c_start();
 	i2c_device_id(SHT, READ);
 	
 	//read reg
-	(void) i2c_read(0);
+	i2c_read(1);	//read temp settings tmp = 
+	i2c_stop();
 	
+	
+	//oled_setpos(0,7);
+	//oled_write_int(tmp);
+	
+	//char bitmask = tmp &= 0x1C;	//get reserved bits
+	
+	
+	//cmd	&= (tmp & 0x1C);//overwrite reserved bits on user bits
 	//write to reg
 	i2c_start();
 	i2c_device_id(SHT, WRITE);
 	i2c_write(SHTREGWRITE);
-	i2c_write(cmd);
+	i2c_write(cmd | 0x18);
 	i2c_stop();
 }
 
-char sht_humidity()
+float sht_humidity()
 {
 	unsigned short raw_humidity;
 	float humidity;
@@ -60,11 +74,11 @@ char sht_humidity()
 
 	humidity = (125.0 * ((float)raw_humidity/65536.0));
 	humidity -= 6.0;
-
+	
 	return humidity;
 }
 
-char sht_temp()
+float sht_temp()
 {
 	unsigned short raw_temp;
 	float temp;

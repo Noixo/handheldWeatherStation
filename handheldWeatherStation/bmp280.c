@@ -1,6 +1,7 @@
 #include "bmp280.h"
 #include "i2c.h"
 #include <avr/eeprom.h>
+#include <util/delay.h>
 
 //global variable to store value needed for pressure measurement
 long t_fine = 0;
@@ -73,6 +74,11 @@ long bmp280GetTemp()
 	long adc_T, var1, var2;
 	short T;
 	
+	//take out of sleep, into forced mode
+	bmpSet(0x25, CTRL_MEAS); //x1 pressure, x1 temperature, power mode
+	_delay_ms(10);
+	
+	
 	i2c_start();
 	i2c_device_id(bmp280, 0);
 
@@ -109,6 +115,11 @@ unsigned long bmp280GetPressure()
 {
 	long var1, var2, adc_P;
 	unsigned long p;
+	
+	//take out of sleep, into forced mode
+	bmpSet(0x25, CTRL_MEAS); //x1 pressure, x1 temperature, IIR off
+	_delay_ms(10);
+	
 	
 	//t_fine = t_fine;
 	//begin multi-byte data transfer

@@ -14,19 +14,27 @@ PB4: led/batt
 PB5: RST
 */
 
+/*	TODO
+	- reorganise main.c
+	- fix < 10 glich (both *C and .09)
+	- make sure < 0 temp works
+	- make BMP280 forced 
+	- turn off sht20 heater?
+*/
+
 /*
 current usage: (not including boost)
 
 Display full: 4.6mA-5mA approx
 Display dim: 3mA
 Display sleep: 1.3mA - 1.5mA approx
-Micro sleep:
+Micro sleep + display off + no data: 0.5mA
 */
 
 
 #define F_CPU 1000000UL
 
-#define VERSION "1.01"
+#define VERSION "1.00"
 #define DATE "19.10.18"
 
 #include <avr/io.h>
@@ -37,6 +45,7 @@ Micro sleep:
 #include <avr/sleep.h>
 #include <avr/interrupt.h>
 
+#include <stdio.h>
 #include <string.h>
 #include <stdlib.h>
 
@@ -103,6 +112,17 @@ void splash_screen()
 	
 }
 
+void print_float(float value)
+{
+	char arr[5];
+	
+	
+	dtostrf(value, 4, 2, arr);
+	//arr[5] = '/0';	//only 2 decimal points
+	
+	oled_write_string(arr);
+}
+
 void display()
 {
 	//short bmpTemp;
@@ -110,20 +130,33 @@ void display()
 	unsigned long bmpPressure;
 	
 	bmp280GetTemp();
+	
 	//bmpTemp = bmp280GetTemp();
 	//INTbmpTemp = bmpTemp / 100;
 	bmpPressure = bmp280GetPressure();
 	
+	//oled_clear_ln(1);
 	oled_setpos(0,1);
 	
 	oled_write_string("Temperature: ");
-	oled_write_int((char)sht_temp());
+	if((char)sht_temp() < 0)
+	{
+		oled_write_char('-');
+		print_float(!sht_temp());	//convert value to "negative"
+	}
+	else
+	{
+		print_float(sht_temp());
+		//oled_write_int((char)sht_temp());
+	}
 	oled_write_string("*C");
 	
+	//oled_clear_ln(3);
 	oled_setpos(0,3);
 	
 	oled_write_string("Humidity: ");
-	oled_write_int((char)sht_humidity());
+	print_float(sht_humidity());
+	//oled_write_int((char)sht_humidity());
 	oled_write_string("%RH");
 	
 	/*
@@ -131,7 +164,8 @@ void display()
 	oled_write_char('.');
 	oled_write_int((bmpTemp % 100));
 	*/
-			
+	
+	//oled_clear_ln(5);		
 	oled_setpos(0,5);
 	oled_write_string("Pressure: ");
 	oled_write_int(bmpPressure / 1000);
@@ -199,7 +233,6 @@ ISR(WDT_vect)
 
 void sleep()
 {
-	
 	ADCSRA = (0 << ADEN);	//turn off?
 	
 	
@@ -223,7 +256,7 @@ int main(void)
 	_delay_ms(100);	//delay to let voltage stablise
 	
 	DDRB |= (1 << PB4); //set led to output
-	PORTB = 0xFF;	//turn on all pullups
+	PORTB = (0xFF - (1 << PB4));	//turn on all pullups except input
 	
 	adc_init();
 	init_i2c();
@@ -242,20 +275,25 @@ int main(void)
 	bmpReset();
 	
 	//setting up sampling parameters
-	bmpSet(0x64, CONFIG); //standby time = 250ms, IIR filter =
-	bmpSet(0xFF, CTRL_MEAS); //x16 temperature oversampling, x16 pressure measurement, normal mode
+	//bmpSet(0x28, CONFIG); //standby time = 1000ms
 
 
 	//change contrast to 0 (lowest)
 	oled_control(0x81);
-	oled_control(0x00);
+	oled_control(0xFF);
+	
+	//oled_control(0xAE);	//turn off display
 	
 	//clear oled of random data
 	oled_clear();
 	
-	splash_screen();
-	_delay_ms(1000);
-	oled_clear();
+	//splash_screen();
+	//_delay_ms(1000);
+	//oled_clear();
+	
+	//sht_register(0x01);
+	
+	//sht_register(0);
 	
     while(1)
     {
