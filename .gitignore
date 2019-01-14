@@ -8,6 +8,9 @@
 *.srec
 *.componentinfo
 *.cproj
-*.
+*.atsln
+*.atsuo
 
 *.hex
+
+**/Makefile
