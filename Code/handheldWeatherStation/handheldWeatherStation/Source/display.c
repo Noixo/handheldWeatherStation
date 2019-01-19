@@ -2,7 +2,7 @@
  * display.c
  *
  * Created: 14/01/2019 10:47:14 PM
- *  Author: flato
+ *  Author: Matt
  */ 
 
 #include <avr/io.h>
@@ -13,7 +13,7 @@
 #include "oled.h"
 #include "oledCustomChar.h"
 
-#define VERSION "1.00"
+#define VERSION "1.1"
 
 /*
 void splash_screen()

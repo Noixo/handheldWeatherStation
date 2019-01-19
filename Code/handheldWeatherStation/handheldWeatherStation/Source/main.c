@@ -2,7 +2,7 @@
  * handheldWeatherStation.c
  *
  * Created: 19/02/2018 00:16:46
- * Author : flato
+ * Author : Matt
  */ 
 
 /*
@@ -14,14 +14,6 @@ PB4: led/batt
 PB5: RST
 */
 
-/*	TODO
-	- reorganise main.c
-	- fix < 10 glich (both *C and .09)
-	- make sure < 0 temp works
-	- make BMP280 forced 
-	- turn off sht20 heater?
-*/
-
 /*
 current usage: (not including boost)
 
@@ -31,15 +23,9 @@ Display sleep: 1.3mA - 1.5mA approx
 Micro sleep + display off + no data: 0.0075mA
 */
 
-#define DATE "19.10.18"
-
+#include <avr/pgmspace.h>
 #include <util/delay.h>
 #include <avr/eeprom.h>
-#include <avr/pgmspace.h>
-
-#include <stdio.h>
-
-#include <string.h>
 
 #include "i2c.h"
 #include "bmp280.h"
@@ -47,6 +33,8 @@ Micro sleep + display off + no data: 0.0075mA
 #include "sht20.h"
 #include "powerSave.h"
 #include "display.h"
+
+char microWake = 0xFF;
 
 const uint8_t ssd1306_init_sequence [] PROGMEM = {	// Initialization Sequence
 	0xAE,			// Display OFF (sleep mode)
@@ -76,27 +64,35 @@ const uint8_t ssd1306_init_sequence [] PROGMEM = {	// Initialization Sequence
 };
 
 void butt_press()
-{
-	if((PINB & (1 << PB3)))	//read pin state. If LOW then button pressed
+{	
+	if((PINB & (1 << PB3)) || microWake)	//read pin state. If HIGH then button NOT pressed & stop sending screen off cmd
 	{
 		oled_control(0xAE);	//turn off display
+		microWake = 0;
 	}
 	//turn on display
 	else
 	{
-		oled_control(0xAF);	
+		onWake();	//wake up peripherals 
+		
+		oled_control(0xAF);	//Turn on display
+		
 		//check battery level
 		battery();
 
-		//display data
-		display();		
+		//generate and display data
+		display();
+		
+		//send off cmd if button not pushed (dumb ik)
+		if(PINB & (1 << PB3))
+			microWake = 0xFF;
 	}
 }
 
 int main(void)
 {
 	PORTB = (0xFF);	//turn on all pullups
-	_delay_ms(400);	//delay to let voltage stablise
+	_delay_ms(400);	//delay to let voltage stabilise
 	
 	adc_init();
 	init_i2c();
@@ -125,7 +121,7 @@ int main(void)
     {
 		butt_press();
 
-		//sleep for 1 sec
+		//deep sleep for 1 sec
 		sleep();
     }
 	return 0;

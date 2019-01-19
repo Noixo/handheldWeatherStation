@@ -7,14 +7,14 @@
 //converts a char number value into separate ASCII
 char* convert(unsigned char value)
 {
-	char i;
+	unsigned char i;
 	//support max of size char + NULL terminator
-	static unsigned char array[4];	//3
+	static char array[4];	//3
 	
 	for(i = 0; i < 4; i++)
 	{
 		//puts value in array after being split by 1 character and converted to ascii.
-		array[i] = value % 10 + '0';
+		array[i] = (value % 10) + '0';
 		
 		//checks if it's the last digit to process && ensures that it won't go out of bounds
 		if(value / 10 == 0)// && i < 3)
@@ -33,7 +33,7 @@ char* convert(unsigned char value)
 	return array;
 }
 
-void reverse_array(unsigned char *array, unsigned char end)
+void reverse_array(char *array, unsigned char end)
 {
 	unsigned char start = 0, temp;
 	

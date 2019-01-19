@@ -2,7 +2,7 @@
  * powerSave.c
  *
  * Created: 14/01/2019 10:41:47 PM
- *  Author: flato
+ *  Author: Matt
  */ 
 
 #include <avr/wdt.h>
@@ -13,6 +13,15 @@
 ISR(WDT_vect)
 {
 	wdt_disable();
+}
+
+void onWake()
+{
+	//wake
+	ADCSRA = (1 << ADEN);	//turn on ADC
+	
+	DDRB |= (1 << PB0);	// Set SDA as output
+	DDRB |= (1 << PB2);	// Set SCL as output
 }
 
 void sleep()
@@ -36,9 +45,5 @@ void sleep()
 	set_sleep_mode(SLEEP_MODE_PWR_DOWN);
 	sleep_mode();
 	
-	//on wake?
-	ADCSRA = (1 << ADEN);	//turn on ADC
-	
-	DDRB |= (1 << PB0);	// Set SDA as output
-	DDRB |= (1 << PB2);	// Set SCL as output
+	//in sleep?
 }
